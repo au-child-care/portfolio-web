@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdministratorsComponent } from './administrators.component';
+import { AdministratorsModule } from './administrators.module';
 
 describe('AdministratorsComponent', () => {
   let component: AdministratorsComponent;

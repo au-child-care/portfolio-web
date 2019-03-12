@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { YesNoPipe } from './yes-no.pipe';
+
 @NgModule({
     imports: [
         CommonModule
     ],
-    declarations: []
+    declarations: [
+        YesNoPipe
+    ]
 })
 export class SharedPipesModule { }
