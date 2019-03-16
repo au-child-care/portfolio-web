@@ -1,1 +1,1 @@
-
+export * from './administrator.service';

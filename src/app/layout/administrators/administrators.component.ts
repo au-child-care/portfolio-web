@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 
-import { Administrator } from '../.././dtos/administrator';
-import { AdministratorService } from '../.././services/administrator.service';
+import { Administrator } from './../../shared';
+import { AdministratorService } from './../../shared';
 
 @Component({
   selector: 'app-administrators',
