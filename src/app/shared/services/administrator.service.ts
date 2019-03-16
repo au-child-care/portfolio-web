@@ -26,6 +26,14 @@ export class AdministratorService {
       );
   }
 
+  getAdministrator(id: number): Observable<Administrator> {
+    return this.http.get<Administrator>(`${this.administratorsUrl}/${id}`)
+      .pipe(
+        tap(_ => this.logInfo(`fetched administrator id=${id}`)),
+        catchError(this.handleError<Administrator>(`getAdministrator id=${id}`))
+      );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

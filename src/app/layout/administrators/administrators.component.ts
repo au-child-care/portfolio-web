@@ -30,6 +30,6 @@ export class AdministratorsComponent implements OnInit {
   }
 
   goToDetail(admin: Administrator): void {
-    this.router.navigateByUrl('administrators/detail/' + admin.id);
+    this.router.navigateByUrl(`administrators/detail/${admin.id}`);
   }
 }
