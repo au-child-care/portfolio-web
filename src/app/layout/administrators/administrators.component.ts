@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { Router } from '@angular/router';
 
 import { Administrator } from '../.././dtos/administrator';
 import { AdministratorService } from '../.././services/administrator.service';
@@ -13,7 +14,7 @@ import { AdministratorService } from '../.././services/administrator.service';
 export class AdministratorsComponent implements OnInit {
   administrators: Administrator[];
 
-  constructor(private administratorService: AdministratorService) { }
+  constructor(private router: Router, private administratorService: AdministratorService) { }
 
   ngOnInit() {
     this.getAdministrators();
@@ -22,5 +23,13 @@ export class AdministratorsComponent implements OnInit {
   getAdministrators(): void {
     this.administratorService.getAdministrators()
     .subscribe(administrators => this.administrators = administrators);
+  }
+
+  addNew(): void {
+    this.router.navigateByUrl('administrators/detail/0');
+  }
+
+  goToDetail(admin: Administrator): void {
+    this.router.navigateByUrl('administrators/detail/' + admin.id);
   }
 }

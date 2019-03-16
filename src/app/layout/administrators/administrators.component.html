@@ -1,6 +1,11 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Administrators'" [icon]="'fa-table'"></app-page-header>
   <div class="row">
+    <div class="col-xl-12">
+      <button type="button" class="btn btn-primary" (click)="addNew()">Add new</button>
+    </div>
+  </div>
+  <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-12">
         <table class="card-body table table-hover">
@@ -16,14 +21,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let admin of administrators">
-                <th>{{ admin.first_name }}</th>
-                <th>{{ admin.last_name }}</th>
-                <th>{{ admin.nickname }}</th>
-                <th>{{ admin.email }}</th>
-                <th>{{ admin.contact_number }}</th>
-                <th>{{ admin.active | yesno }}</th>
-                <th>{{ admin.date_modified | date }}</th>
+              <tr *ngFor="let admin of administrators" class="table-row" (click)="goToDetail(admin)">
+                <td>{{ admin.first_name }}</td>
+                <td>{{ admin.last_name }}</td>
+                <td>{{ admin.nickname }}</td>
+                <td>{{ admin.email }}</td>
+                <td>{{ admin.contact_number }}</td>
+                <td>{{ admin.active | yesno }}</td>
+                <td>{{ admin.date_modified | date }}</td>
               </tr>
             </tbody>
         </table>

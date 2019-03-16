@@ -21,7 +21,7 @@ export class AdministratorService {
   getAdministrators(): Observable<Administrator[]> {
     return this.http.get<Administrator[]>(this.administratorsUrl)
       .pipe(
-        tap(_ => this.log('fetched administrators')),
+        tap(_ => this.logInfo('fetched administrators')),
         catchError(this.handleError('getAdministrators', []))
       );
   }
@@ -39,15 +39,18 @@ export class AdministratorService {
       console.error(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
+      this.logError(`${operation} failed: ${error.message}`);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
 
-  /** Log a HeroService message with the MessageService */
-  private log(message: string) {
+  private logInfo(message: string) {
+    console.info(message);
+  }
+
+  private logError(message: string) {
     console.error(message);
   }
 }
