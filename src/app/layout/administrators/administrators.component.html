@@ -10,10 +10,9 @@
                 <th>Last Name</th>
                 <th>Nickname</th>
                 <th>Email</th>
-                <th>Contact No.</th>
+                <th>Contact No.</th>         
                 <th>Active</th>
-                <th>Date Created</th>                
-                <th>Date Modified</th>
+                <th>Last Modified</th>  
               </tr>
             </thead>
             <tbody>
@@ -23,8 +22,7 @@
                 <th>{{ admin.nickname }}</th>
                 <th>{{ admin.email }}</th>
                 <th>{{ admin.contact_number }}</th>
-                <th>{{ admin.active }}</th>
-                <th>{{ admin.date_created | date }}</th>
+                <th>{{ admin.active | yesno }}</th>
                 <th>{{ admin.date_modified | date }}</th>
               </tr>
             </tbody>
