@@ -22,7 +22,7 @@ export class AdministratorsComponent implements OnInit {
 
   getAdministrators(): void {
     this.administratorService.getAdministrators()
-    .subscribe(administrators => this.administrators = administrators);
+      .subscribe(administrators => this.administrators = administrators);
   }
 
   addNew(): void {

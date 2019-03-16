@@ -1,36 +1,36 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Admin Details'" [icon]="'fa-edit'"></app-page-header>
-    <div class="row">
-        <div class="col-lg-8">
-            <form role="form">
+    <app-page-header [heading]="'Admin Details'"></app-page-header>
+    <div *ngIf="admin">
+        <div class="row">
+            <div class="col-lg-8">
                 <div class="form-group">
                     <label for="firstNameInput">First name</label>
-                    <input type="text" class="form-control" id="firstNameInput" placeholder="First name" value="{{ admin.first_name }}">
+                    <input [(ngModel)]="admin.first_name" type="text" class="form-control" id="firstNameInput" placeholder="First name" />
                 </div>
                 <div class="form-group">
                     <label for="lastNameInput">Last name</label>
-                    <input type="text" class="form-control" id="lastNameInput" placeholder="Last name" value="{{ admin.last_name }}">
+                    <input [(ngModel)]="admin.last_name" type="text" class="form-control" id="lastNameInput" placeholder="Last name" />
                 </div>
                 <div class="form-group">
                     <label for="nicknameInput">Nickname</label>
-                    <input type="text" class="form-control" id="nicknameInput" placeholder="e.g. Joie" value="{{ admin.nickname }}">
+                    <input [(ngModel)]="admin.nickname" type="text" class="form-control" id="nicknameInput" placeholder="e.g. Joie" />
                 </div>
                 <div class="form-group">
                     <label for="emailInput">Email</label>
-                    <input type="email" class="form-control" id="emailInput" placeholder="name@domain.com" value="{{ admin.email }}">
+                    <input [(ngModel)]="admin.email" type="email" class="form-control" id="emailInput" placeholder="name@domain.com" />
                 </div>
                 <div class="form-group">
                     <label for="passwordInput">Password</label>
-                    <input type="password" class="form-control" id="passwordInput" placeholder="" value="{{ admin.password }}">
+                    <input [(ngModel)]="admin.password" type="password" class="form-control" id="passwordInput" placeholder="" />
                 </div>
                 <div class="form-group">
                     <label for="contactNumberInput">Contact number</label>
-                    <input type="text" class="form-control" id="contactNumberInput" placeholder="0#########" value="{{ admin.contact_number }}">
+                    <input [(ngModel)]="admin.contact_number" type="text" class="form-control" id="contactNumberInput" placeholder="0#########" />
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button class="btn btn-primary" (click)="save()">Save</button>
                 <a href="./administrators" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
-            </form>
+            </div>
         </div>
     </div>
 </div>
