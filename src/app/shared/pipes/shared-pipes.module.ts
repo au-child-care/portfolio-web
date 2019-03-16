@@ -9,6 +9,9 @@ import { YesNoPipe } from './yes-no.pipe';
     ],
     declarations: [
         YesNoPipe
+    ],
+    exports: [
+        YesNoPipe
     ]
 })
 export class SharedPipesModule { }
