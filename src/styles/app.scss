@@ -11,6 +11,37 @@
     }
 }
 
-.table-row{
+.table-row {
     cursor:pointer;
+}
+
+.lb-sm {
+    font-weight: bold;
+}
+  
+.lb-md {
+    font-weight: bold;
+}
+  
+.lb-lg {
+    font-weight: bold;
+}
+
+.modal {
+    background: rgba(0,0,0,0.6);
+}
+
+.modal-backdrop
+{
+    opacity:0.5 !important;
+}
+
+.admin-panel {
+    border-left: 1px solid rgb(234, 234, 234);
+    padding: 10px, 10px, 10px, 10px;
+    margin: 10px;
+}
+
+.detail-label {
+    font-weight: bold;
 }

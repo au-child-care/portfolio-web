@@ -10,6 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { ToastrModule } from 'ngx-toastr';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from './shared/components/confirm.component';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -36,9 +38,16 @@ export const createTranslateLoader = (http: HttpClient) => {
             }
         }),
         AppRoutingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        BootstrapModalModule.forRoot({container: document.body})
     ],
-    declarations: [AppComponent],
+    declarations: [
+        AppComponent,
+        ConfirmComponent
+    ],
+    entryComponents: [
+        ConfirmComponent
+    ],
     providers: [AuthGuard],
     bootstrap: [AppComponent]
 })
