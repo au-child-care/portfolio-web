@@ -20,7 +20,9 @@ const routes: Routes = [
             { path: 'administrators', loadChildren: './administrators/administrators.module#AdministratorsModule' },
             { path: 'administrators/detail/:id', loadChildren: './administrators/detail/administrators-detail.module#AdministratorsDetailModule' },
             { path: 'educators', loadChildren: './educators/educators.module#EducatorsModule' },
-            { path: 'educators/detail/:id', loadChildren: './educators/detail/educators-detail.module#EducatorsDetailModule' }
+            { path: 'educators/detail/:id', loadChildren: './educators/detail/educators-detail.module#EducatorsDetailModule' },
+            { path: 'parents-guardians', loadChildren: './parents-guardians/parents-guardians.module#ParentsGuardiansModule' },
+            { path: 'parents-guardians/detail/:id', loadChildren: './parents-guardians/detail/parents-guardians-detail.module#ParentsGuardiansDetailModule' }
         ]
     }
 ];
