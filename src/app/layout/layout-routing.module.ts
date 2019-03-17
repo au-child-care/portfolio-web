@@ -18,7 +18,9 @@ const routes: Routes = [
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
 
             { path: 'administrators', loadChildren: './administrators/administrators.module#AdministratorsModule' },
-            { path: 'administrators/detail/:id', loadChildren: './administrators/detail/administrators-detail.module#AdministratorsDetailModule' }
+            { path: 'administrators/detail/:id', loadChildren: './administrators/detail/administrators-detail.module#AdministratorsDetailModule' },
+            { path: 'educators', loadChildren: './educators/educators.module#EducatorsModule' },
+            { path: 'educators/detail/:id', loadChildren: './educators/detail/educators-detail.module#EducatorsDetailModule' }
         ]
     }
 ];

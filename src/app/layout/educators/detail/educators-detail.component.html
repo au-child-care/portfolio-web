@@ -1,0 +1,70 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Educator Details'"></app-page-header>
+    <div *ngIf="educator">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <label for="firstNameInput" class="detail-label">First name</label>
+                    <input [(ngModel)]="educator.first_name" type="text" class="form-control" id="firstNameInput" placeholder="First name" />
+                </div>
+                <div class="form-group">
+                    <label for="lastNameInput" class="detail-label">Last name</label>
+                    <input [(ngModel)]="educator.last_name" type="text" class="form-control" id="lastNameInput" placeholder="Last name" />
+                </div>
+                <div class="form-group">
+                    <label for="nicknameInput" class="detail-label">Nickname</label>
+                    <input [(ngModel)]="educator.nickname" type="text" class="form-control" id="nicknameInput" placeholder="e.g. Joie" />
+                </div>
+                <div class="form-group">
+                    <label for="emailInput" class="detail-label">Email</label>
+                    <input [(ngModel)]="educator.email" type="email" class="form-control" id="emailInput" placeholder="name@domain.com" />
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput" class="detail-label">Password</label>
+                    <input [(ngModel)]="educator.password" type="password" class="form-control" id="passwordInput" placeholder="" />
+                </div>
+                <div class="form-group">
+                    <label for="contactNumberInput" class="detail-label">Contact number</label>
+                    <input [(ngModel)]="educator.contact_number" type="text" class="form-control" id="contactNumberInput" placeholder="0#########" />
+                </div>
+                
+                <button class="btn btn-primary" (click)="save()">Save</button>
+                <span>&nbsp;</span>
+                <button class="btn btn-light" (click)="back()">Cancel</button>
+            </div>
+            <div *ngIf="educator.id > 0" class="col-lg-4">
+                <div class="row">
+                    <span>&nbsp;</span>
+                    <div class="col-lg-11 admin-panel">
+                        <h5 class="detail-label">Portfolio Tracking</h5>
+                        <div class="row">
+                                <div class="col-lg-5 detail-label">Last activity:</div>
+                                <div class="col-lg-6">{{ educator.last_activity | date }}</div>
+                        </div>
+                        <span>&nbsp;&nbsp;</span>
+                        <h5 class="detail-label">More Details</h5>
+                        <div class="row">
+                                <div class="col-lg-5 detail-label">Created on:</div>
+                                <div class="col-lg-6">{{ educator.date_created | date }}</div>
+                        </div>
+                        <div class="row">
+                                <div class="col-lg-5 detail-label">Last updated on:</div>
+                                <div class="col-lg-6">{{ educator.date_modified | date }}</div>
+                        </div>
+                        <span>&nbsp;&nbsp;</span>
+                        <h5 class="detail-label">Actions</h5>
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <button class="btn btn-light" (click)="back()">Go back to list</button>
+                                <span>&nbsp;</span>
+                                <button class="btn btn-{{ educator.active === 1 ? 'secondary' : 'success' }}" (click)="activateDeactivate()">{{ educator.active === 1 ? 'Deactivate' : 'Activate' }}</button>                            
+                                <span>&nbsp;</span>
+                                <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
