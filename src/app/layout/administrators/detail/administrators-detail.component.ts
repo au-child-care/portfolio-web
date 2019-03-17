@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Administrator, AdministratorService } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
 
 @Component({
     selector: 'app-administrators-detail',
@@ -14,8 +16,10 @@ export class AdministratorsDetailComponent implements OnInit {
     @Input() admin: Administrator;
 
     constructor(
+        private router: Router,
         private route: ActivatedRoute,
         private toastr: ToastrService,
+        private dialogService: DialogService,
         private administratorService: AdministratorService) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
@@ -28,7 +32,11 @@ export class AdministratorsDetailComponent implements OnInit {
       });
     }
 
-    save() {
+    back() {
+        this.router.navigateByUrl('administrators');
+    }
+
+    getCurrentDate(): string {
         const d = new Date();
         const currentDate = [d.getFullYear(),
             d.getMonth() + 1,
@@ -36,19 +44,15 @@ export class AdministratorsDetailComponent implements OnInit {
            [d.getHours(),
             d.getMinutes(),
             d.getSeconds()].join(':');
-        this.admin.date_modified = currentDate;
+        return currentDate;
+    }
+
+    save() {
+        this.admin.date_modified = this.getCurrentDate();
         if (this.admin.id > 0) {
-            this.administratorService.updateAdministrator(this.admin)
-                .subscribe(
-                    admin => {
-                        this.admin = admin;
-                        this.toastr.success('', 'Success');
-                    },
-                    error => {
-                        this.toastr.error(error.statusText, 'Unable to save');
-                    });
+            this.update(false, 'Unable to save');
         } else {
-            this.admin.date_created = currentDate;
+            this.admin.date_created = this.getCurrentDate();
             this.admin.active = 0;
             this.admin.deleted = 0;
             this.administratorService.createAdministrator(this.admin)
@@ -61,5 +65,46 @@ export class AdministratorsDetailComponent implements OnInit {
                         this.toastr.error(error.statusText, 'Unable to save');
                     });
         }
+    }
+
+    update(routeOnSuccess: boolean, failMessage: string) {
+        this.administratorService.updateAdministrator(this.admin)
+        .subscribe(
+            admin => {
+                this.admin = admin;
+                this.toastr.success('', 'Success');
+                if (routeOnSuccess) {
+                    this.back();
+                }
+            },
+            error => {
+                this.toastr.error(error.statusText, failMessage);
+            });
+    }
+
+    activateDeactivate() {
+        this.admin.date_modified = this.getCurrentDate();
+        this.admin.active = this.admin.active === 1 ? 0 : 1;
+        this.update(false, 'Unable to update status');
+    }
+
+    showConfirm(template: TemplateRef<any>) {
+        this.dialogService.addDialog(
+            ConfirmComponent,
+            {
+                title: 'Confirm deletion',
+                message: 'Are you sure you want to proceed?'
+            })
+                .subscribe((isConfirmed) => {
+                    if (isConfirmed) {
+                        this.delete();
+                    }
+                });
+    }
+
+    delete() {
+        this.admin.date_modified = this.getCurrentDate();
+        this.admin.deleted = 1;
+        this.update(true, 'Unable to delete');
     }
 }
