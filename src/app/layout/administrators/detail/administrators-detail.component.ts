@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Administrator, AdministratorService } from 'src/app/shared';
+import { Administrator, AdministratorService, DateUtils } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -20,7 +20,8 @@ export class AdministratorsDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private toastr: ToastrService,
         private dialogService: DialogService,
-        private administratorService: AdministratorService) {}
+        private administratorService: AdministratorService,
+        private dateUtils: DateUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         if (params['id'] > 0) {
@@ -36,23 +37,12 @@ export class AdministratorsDetailComponent implements OnInit {
         this.router.navigateByUrl('administrators');
     }
 
-    getCurrentDate(): string {
-        const d = new Date();
-        const currentDate = [d.getFullYear(),
-            d.getMonth() + 1,
-            d.getDate()].join('-') + ' ' +
-           [d.getHours(),
-            d.getMinutes(),
-            d.getSeconds()].join(':');
-        return currentDate;
-    }
-
     save() {
-        this.admin.date_modified = this.getCurrentDate();
+        this.admin.date_modified = this.dateUtils.getCurrentDateString();
         if (this.admin.id > 0) {
             this.update(false, 'Unable to save');
         } else {
-            this.admin.date_created = this.getCurrentDate();
+            this.admin.date_created = this.dateUtils.getCurrentDateString();
             this.admin.active = 0;
             this.admin.deleted = 0;
             this.administratorService.createAdministrator(this.admin)
@@ -83,7 +73,7 @@ export class AdministratorsDetailComponent implements OnInit {
     }
 
     activateDeactivate() {
-        this.admin.date_modified = this.getCurrentDate();
+        this.admin.date_modified = this.dateUtils.getCurrentDateString();
         this.admin.active = this.admin.active === 1 ? 0 : 1;
         this.update(false, 'Unable to update status');
     }
@@ -103,7 +93,7 @@ export class AdministratorsDetailComponent implements OnInit {
     }
 
     delete() {
-        this.admin.date_modified = this.getCurrentDate();
+        this.admin.date_modified = this.dateUtils.getCurrentDateString();
         this.admin.deleted = 1;
         this.update(true, 'Unable to delete');
     }
