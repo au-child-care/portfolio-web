@@ -1,0 +1,38 @@
+<ngb-tabset>
+    <ngb-tab title="Babies">
+      <ng-template ngbTabContent>
+          <div *ngFor="let child of children1" class="checkbox">
+            <label><input type="checkbox" value="">{{ child.first_name + ' ' + child.last_name }}</label>
+          </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Senior Babies">
+      <ng-template ngbTabContent>
+          <div *ngFor="let child of children2" class="checkbox">
+            <label><input type="checkbox" value="">{{ child.first_name + ' ' + child.last_name }}</label>
+          </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Toddlers">
+      <ng-template ngbTabContent>
+          <div *ngFor="let child of children3" class="checkbox">
+            <label><input type="checkbox" value="">{{ child.first_name + ' ' + child.last_name }}</label>
+          </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Juniors">
+      <ng-template ngbTabContent>
+          <div *ngFor="let child of children4" class="checkbox">
+            <label><input type="checkbox" value="">{{ child.first_name + ' ' + child.last_name }}</label>
+          </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Kinders">
+      <ng-template ngbTabContent>
+          <div *ngFor="let child of children5" class="checkbox">
+            <label><input type="checkbox" value="">{{ child.first_name + ' ' + child.last_name }}</label>
+          </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+  
