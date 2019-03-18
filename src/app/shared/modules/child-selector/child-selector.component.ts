@@ -1,18 +1,19 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import { ChildService } from '../../services';
-import { Child } from '../../dtos';
+import { ChildSelection } from '../../dtos';
 
 @Component({
   selector: 'app-child-selector',
   templateUrl: './child-selector.component.html'
 })
-export class ChildSelectorComponent {
-    children: Child[];
-    children1: Child[];
-    children2: Child[];
-    children3: Child[];
-    children4: Child[];
-    children5: Child[];
+export class ChildSelectorComponent implements OnInit {
+    selectedIds: number[];
+    @Input() children: ChildSelection[];
+    childGroup1: ChildSelection[];
+    childGroup2: ChildSelection[];
+    childGroup3: ChildSelection[];
+    childGroup4: ChildSelection[];
+    childGroup5: ChildSelection[];
 
     constructor(
         private childService: ChildService) {
@@ -24,11 +25,25 @@ export class ChildSelectorComponent {
 
     loadChildren() {
         this.childService.getChildren()
-            .subscribe(c => this.children = c);
-        this.children1 = this.children.filter(c => c.group === 'Babies');
-        this.children2 = this.children.filter(c => c.group === 'Senior Babies');
-        this.children3 = this.children.filter(c => c.group === 'Toodlers');
-        this.children4 = this.children.filter(c => c.group === 'Juniors');
-        this.children5 = this.children.filter(c => c.group === 'Kinders');
+            .subscribe(children => {
+                this.children = children .map(cg => new ChildSelection(cg.id, cg.first_name + ' ' + cg.last_name, cg.group, false));
+                this.childGroup1 = this.getFilteredAndSortedChilden('Babies');
+                this.childGroup2 = this.getFilteredAndSortedChilden('Senior Babies');
+                this.childGroup3 = this.getFilteredAndSortedChilden('Toddlers');
+                this.childGroup4 = this.getFilteredAndSortedChilden('Juniors');
+                this.childGroup5 = this.getFilteredAndSortedChilden('Kinders');
+                });
+    }
+
+    getFilteredAndSortedChilden(group: string): ChildSelection[] {
+        return this.children.filter(c => c.group === group).sort((obj1, obj2) => {
+            if (obj1.name > obj2.name) {
+                return 1;
+            }
+            if (obj1.name < obj2.name) {
+                return -1;
+            }
+            return 0;
+        });
     }
 }

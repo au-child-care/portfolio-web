@@ -4,9 +4,10 @@ import { RouterModule } from '@angular/router';
 
 import { ChildSelectorComponent } from './child-selector.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, NgbModule],
+    imports: [CommonModule, RouterModule, FormsModule, NgbModule],
     declarations: [ChildSelectorComponent],
     exports: [ChildSelectorComponent]
 })

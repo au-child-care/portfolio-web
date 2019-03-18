@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { EducatorsDetailRoutingModule } from './educators-detail-routing.module';
 import { EducatorsDetailComponent } from './educators-detail.component';
-import { PageHeaderModule } from '../../../shared';
+import { PageHeaderModule, ChildSelectorModule } from '../../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -12,7 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         FormsModule,
         ReactiveFormsModule,
         EducatorsDetailRoutingModule,
-        PageHeaderModule],
+        PageHeaderModule,
+        ChildSelectorModule],
     declarations: [EducatorsDetailComponent]
 })
 export class EducatorsDetailModule {}
