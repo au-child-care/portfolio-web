@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 
-import { EducatorAssignment } from '../dtos/educator-assignment';
+import { EducatorAssignment } from '../dtos/educator-assignment.dto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
