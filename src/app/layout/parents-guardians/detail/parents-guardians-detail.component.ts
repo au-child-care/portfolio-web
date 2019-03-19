@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ParentGuardian, ParentGuardianService, DateUtils } from 'src/app/shared';
+import { ParentGuardian, ParentGuardianService, DateUtils, ParentGuardianAssignmentService, ParentGuardianAssignment } from './../../../shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
+import { ChildSelectorComponent } from 'src/app/shared/modules/child-selector/child-selector.component';
 
 @Component({
     selector: 'app-parents-guardians-detail',
@@ -13,7 +14,9 @@ import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
     animations: [routerTransition()]
 })
 export class ParentsGuardiansDetailComponent implements OnInit {
+    @ViewChild(ChildSelectorComponent) childSelectorComponent;
     @Input() parentGuardian: ParentGuardian;
+    assignedChildIds: number[];
 
     constructor(
         private router: Router,
@@ -21,12 +24,19 @@ export class ParentsGuardiansDetailComponent implements OnInit {
         private toastr: ToastrService,
         private dialogService: DialogService,
         private parentGuardianService: ParentGuardianService,
+        private parentGuardianAssignmentService: ParentGuardianAssignmentService,
         private dateUtils: DateUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         if (params['id'] > 0) {
             this.parentGuardianService.getParentGuardian(params['id'])
-                .subscribe(parentGuardian => this.parentGuardian = parentGuardian);
+                .subscribe(parentGuardian => {
+                    this.parentGuardian = parentGuardian;
+                    this.parentGuardianAssignmentService.getByParentGuardian(parentGuardian.id)
+                        .subscribe(assignment => {
+                            this.assignedChildIds = assignment.map(a => a.child_id);
+                        });
+                });
         } else {
             this.parentGuardian = new ParentGuardian();
         }
@@ -40,32 +50,60 @@ export class ParentsGuardiansDetailComponent implements OnInit {
     save() {
         this.parentGuardian.date_modified = this.dateUtils.getCurrentDateString();
         if (this.parentGuardian.id > 0) {
-            this.update(false, 'Unable to save');
+            this.update(false, true, 'Unable to save');
         } else {
-            this.parentGuardian.date_created = this.dateUtils.getCurrentDateString();
-            this.parentGuardian.active = 0;
-            this.parentGuardian.deleted = 0;
-            this.parentGuardianService.createParentGuardian(this.parentGuardian)
-                .subscribe(
-                    parentGuardian => {
-                        this.parentGuardian = parentGuardian;
-                        this.toastr.success('', 'Success');
-                    },
-                    error => {
-                        this.toastr.error(error.statusText, 'Unable to save');
-                    });
+            this.create();
         }
     }
 
-    update(routeOnSuccess: boolean, failMessage: string) {
+    create() {
+        this.parentGuardian.date_created = this.dateUtils.getCurrentDateString();
+        this.parentGuardian.active = 0;
+        this.parentGuardian.deleted = 0;
+        this.parentGuardianService.createParentGuardian(this.parentGuardian)
+            .subscribe(
+                parentGuardian => {
+                    this.parentGuardian = parentGuardian;
+                    this.setChildAssignment('Unable to save');
+                },
+                error => {
+                    this.toastr.error(error.statusText, 'Unable to save');
+                });
+    }
+
+    update(routeOnSuccess: boolean, saveAssignments: boolean, failMessage: string): boolean {
         this.parentGuardianService.updateParentGuardian(this.parentGuardian)
         .subscribe(
             parentGuardian => {
                 this.parentGuardian = parentGuardian;
-                this.toastr.success('', 'Success');
+                if (saveAssignments) {
+                    this.setChildAssignment(failMessage);
+                } else {
+                    this.toastr.success('', 'Success');
+                }
+
                 if (routeOnSuccess) {
                     this.back();
                 }
+
+                return true;
+            },
+            error => {
+                this.toastr.error(error.statusText, failMessage);
+            });
+        return false;
+    }
+
+    setChildAssignment(failMessage: string) {
+        this.assignedChildIds = this.childSelectorComponent.children.filter(ch => ch.selected).map(c => c.id);
+        this.parentGuardianAssignmentService.setByParentGuardian(
+            this.parentGuardian.id,
+            this.assignedChildIds.map(cid => Object.assign(new ParentGuardianAssignment(), {
+                    parentguardian_id: this.parentGuardian.id,
+                    child_id: cid
+                })))
+            .subscribe(success => {
+                this.toastr.success('', 'Success');
             },
             error => {
                 this.toastr.error(error.statusText, failMessage);
@@ -75,7 +113,7 @@ export class ParentsGuardiansDetailComponent implements OnInit {
     activateDeactivate() {
         this.parentGuardian.date_modified = this.dateUtils.getCurrentDateString();
         this.parentGuardian.active = this.parentGuardian.active === 1 ? 0 : 1;
-        this.update(false, 'Unable to update status');
+        this.update(false, false, 'Unable to update status');
     }
 
     showConfirm(template: TemplateRef<any>) {
@@ -95,6 +133,11 @@ export class ParentsGuardiansDetailComponent implements OnInit {
     delete() {
         this.parentGuardian.date_modified = this.dateUtils.getCurrentDateString();
         this.parentGuardian.deleted = 1;
-        this.update(true, 'Unable to delete');
+        this.parentGuardianAssignmentService.deleteByParentGuardian(this.parentGuardian.id)
+            .subscribe(
+                success => this.update(true, false, 'Unable to delete'),
+                error => {
+                    this.toastr.error(error.statusText, 'Unable to delete');
+                });
     }
 }
