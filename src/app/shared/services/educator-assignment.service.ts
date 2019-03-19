@@ -28,4 +28,8 @@ export class EducatorAssignmentService {
   setByEducator(educator_id: number, educatorassignments: EducatorAssignment[]): Observable<string> {
     return this.http.post<string>(`${this.educatorAssignmentsUrl}/byEducator/${educator_id}`, educatorassignments, httpOptions);
   }
+
+  deleteByEducator(educator_id: number): Observable<string> {
+    return this.http.delete<string>(`${this.educatorAssignmentsUrl}/byEducator/${educator_id}`, httpOptions);
+  }
 }
