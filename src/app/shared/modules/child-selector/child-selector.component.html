@@ -1,63 +1,66 @@
-<ngb-tabset>
-    <ngb-tab title="Babies">
-      <ng-template ngbTabContent>
-        <div class="col-lg-6">
-          <div *ngFor="let child of childGroup1" class="checkbox">
-              <div class="form-group">
-                <input [(ngModel)]="child.selected" type="checkbox"/>&nbsp;{{ child.name }}
-              </div>
+<div class="form-group">
+  <label class="detail-label">{{ label }} ({{ selectedCount }} total)</label>
+    <ngb-tabset>
+      <ngb-tab title="Babies ({{ group1SelectedCount }})">
+        <ng-template ngbTabContent>
+          <div class="col-lg-6">
+            <div *ngFor="let child of childGroup1" class="checkbox">
+                <div class="form-group">
+                  <input [(ngModel)]="child.selected" (ngModelChange)="onCheckChange(1, child)" type="checkbox"/>&nbsp;{{ child.name }}
+                </div>
+            </div>
           </div>
-        </div>
-        <p></p>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Senior Babies">
-      <ng-template ngbTabContent>
-        <div class="col-lg-6">
-          <div *ngFor="let child of childGroup2" class="checkbox">
-              <div class="form-group">
-                <input [(ngModel)]="child.selected" type="checkbox"/>&nbsp;{{ child.name }}
-              </div>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Senior Babies ({{ group2SelectedCount }})">
+        <ng-template ngbTabContent>
+          <div class="col-lg-6">
+            <div *ngFor="let child of childGroup2" class="checkbox">
+                <div class="form-group">
+                  <input [(ngModel)]="child.selected" (ngModelChange)="onCheckChange(2, child)" type="checkbox" />&nbsp;{{ child.name }}
+                </div>
+            </div>
           </div>
-        </div>
-        <p></p>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Toddlers">
-      <ng-template ngbTabContent>
-        <div class="col-lg-6">
-          <div *ngFor="let child of childGroup3" class="checkbox">
-              <div class="form-group">
-                <input [(ngModel)]="child.selected" type="checkbox"/>&nbsp;{{ child.name }}
-              </div>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Toddlers ({{ group3SelectedCount }})">
+        <ng-template ngbTabContent>
+          <div class="col-lg-6">
+            <div *ngFor="let child of childGroup3" class="checkbox">
+                <div class="form-group">
+                  <input [(ngModel)]="child.selected" (ngModelChange)="onCheckChange(3, child)" type="checkbox"/>&nbsp;{{ child.name }}
+                </div>
+            </div>
           </div>
-        </div>
-        <p></p>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Juniors">
-      <ng-template ngbTabContent>
-        <div class="col-lg-6">
-          <div *ngFor="let child of childGroup4" class="checkbox">
-              <div class="form-group">
-                <input [(ngModel)]="child.selected" type="checkbox"/>&nbsp;{{ child.name }}
-              </div>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Juniors ({{ group4SelectedCount }})">
+        <ng-template ngbTabContent>
+          <div class="col-lg-6">
+            <div *ngFor="let child of childGroup4" class="checkbox">
+                <div class="form-group">
+                  <input [(ngModel)]="child.selected" (ngModelChange)="onCheckChange(4, child)" type="checkbox"/>&nbsp;{{ child.name }}
+                </div>
+            </div>
           </div>
-        </div>
-        <p></p>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Kinders">
-      <ng-template ngbTabContent>
-        <div class="col-lg-6">
-          <div *ngFor="let child of childGroup5" class="checkbox">
-              <div class="form-group">
-                <input [(ngModel)]="child.selected" type="checkbox"/>&nbsp;{{ child.name }}
-              </div>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Kinders ({{ group5SelectedCount }})">
+        <ng-template ngbTabContent>
+          <div class="col-lg-6">
+            <div *ngFor="let child of childGroup5" class="checkbox">
+                <div class="form-group">
+                  <input [(ngModel)]="child.selected" (ngModelChange)="onCheckChange(5, child)" type="checkbox"/>&nbsp;{{ child.name }}
+                </div>
+            </div>
           </div>
-        </div>
-        <p></p>
-      </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
-  <hr/>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+    <hr/>
+</div>

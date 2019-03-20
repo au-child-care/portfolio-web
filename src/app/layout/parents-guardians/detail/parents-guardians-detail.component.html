@@ -28,7 +28,7 @@
                     <input [(ngModel)]="parentGuardian.contact_number" type="text" class="form-control" id="contactNumberInput" placeholder="0#########" />
                 </div>
                 <div class="form-group">
-                    <label for="typeInput">Type:</label>
+                    <label for="typeInput" class="detail-label">Type</label>
                     <select [(ngModel)]="parentGuardian.type" class="form-control" id="typeInput">
                       <option>Parent</option>
                       <option>Guardian</option>
@@ -36,8 +36,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="detail-label">Children</label>
-                    <app-child-selector [selectedIdsInput]="assignedChildIds"></app-child-selector>
+                    <app-child-selector [label]="'Children'" [selectedIdsInput]="assignedChildIds"></app-child-selector>
                 </div>
                 <p>&nbsp;</p>
 
