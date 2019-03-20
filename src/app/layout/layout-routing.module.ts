@@ -21,7 +21,11 @@ const routes: Routes = [
             { path: 'administrators/detail/:id', loadChildren: './administrators/detail/administrators-detail.module#AdministratorsDetailModule' },
             { path: 'children', loadChildren: './children/children.module#ChildrenModule' },
             { path: 'children/detail/:id', loadChildren: './children/detail/children-detail.module#ChildrenDetailModule' },
-            { path: 'educators', loadChildren: './educators/educators.module#EducatorsModule' },
+            { path: 'children', loadChildren: './children/children.module#ChildrenModule' },
+            { path: 'observations', loadChildren: './observations/observations.module#ObservationsModule' },
+            { path: 'milestones', loadChildren: './milestones/milestones.module#MilestonesModule' },
+            { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule' },
+            { path: 'teachingplans', loadChildren: './teachingplans/teachingplans.module#TeachingPlansModule' },
             { path: 'educators/detail/:id', loadChildren: './educators/detail/educators-detail.module#EducatorsDetailModule' },
             { path: 'parents-guardians', loadChildren: './parents-guardians/parents-guardians.module#ParentsGuardiansModule' },
             { path: 'parents-guardians/detail/:id', loadChildren: './parents-guardians/detail/parents-guardians-detail.module#ParentsGuardiansDetailModule' }

@@ -3,11 +3,47 @@
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fas fa-fw fa-tachometer-alt"></i>&nbsp;
             <span>{{ 'Dashboard' | translate }}</span>
-        </a>
-        <a [routerLink]="['/children']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fas fa-fw fa-child"></i>&nbsp;
-            <span>{{ 'Child Portfolio' | translate }}</span>
-        </a>
+        </a>        
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <i class="fa fa-address-book"></i>&nbsp;
+                <span>{{ 'Child Portfolio' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/children']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fas fa-fw fa-child"></i>&nbsp;
+                            <span>{{ 'Children' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/observations']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fas fa-fw fa-clipboard-check"></i>&nbsp;
+                            <span>{{ 'Observations' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/milestones']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fas fa-fw fa-award"></i>&nbsp;
+                            <span>{{ 'Milestones' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/activities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fas fa-fw fa-palette"></i>&nbsp;
+                            <span>{{ 'Activities' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/teachingplans']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fas fa-fw fa-edit"></i>&nbsp;
+                            <span>{{ 'Teaching Plans' | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
         <a [routerLink]="['/parents-guardians']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fas fa-fw fa-user-friends"></i>&nbsp;
             <span>{{ 'Parents and Guardians' | translate }}</span>
