@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { EducatorAssignment } from '../dtos/educator-assignment.dto';
+import { Educator } from '../dtos/educator.dto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,6 +20,10 @@ export class EducatorAssignmentService {
 
   getByChild(child_id: number): Observable<EducatorAssignment[]> {
     return this.http.get<EducatorAssignment[]>(`${this.educatorAssignmentsUrl}/byChild/${child_id}`);
+  }
+
+  getEducatorsByChild(child_id: number): Observable<Educator[]> {
+    return this.http.get<Educator[]>(`${this.educatorAssignmentsUrl}/byChild/${child_id}/educators`);
   }
 
   getByEducator(educator_id: number): Observable<EducatorAssignment[]> {

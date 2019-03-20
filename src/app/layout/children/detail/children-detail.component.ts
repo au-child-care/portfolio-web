@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Child, ChildService, DateUtils } from 'src/app/shared';
+import { Child, ChildService, DateUtils, ParentGuardianAssignmentService, EducatorAssignmentService, ParentGuardian, Educator } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -14,6 +14,8 @@ import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
 })
 export class ChildrenDetailComponent implements OnInit {
     @Input() child: Child;
+    assignedParentsGuardians: ParentGuardian[];
+    assignedEducators: Educator[];
 
     constructor(
         private router: Router,
@@ -21,12 +23,20 @@ export class ChildrenDetailComponent implements OnInit {
         private toastr: ToastrService,
         private dialogService: DialogService,
         private childService: ChildService,
+        private parentGuardianAssignmentService: ParentGuardianAssignmentService,
+        private educatorAssignmentService: EducatorAssignmentService,
         private dateUtils: DateUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         if (params['id'] > 0) {
             this.childService.getChild(params['id'])
-                .subscribe(child => this.child = child);
+                .subscribe(child => {
+                    this.child = child;
+                    this.educatorAssignmentService.getEducatorsByChild(this.child.id)
+                        .subscribe(educators => this.assignedEducators = educators);
+                    this.parentGuardianAssignmentService.getParentsGuardiansByChild(this.child.id)
+                        .subscribe(parentsGuardians => this.assignedParentsGuardians = parentsGuardians);
+                });
         } else {
             this.child = new Child();
         }
