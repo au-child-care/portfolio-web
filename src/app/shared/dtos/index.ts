@@ -3,6 +3,7 @@ export * from './child-selection.dto';
 export * from './child.dto';
 export * from './educator-assignment.dto';
 export * from './educator.dto';
+export * from './milestone-observation.dto';
 export * from './milestone-view.dto';
 export * from './milestone.dto';
 export * from './observation-view.dto';
