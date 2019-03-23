@@ -12,7 +12,8 @@
             <thead>
               <tr>
                 <th>Date Tracked</th>
-                <th>Child Name</th>
+                <th>By</th>
+                <th>For</th>
                 <th>Outcome</th>
                 <th>Published</th>
               </tr>
@@ -20,6 +21,7 @@
             <tbody>
               <tr *ngFor="let observation of observations" class="table-row" (click)="goToDetail(observation)">
                 <td>{{ observation.date_tracked }}</td>
+                <td>{{ observation.educator_name }}</td>
                 <td>{{ observation.child_name }}</td>
                 <td>{{ observation.outcome }}</td>
                 <td>{{ observation.published | yesno }}</td>

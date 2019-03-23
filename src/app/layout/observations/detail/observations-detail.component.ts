@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observation, ObservationService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType } from './../../../shared';
+import { Observation, ObservationService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType, Educator, EducatorService } from './../../../shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -16,6 +16,7 @@ export class ObservationsDetailComponent implements OnInit {
     @Input() observation: Observation;
     outcomes: OutcomeType[];
     children: Child[];
+    educator: Educator;
 
     constructor(
         private router: Router,
@@ -23,6 +24,7 @@ export class ObservationsDetailComponent implements OnInit {
         private toastr: ToastrService,
         private dialogService: DialogService,
         private observationService: ObservationService,
+        private educatorService: EducatorService,
         private childService: ChildService,
         private outcomeUtils: OutcomeUtils,
         private dateUtils: DateUtils) {}
@@ -36,10 +38,13 @@ export class ObservationsDetailComponent implements OnInit {
             this.observationService.getObservation(params['id'])
                 .subscribe(observation => {
                     this.observation = observation;
-                    this.childService.getChildren()
-                        .subscribe(children => this.children = children);
+                    this.educatorService.getEducator(this.observation.educator_id)
+                        .subscribe(educator => this.educator = educator);
                 });
         } else {
+            // TO DO: Get educator id from session
+            this.educatorService.getEducator(1)
+                .subscribe(educator => this.educator = educator);
             this.observation = new Observation();
         }
       });
@@ -59,6 +64,7 @@ export class ObservationsDetailComponent implements OnInit {
     }
 
     create() {
+        this.observation.educator_id = this.educator.id;
         this.observation.date_created = this.dateUtils.getCurrentDateString();
         this.observation.published = 0;
         this.observation.deleted = 0;
@@ -66,6 +72,7 @@ export class ObservationsDetailComponent implements OnInit {
             .subscribe(
                 observation => {
                     this.observation = observation;
+                    this.postSaveActions();
                     this.toastr.success('', 'Success');
                 },
                 error => {
@@ -78,6 +85,7 @@ export class ObservationsDetailComponent implements OnInit {
         .subscribe(
             observation => {
                 this.observation = observation;
+                this.postSaveActions();
                 this.toastr.success('', 'Success');
 
                 if (routeOnSuccess) {
@@ -90,6 +98,16 @@ export class ObservationsDetailComponent implements OnInit {
                 this.toastr.error(error.statusText, failMessage);
             });
         return false;
+    }
+
+    postSaveActions() {
+        this.educator.last_activity = this.dateUtils.getCurrentDateString();
+        this.educatorService.updateEducator(this.educator);
+        this.childService.getChild(this.observation.child_id)
+            .subscribe(child => {
+                child.last_activity = this.dateUtils.getCurrentDateString();
+                this.childService.updateChild(child);
+            });
     }
 
     publishUnpublish() {
