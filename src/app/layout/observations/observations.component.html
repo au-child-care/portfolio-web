@@ -1,0 +1,32 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Observations'" [icon]="'fa-table'"></app-page-header>
+  <div class="row">
+    <div class="col-xl-12">
+      <button type="button" class="btn btn-primary" (click)="addNew()">Add new</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-12">
+        <table class="card-body table table-hover">
+            <thead>
+              <tr>
+                <th>Date Tracked</th>
+                <th>Child Name</th>
+                <th>Outcome</th>
+                <th>Published</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let observation of observations" class="table-row" (click)="goToDetail(observation)">
+                <td>{{ observation.date_tracked }}</td>
+                <td>{{ observation.child_name }}</td>
+                <td>{{ observation.outcome }}</td>
+                <td>{{ observation.published | yesno }}</td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+ </div>

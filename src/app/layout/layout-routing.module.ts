@@ -23,9 +23,10 @@ const routes: Routes = [
             { path: 'children/detail/:id', loadChildren: './children/detail/children-detail.module#ChildrenDetailModule' },
             { path: 'children', loadChildren: './children/children.module#ChildrenModule' },
             { path: 'observations', loadChildren: './observations/observations.module#ObservationsModule' },
-            { path: 'milestones', loadChildren: './milestones/milestones.module#MilestonesModule' },
-            { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule' },
-            { path: 'teachingplans', loadChildren: './teachingplans/teachingplans.module#TeachingPlansModule' },
+            // { path: 'milestones', loadChildren: './milestones/milestones.module#MilestonesModule' },
+            // { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule' },
+            // { path: 'teachingplans', loadChildren: './teachingplans/teachingplans.module#TeachingPlansModule' },
+            { path: 'educators', loadChildren: './educators/educators.module#EducatorsModule' },
             { path: 'educators/detail/:id', loadChildren: './educators/detail/educators-detail.module#EducatorsDetailModule' },
             { path: 'parents-guardians', loadChildren: './parents-guardians/parents-guardians.module#ParentsGuardiansModule' },
             { path: 'parents-guardians/detail/:id', loadChildren: './parents-guardians/detail/parents-guardians-detail.module#ParentsGuardiansDetailModule' }
