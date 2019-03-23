@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 
-import { ObservationView, ObservationService, ChildService, ObservationUtils } from './../../shared';
+import { ObservationView, ObservationService, ChildService, OutcomeUtils } from './../../shared';
 
 @Component({
   selector: 'app-children',
@@ -17,7 +17,7 @@ export class ObservationsComponent implements OnInit {
     private router: Router,
     private observationService: ObservationService,
     private childService: ChildService,
-    private observationUtils: ObservationUtils) { }
+    private outcomeUtils: OutcomeUtils) { }
 
   ngOnInit() {
     this.getObservations();
@@ -34,7 +34,7 @@ export class ObservationsComponent implements OnInit {
                         child_id: o.educator_id,
                         child_name: children.find(c => c.id === o.child_id).first_name + ' ' + children.find(c => c.id === o.child_id).last_name,
                         outcome_id: o.outcome_id,
-                        outcome: this.observationUtils.getObservationDescription(o.outcome_id),
+                        outcome: this.outcomeUtils.getOutcomeDescription(o.outcome_id),
                         date_tracked: o.date_tracked,
                         published: o.published
                 }));

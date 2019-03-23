@@ -1,4 +1,4 @@
-export class ObservationType {
+export class OutcomeType {
     id = 0;
     description = '';
 

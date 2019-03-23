@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observation, ObservationService, DateUtils, ChildService, Child, ObservationUtils, ObservationType } from './../../../shared';
+import { Observation, ObservationService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType } from './../../../shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -14,7 +14,7 @@ import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
 })
 export class ObservationsDetailComponent implements OnInit {
     @Input() observation: Observation;
-    outcomes: ObservationType[];
+    outcomes: OutcomeType[];
     children: Child[];
 
     constructor(
@@ -24,11 +24,11 @@ export class ObservationsDetailComponent implements OnInit {
         private dialogService: DialogService,
         private observationService: ObservationService,
         private childService: ChildService,
-        private observationUtils: ObservationUtils,
+        private outcomeUtils: OutcomeUtils,
         private dateUtils: DateUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
-        this.outcomes = this.observationUtils.getObservationTypes();
+        this.outcomes = this.outcomeUtils.getOutcomes();
         this.childService.getChildren()
             .subscribe(children => this.children = children);
 
