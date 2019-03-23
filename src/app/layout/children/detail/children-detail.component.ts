@@ -28,6 +28,8 @@ export class ChildrenDetailComponent implements OnInit {
         private dateUtils: DateUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
+        this.assignedParentsGuardians = [];
+        this.assignedEducators = [];
         if (params['id'] > 0) {
             this.childService.getChild(params['id'])
                 .subscribe(child => {

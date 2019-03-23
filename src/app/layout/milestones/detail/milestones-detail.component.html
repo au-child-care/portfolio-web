@@ -12,6 +12,7 @@
                 <div class="form-group">
                     <label for="childInput" class="detail-label">For</label>
                     <select [(ngModel)]="milestone.child_id" class="form-control" id="childInput">
+                        <option value="0" selected disabled>Select a child</option>
                         <option *ngFor="let child of children" [value]="child.id" class="form-control">
                             {{ child.first_name + ' ' + child.last_name }}
                         </option>
@@ -20,6 +21,7 @@
                 <div class="form-group">
                     <label for="ageGroupInput" class="detail-label">Age Group</label>
                     <select [(ngModel)]="milestone.age_group" (ngModelChange)="updateObservations()" class="form-control" id="ageGroupInput">
+                      <option value="" selected disabled>Select an age group</option>
                       <option>Birth to 4 months</option>
                       <option>4 to 8 months</option>
                       <option>8 to 12 months</option>
@@ -31,6 +33,7 @@
                 <div class="form-group">
                     <label for="developmentalAreaInput" class="detail-label">Developmental Area</label>
                     <select [(ngModel)]="milestone.developmental_area" (ngModelChange)="updateObservations()" class="form-control" id="developmentalAreaInput">
+                      <option value="" selected disabled>Select a development area</option>
                       <option>Physical</option>
                       <option>Social</option>
                       <option>Emotional</option>
@@ -41,8 +44,9 @@
                 </div>
                 <div class="form-group">
                     <label for="observationInput" class="detail-label">Observation</label>
-                    <input [(ngModel)]="milestone.observation" class="form-control" list="observations" id="observationInput" />
-                    <datalist id="observations">
+                    <input [(ngModel)]="milestone.observation" class="form-control" list="observations" id="observationInput" placeholder="Select or type an observation" />
+                    <datalist id="observations">                        
+                        <option value="" selected disabled>Select or type an observation</option>
                         <option *ngFor="let milestoneObservation of milestoneObservations" class="form-control">
                             {{ milestoneObservation.observation }}
                         </option>
@@ -51,6 +55,7 @@
                 <div class="form-group">
                     <label for="outcomeInput" class="detail-label">Outcome / Link</label>
                     <select [(ngModel)]="milestone.outcome_id" class="form-control" id="outcomeInput">
+                        <option value="0" selected disabled>Select an EYLF outcome</option>
                         <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control">
                             {{ outcome.description }}
                         </option>
@@ -58,7 +63,7 @@
                 </div>
                 <div class="form-group">
                     <label for="commentsInput" class="detail-label">Comments</label>                    
-                    <textarea [(ngModel)]="milestone.comments" class="form-control" rows="2" id="commentsInput"></textarea>
+                    <textarea [(ngModel)]="milestone.comments" class="form-control" rows="2" id="commentsInput" placeholder="Want to add a comment?"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="dateTrackedInput" class="detail-label">Date Tracked</label>

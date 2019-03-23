@@ -30,6 +30,7 @@
                 <div class="form-group">
                     <label for="typeInput" class="detail-label">Type</label>
                     <select [(ngModel)]="parentGuardian.type" class="form-control" id="typeInput">
+                      <option value="" selected disabled>Select a type</option>
                       <option>Parent</option>
                       <option>Guardian</option>
                     </select>

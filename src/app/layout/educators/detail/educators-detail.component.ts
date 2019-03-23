@@ -28,6 +28,7 @@ export class EducatorsDetailComponent implements OnInit {
         private dateUtils: DateUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
+        this.assignedChildIds = [];
         if (params['id'] > 0) {
             this.educatorService.getEducator(params['id'])
                 .subscribe(educator => {

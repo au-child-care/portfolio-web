@@ -12,6 +12,7 @@
                 <div class="form-group">
                     <label for="childInput" class="detail-label">For</label>
                     <select [(ngModel)]="teachingPlan.child_id" class="form-control" id="childInput">
+                        <option value="0" selected disabled>Select a child</option>
                         <option *ngFor="let child of children" [value]="child.id" class="form-control">
                             {{ child.first_name + ' ' + child.last_name }}
                         </option>
@@ -28,6 +29,7 @@
                 <div class="form-group">
                     <label for="outcomeInput" class="detail-label">Outcome / Link</label>
                     <select [(ngModel)]="teachingPlan.target_outcome_id" class="form-control" id="outcomeInput">
+                        <option value="0" selected disabled>Select an EYLF outcome</option>
                         <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control">
                             {{ outcome.description }}
                         </option>

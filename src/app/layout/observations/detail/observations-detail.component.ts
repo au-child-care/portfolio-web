@@ -102,11 +102,13 @@ export class ObservationsDetailComponent implements OnInit {
 
     postSaveActions() {
         this.educator.last_activity = this.dateUtils.getCurrentDateString();
-        this.educatorService.updateEducator(this.educator);
+        this.educatorService.updateEducator(this.educator)
+            .subscribe(_ => {});
         this.childService.getChild(this.observation.child_id)
             .subscribe(child => {
                 child.last_activity = this.dateUtils.getCurrentDateString();
-                this.childService.updateChild(child);
+                this.childService.updateChild(child)
+                    .subscribe(_ => {});
             });
     }
 
