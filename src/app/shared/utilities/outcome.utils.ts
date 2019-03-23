@@ -20,6 +20,10 @@ export class OutcomeUtils {
     }
 
     getOutcomeDescription(id: number): string {
-        return this.outcomes.find(o => o.id === id).description || 'Unknown';
+        const outcome = this.outcomes.find(o => o.id === id);
+        if (outcome) {
+            return outcome.description;
+        }
+        return 'Unknown';
     }
 }

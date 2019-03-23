@@ -27,6 +27,7 @@ const routes: Routes = [
             { path: 'milestones', loadChildren: './milestones/milestones.module#MilestonesModule' },
             { path: 'milestones/detail/:id', loadChildren: './milestones/detail/milestones-detail.module#MilestonesDetailModule' },
             { path: 'teachingplans', loadChildren: './teachingplans/teachingplans.module#TeachingPlansModule' },
+            { path: 'teachingplans/detail/:id', loadChildren: './teachingplans/detail/teachingplans-detail.module#TeachingPlansDetailModule' },
             { path: 'educators', loadChildren: './educators/educators.module#EducatorsModule' },
             { path: 'educators/detail/:id', loadChildren: './educators/detail/educators-detail.module#EducatorsDetailModule' },
             { path: 'parents-guardians', loadChildren: './parents-guardians/parents-guardians.module#ParentsGuardiansModule' },

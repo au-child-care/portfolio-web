@@ -51,10 +51,10 @@ export class TeachingPlansComponent implements OnInit {
   }
 
   addNew(): void {
-    this.router.navigateByUrl('teachingPlans/detail/0');
+    this.router.navigateByUrl('teachingplans/detail/0');
   }
 
   goToDetail(teachingPlan: TeachingPlanView): void {
-    this.router.navigateByUrl(`teachingPlans/detail/${teachingPlan.id}`);
+    this.router.navigateByUrl(`teachingplans/detail/${teachingPlan.id}`);
   }
 }
