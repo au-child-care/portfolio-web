@@ -23,6 +23,7 @@ const routes: Routes = [
             { path: 'children/detail/:id', loadChildren: './children/detail/children-detail.module#ChildrenDetailModule' },
             { path: 'children', loadChildren: './children/children.module#ChildrenModule' },
             { path: 'observations', loadChildren: './observations/observations.module#ObservationsModule' },
+            { path: 'observations/detail/:id', loadChildren: './observations/detail/observations-detail.module#ObservationsDetailModule' },
             // { path: 'milestones', loadChildren: './milestones/milestones.module#MilestonesModule' },
             // { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule' },
             // { path: 'teachingplans', loadChildren: './teachingplans/teachingplans.module#TeachingPlansModule' },
