@@ -1,0 +1,36 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Teaching Plan'" [icon]="'fa-table'"></app-page-header>
+  <div class="row">
+    <div class="col-xl-12">
+      <button type="button" class="btn btn-primary" (click)="addNew()">Add new</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-12">
+        <table class="card-body table table-hover">
+            <thead>
+              <tr>
+                <th>Target Date</th>
+                <th>By</th>
+                <th>For</th>
+                <th>Title</th>
+                <th>Target Outcome</th>
+                <th>Done</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let teachingPlan of teachingPlans" class="table-row" (click)="goToDetail(teachingPlan)">
+                <td>{{ teachingPlan.target_date }}</td>
+                <td>{{ teachingPlan.educator_name }}</td>
+                <td>{{ teachingPlan.child_name }}</td>
+                <td>{{ teachingPlan.title }}</td>
+                <td>{{ teachingPlan.target_outcome }}</td>
+                <td>{{ teachingPlan.done | yesno }}</td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+ </div>
