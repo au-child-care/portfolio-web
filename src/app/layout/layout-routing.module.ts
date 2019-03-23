@@ -24,7 +24,7 @@ const routes: Routes = [
             { path: 'children', loadChildren: './children/children.module#ChildrenModule' },
             { path: 'observations', loadChildren: './observations/observations.module#ObservationsModule' },
             { path: 'observations/detail/:id', loadChildren: './observations/detail/observations-detail.module#ObservationsDetailModule' },
-            // { path: 'milestones', loadChildren: './milestones/milestones.module#MilestonesModule' },
+            { path: 'milestones', loadChildren: './milestones/milestones.module#MilestonesModule' },
             // { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule' },
             // { path: 'teachingplans', loadChildren: './teachingplans/teachingplans.module#TeachingPlansModule' },
             { path: 'educators', loadChildren: './educators/educators.module#EducatorsModule' },
