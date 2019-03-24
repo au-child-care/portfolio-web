@@ -50,8 +50,16 @@
                         <span><hr/></span>                        
                         <h5 class="detail-label">Portfolio Tracking</h5>
                         <div class="row">
-                                <div class="col-lg-5 detail-label">Last activity:</div>
-                                <div class="col-lg-6">{{ child.last_activity | date }}</div>
+                                <div class="col-lg-5 detail-label">Latest Observation:</div>
+                                <div class="col-lg-6">{{ child.last_observation_activity | date }}</div>
+                        </div>
+                        <div class="row">
+                                <div class="col-lg-5 detail-label">Latest Milestone:</div>
+                                <div class="col-lg-6">{{ child.last_milestone_activity | date }}</div>
+                        </div>
+                        <div class="row">
+                                <div class="col-lg-5 detail-label">Furthest ITP:</div>
+                                <div class="col-lg-6">{{ child.last_teachingplan_activity | date }}</div>
                         </div>
                         <span><hr/></span>                        
                         <h5 class="detail-label">Parents / Guardians ({{ assignedParentsGuardians.length }})</h5>

@@ -11,8 +11,7 @@
         <table class="card-body table table-hover">
             <thead>
               <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Nickname</th>
                 <th>Email</th>
                 <th>Contact No.</th>         
@@ -22,8 +21,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let admin of administrators" class="table-row" (click)="goToDetail(admin)">
-                <td>{{ admin.first_name }}</td>
-                <td>{{ admin.last_name }}</td>
+                <td>{{ admin.first_name + ' ' + admin.last_name }}</td>
                 <td>{{ admin.nickname }}</td>
                 <td>{{ admin.email }}</td>
                 <td>{{ admin.contact_number }}</td>

@@ -11,26 +11,24 @@
         <table class="card-body table table-hover">
             <thead>
               <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Nickname</th>
-                <th>Birthday</th>
                 <th>Group</th>
-                <th>Last Activity</th>
+                <th>Latest Observation</th>
+                <th>Latest Milestone</th>
+                <th>Furthest ITP</th>
                 <th>Active</th>
-                <th>Last Modified</th>  
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let child of children" class="table-row" (click)="goToDetail(child)">
-                <td>{{ child.first_name }}</td>
-                <td>{{ child.last_name }}</td>
+                <td>{{ child.first_name + ' ' + child.last_name }}</td>
                 <td>{{ child.nickname }}</td>
-                <td>{{ child.birthday | date }}</td>
                 <td>{{ child.group }}</td>
-                <td>{{ child.last_activity | date }}</td>
+                <td>{{ child.last_observation_activity | date }}</td>
+                <td>{{ child.last_milestone_activity | date }}</td>
+                <td>{{ child.last_teachingplan_activity | date }}</td>
                 <td>{{ child.active | yesno }}</td>
-                <td>{{ child.date_modified | date }}</td>
               </tr>
             </tbody>
         </table>

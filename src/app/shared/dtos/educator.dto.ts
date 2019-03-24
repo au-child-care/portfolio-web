@@ -8,7 +8,9 @@ export class Educator {
     password = '';
     active = 0;
     deleted = 0;
-    last_activity = '';
+    last_observation_activity = '';
+    last_milestone_activity = '';
+    last_teachingplan_activity = '';
     date_created = '';
     date_modified = '';
 }

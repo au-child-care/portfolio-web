@@ -37,4 +37,8 @@ export class ParentGuardianAssignmentService {
   deleteByParentGuardian(parentGuardian_id: number): Observable<string> {
     return this.http.delete<string>(`${this.parentGuardianAssignmentsUrl}/byParentGuardian/${parentGuardian_id}`, httpOptions);
   }
+
+  deleteByChild(child_id: number): Observable<string> {
+    return this.http.delete<string>(`${this.parentGuardianAssignmentsUrl}/byChild/${child_id}`, httpOptions);
+  }
 }

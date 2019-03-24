@@ -37,4 +37,8 @@ export class EducatorAssignmentService {
   deleteByEducator(educator_id: number): Observable<string> {
     return this.http.delete<string>(`${this.educatorAssignmentsUrl}/byEducator/${educator_id}`, httpOptions);
   }
+
+  deleteByChild(child_id: number): Observable<string> {
+    return this.http.delete<string>(`${this.educatorAssignmentsUrl}/byChild/${child_id}`, httpOptions);
+  }
 }

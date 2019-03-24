@@ -11,26 +11,22 @@
         <table class="card-body table table-hover">
             <thead>
               <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Nickname</th>
                 <th>Email</th>
                 <th>Contact No.</th>
                 <th>Type</th>
                 <th>Active</th>
-                <th>Last Modified</th>  
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let parentGuardian of parentsGuardians" class="table-row" (click)="goToDetail(parentGuardian)">
-                <td>{{ parentGuardian.first_name }}</td>
-                <td>{{ parentGuardian.last_name }}</td>
+                <td>{{ parentGuardian.first_name + ' ' + parentGuardian.last_name}}</td>
                 <td>{{ parentGuardian.nickname }}</td>
                 <td>{{ parentGuardian.email }}</td>
                 <td>{{ parentGuardian.contact_number }}</td>
                 <td>{{ parentGuardian.type }}</td>
                 <td>{{ parentGuardian.active | yesno }}</td>
-                <td>{{ parentGuardian.date_modified | date }}</td>
               </tr>
             </tbody>
         </table>

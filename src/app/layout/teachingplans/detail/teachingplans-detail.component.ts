@@ -101,14 +101,18 @@ export class TeachingPlansDetailComponent implements OnInit {
     }
 
     postSaveActions() {
-        this.educator.last_activity = this.dateUtils.getCurrentDateString();
-        this.educatorService.updateEducator(this.educator)
-            .subscribe(_ => {});
+        if (!this.educator.last_teachingplan_activity || this.teachingPlan.target_date > this.educator.last_teachingplan_activity) {
+            this.educator.last_teachingplan_activity = this.teachingPlan.target_date;
+            this.educatorService.updateEducator(this.educator)
+                .subscribe(_ => {});
+        }
         this.childService.getChild(this.teachingPlan.child_id)
             .subscribe(child => {
-                child.last_activity = this.dateUtils.getCurrentDateString();
-                this.childService.updateChild(child)
-                    .subscribe(_ => {});
+                if (!child.last_teachingplan_activity || this.teachingPlan.target_date > child.last_teachingplan_activity) {
+                    child.last_teachingplan_activity = this.teachingPlan.target_date;
+                    this.childService.updateChild(child)
+                        .subscribe(_ => {});
+                }
             });
     }
 

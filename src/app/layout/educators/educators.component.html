@@ -11,26 +11,26 @@
         <table class="card-body table table-hover">
             <thead>
               <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Nickname</th>
                 <th>Email</th>
                 <th>Contact No.</th>
-                <th>Last Activity</th>          
+                <th>Latest Observation</th>
+                <th>Latest Milestone</th>
+                <th>Furthest ITP</th>
                 <th>Active</th>
-                <th>Last Modified</th>  
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let educator of educators" class="table-row" (click)="goToDetail(educator)">
-                <td>{{ educator.first_name }}</td>
-                <td>{{ educator.last_name }}</td>
+                <td>{{ educator.first_name + ' ' + educator.last_name }}</td>
                 <td>{{ educator.nickname }}</td>
                 <td>{{ educator.email }}</td>
                 <td>{{ educator.contact_number }}</td>
-                <td>{{ educator.last_activity | date }}</td>
+                <td>{{ educator.last_observation_activity | date }}</td>
+                <td>{{ educator.last_milestone_activity | date }}</td>
+                <td>{{ educator.last_teachingplan_activity | date }}</td>
                 <td>{{ educator.active | yesno }}</td>
-                <td>{{ educator.date_modified | date }}</td>
               </tr>
             </tbody>
         </table>

@@ -57,7 +57,7 @@ export class ChildrenDetailComponent implements OnInit {
             this.child.date_created = this.dateUtils.getCurrentDateString();
             this.child.active = 0;
             this.child.deleted = 0;
-            this.child.last_activity = null;
+            this.child.last_observation_activity = null;
             this.childService.createChild(this.child)
                 .subscribe(
                     child => {
@@ -108,6 +108,18 @@ export class ChildrenDetailComponent implements OnInit {
     delete() {
         this.child.date_modified = this.dateUtils.getCurrentDateString();
         this.child.deleted = 1;
-        this.update(true, 'Unable to delete');
+        this.educatorAssignmentService.deleteByChild(this.child.id)
+            .subscribe(success => {
+                this.parentGuardianAssignmentService.deleteByChild(this.child.id)
+                    .subscribe(success2 => {
+                        this.update(true, 'Unable to delete');
+                    },
+                    error2 => {
+                        this.toastr.error(error2.statusText, 'Unable to delete');
+                    });
+            },
+            error => {
+                this.toastr.error(error.statusText, 'Unable to delete');
+            });
     }
 }

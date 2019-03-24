@@ -101,14 +101,18 @@ export class ObservationsDetailComponent implements OnInit {
     }
 
     postSaveActions() {
-        this.educator.last_activity = this.dateUtils.getCurrentDateString();
-        this.educatorService.updateEducator(this.educator)
-            .subscribe(_ => {});
+        if (!this.educator.last_observation_activity || this.observation.date_tracked > this.educator.last_observation_activity) {
+            this.educator.last_observation_activity = this.observation.date_tracked;
+            this.educatorService.updateEducator(this.educator)
+                .subscribe(_ => {});
+        }
         this.childService.getChild(this.observation.child_id)
             .subscribe(child => {
-                child.last_activity = this.dateUtils.getCurrentDateString();
-                this.childService.updateChild(child)
-                    .subscribe(_ => {});
+                if (child.last_observation_activity || this.observation.date_tracked > child.last_observation_activity) {
+                    child.last_observation_activity = this.observation.date_tracked;
+                    this.childService.updateChild(child)
+                        .subscribe(_ => {});
+                }
             });
     }
 

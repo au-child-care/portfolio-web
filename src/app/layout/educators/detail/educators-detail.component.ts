@@ -61,7 +61,9 @@ export class EducatorsDetailComponent implements OnInit {
         this.educator.date_created = this.dateUtils.getCurrentDateString();
         this.educator.active = 0;
         this.educator.deleted = 0;
-        this.educator.last_activity = null;
+        this.educator.last_observation_activity = null;
+        this.educator.last_milestone_activity = null;
+        this.educator.last_teachingplan_activity = null;
         this.educatorService.createEducator(this.educator)
             .subscribe(
                 educator => {

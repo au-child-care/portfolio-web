@@ -5,7 +5,9 @@ export class Child {
     nickname = '';
     birthday = '';
     group = '';
-    last_activity = '';
+    last_observation_activity = '';
+    last_milestone_activity = '';
+    last_teachingplan_activity = '';
     active = 0;
     deleted = 0;
     date_created = '';
