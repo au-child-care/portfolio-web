@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 
-import { Milestone } from '../dtos';
+import { Milestone, MilestoneObservation } from '../dtos';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,19 +17,11 @@ export class MilestoneService {
   constructor(
     private http: HttpClient) { }
 
-  getMilestones(): Observable<Milestone[]> {
-    return this.http.get<Milestone[]>(this.milestonesUrl);
+  getByChild(child_id: number): Observable<Milestone[]> {
+    return this.http.get<Milestone[]>(`${this.milestonesUrl}/byChild/${child_id}`);
   }
 
-  getMilestone(id: number): Observable<Milestone> {
-    return this.http.get<Milestone>(`${this.milestonesUrl}/${id}`);
-  }
-
-  createMilestone(milestone: Milestone): Observable<Milestone> {
-    return this.http.post<Milestone>(`${this.milestonesUrl}`, milestone, httpOptions);
-  }
-
-  updateMilestone(milestone: Milestone): Observable<Milestone> {
-    return this.http.put<Milestone>(`${this.milestonesUrl}/${milestone.id}`, milestone, httpOptions);
+  setByChild(child_id: number, milestones: MilestoneObservation[]): Observable<string> {
+    return this.http.post<string>(`${this.milestonesUrl}/byChild/${child_id}`, milestones, httpOptions);
   }
 }

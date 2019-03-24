@@ -13,11 +13,49 @@ import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
     animations: [routerTransition()]
 })
 export class MilestonesDetailComponent implements OnInit {
-    @Input() milestone: Milestone;
+    loaded: boolean;
     outcomes: OutcomeType[];
-    children: Child[];
     educator: Educator;
-    milestoneObservations: MilestoneObservation[];
+    educators: Educator[];
+    child: Child;
+    milestones: Milestone[];
+    milestonesObservations: MilestoneObservation[];
+    milestonesBirthTo4mPhysical: MilestoneObservation[];
+    milestonesBirthTo4mSocial: MilestoneObservation[];
+    milestonesBirthTo4mEmotional: MilestoneObservation[];
+    milestonesBirthTo4mCognitive: MilestoneObservation[];
+    milestonesBirthTo4mLanguage: MilestoneObservation[];
+    milestonesBirthTo4mSeekAdvice: MilestoneObservation[];
+    milestones4To8mPhysical: MilestoneObservation[];
+    milestones4To8mSocial: MilestoneObservation[];
+    milestones4To8mEmotional: MilestoneObservation[];
+    milestones4To8mCognitive: MilestoneObservation[];
+    milestones4To8mLanguage: MilestoneObservation[];
+    milestones4To8mSeekAdvice: MilestoneObservation[];
+    milestones8To12mPhysical: MilestoneObservation[];
+    milestones8To12mSocial: MilestoneObservation[];
+    milestones8To12mEmotional: MilestoneObservation[];
+    milestones8To12mCognitive: MilestoneObservation[];
+    milestones8To12mLanguage: MilestoneObservation[];
+    milestones8To12mSeekAdvice: MilestoneObservation[];
+    milestones1to2yPhysical: MilestoneObservation[];
+    milestones1to2ySocial: MilestoneObservation[];
+    milestones1to2yEmotional: MilestoneObservation[];
+    milestones1to2yCognitive: MilestoneObservation[];
+    milestones1to2yLanguage: MilestoneObservation[];
+    milestones1to2ySeekAdvice: MilestoneObservation[];
+    milestones2to3yPhysical: MilestoneObservation[];
+    milestones2to3ySocial: MilestoneObservation[];
+    milestones2to3yEmotional: MilestoneObservation[];
+    milestones2to3yCognitive: MilestoneObservation[];
+    milestones2to3yLanguage: MilestoneObservation[];
+    milestones2to3ySeekAdvice: MilestoneObservation[];
+    milestones3to5yPhysical: MilestoneObservation[];
+    milestones3to5ySocial: MilestoneObservation[];
+    milestones3to5yEmotional: MilestoneObservation[];
+    milestones3to5yCognitive: MilestoneObservation[];
+    milestones3to5yLanguage: MilestoneObservation[];
+    milestones3to5ySeekAdvice: MilestoneObservation[];
 
     constructor(
         private router: Router,
@@ -33,28 +71,75 @@ export class MilestonesDetailComponent implements OnInit {
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.outcomes = this.outcomeUtils.getOutcomes();
-        this.childService.getChildren()
-            .subscribe(children => this.children = children);
-
         if (params['id'] > 0) {
-            this.milestoneService.getMilestone(params['id'])
-                .subscribe(milestone => {
-                    this.milestone = milestone;
-                    this.educatorService.getEducator(this.milestone.educator_id)
-                        .subscribe(educator => this.educator = educator);
-                    this.updateObservations();
-                });
-        } else {
-            // TO DO: Get educator id from session
+            // TO DO: Get from session
             this.educatorService.getEducator(1)
-                .subscribe(educator => this.educator = educator);
-            this.milestone = new Milestone();
+                .subscribe(edcator => {
+                    this.educator = edcator;
+                    this.educatorService.getEducators()
+                        .subscribe(educators => {
+                            this.educators = educators;
+                            this.childService.getChild(params['id'])
+                                .subscribe(child => {
+                                    this.child = child;
+                                    this.milestoneService.getByChild(params['id'])
+                                        .subscribe(milestones => {
+                                            this.milestones = milestones;
+                                            const observations = this.milestoneUtils.getObservations();
+                                            observations.forEach(o => {
+                                                    const tracked = this.milestones.find(m => m.age_group === o.age_group && m.developmental_area === o.developmental_area && m.observation === o.observation);
+                                                    const tracker = this.educators.find(m => m.id === (tracked ? tracked.educator_id : this.educator.id));
+                                                    o.child_id = this.child.id;
+                                                    o.date_tracked = tracked ? tracked.date_tracked : '';
+                                                    o.outcome_id = tracked ? tracked.outcome_id : 0;
+                                                    o.educator_id = tracked ? tracked.educator_id : this.educator.id;
+                                                    o.educator_name = tracker ? tracker.first_name + ' ' + tracker.last_name : 'Unknown';
+                                                    o.selected = tracked ? 1 : 0;
+                                                });
+                                            this.milestonesObservations = observations;
+                                            this.milestonesBirthTo4mPhysical = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Physical');
+                                            this.milestonesBirthTo4mSocial = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Social');
+                                            this.milestonesBirthTo4mEmotional = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Emotional');
+                                            this.milestonesBirthTo4mCognitive = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Cognitive');
+                                            this.milestonesBirthTo4mLanguage = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Language');
+                                            this.milestonesBirthTo4mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Seek advice');
+                                            this.milestones4To8mPhysical = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Physical');
+                                            this.milestones4To8mSocial = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Social');
+                                            this.milestones4To8mEmotional = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Emotional');
+                                            this.milestones4To8mCognitive = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Cognitive');
+                                            this.milestones4To8mLanguage = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Language');
+                                            this.milestones4To8mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Seek advice');
+                                            this.milestones8To12mPhysical = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Physical');
+                                            this.milestones8To12mSocial = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Social');
+                                            this.milestones8To12mEmotional = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Emotional');
+                                            this.milestones8To12mCognitive = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Cognitive');
+                                            this.milestones8To12mLanguage = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Language');
+                                            this.milestones8To12mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Seek advice');
+                                            this.milestones1to2yPhysical = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Physical');
+                                            this.milestones1to2ySocial = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Social');
+                                            this.milestones1to2yEmotional = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Emotional');
+                                            this.milestones1to2yCognitive = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Cognitive');
+                                            this.milestones1to2yLanguage = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Language');
+                                            this.milestones1to2ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Seek advice');
+                                            this.milestones2to3yPhysical = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Physical');
+                                            this.milestones2to3ySocial = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Social');
+                                            this.milestones2to3yEmotional = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Emotional');
+                                            this.milestones2to3yCognitive = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Cognitive');
+                                            this.milestones2to3yLanguage = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Language');
+                                            this.milestones2to3ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Seek advice');
+                                            this.milestones3to5yPhysical = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Physical');
+                                            this.milestones3to5ySocial = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Social');
+                                            this.milestones3to5yEmotional = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Emotional');
+                                            this.milestones3to5yCognitive = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Cognitive');
+                                            this.milestones3to5yLanguage = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Language');
+                                            this.milestones3to5ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Seek advice');
+                                            this.loaded = true;
+                                        });
+                                });
+                        });
+                });
         }
       });
-    }
-
-    updateObservations() {
-        this.milestoneObservations = this.milestoneUtils.getObservationsByAgeAndArea(this.milestone.age_group, this.milestone.developmental_area);
     }
 
     back() {
@@ -62,86 +147,26 @@ export class MilestonesDetailComponent implements OnInit {
     }
 
     save() {
-        this.milestone.date_modified = this.dateUtils.getCurrentDateString();
-        if (this.milestone.id > 0) {
-            this.update(false, 'Unable to save');
-        } else {
-            this.create();
-        }
-    }
-
-    create() {
-        this.milestone.educator_id = this.educator.id;
-        this.milestone.date_created = this.dateUtils.getCurrentDateString();
-        this.milestone.published = 0;
-        this.milestone.deleted = 0;
-        this.milestoneService.createMilestone(this.milestone)
-            .subscribe(
-                milestone => {
-                    this.milestone = milestone;
-                    this.postSaveActions();
-                    this.toastr.success('', 'Success');
-                },
-                error => {
-                    this.toastr.error(error.statusText, 'Unable to save');
-                });
-    }
-
-    update(routeOnSuccess: boolean, failMessage: string): boolean {
-        this.milestoneService.updateMilestone(this.milestone)
-        .subscribe(
-            milestone => {
-                this.milestone = milestone;
-                this.postSaveActions();
+        const observations = this.milestonesObservations.filter(o => o.selected);
+        this.milestoneService.setByChild(this.child.id, observations)
+            .subscribe(success => {
+                this.postSaveActions(observations);
                 this.toastr.success('', 'Success');
-
-                if (routeOnSuccess) {
-                    this.back();
-                }
-
-                return true;
             },
             error => {
-                this.toastr.error(error.statusText, failMessage);
+                this.toastr.error(error.statusText, 'Unable to save');
             });
-        return false;
     }
 
-    postSaveActions() {
-        this.educator.last_activity = this.dateUtils.getCurrentDateString();
-        this.educatorService.updateEducator(this.educator)
+    postSaveActions(observations: MilestoneObservation[]) {
+        this.child.last_milestone_activity = observations.length > 0 ? observations.sort((a, b) => new Date(b.date_tracked).getTime() - new Date(a.date_tracked).getTime())[0].date_tracked : null;
+        this.childService.updateChild(this.child)
             .subscribe(_ => {});
-        this.childService.getChild(this.milestone.child_id)
-            .subscribe(child => {
-                child.last_activity = this.dateUtils.getCurrentDateString();
-                this.childService.updateChild(child)
-                    .subscribe(_ => {});
-            });
-    }
-
-    publishUnpublish() {
-        this.milestone.date_modified = this.dateUtils.getCurrentDateString();
-        this.milestone.published = this.milestone.published === 1 ? 0 : 1;
-        this.update(false, 'Unable to update status');
-    }
-
-    showConfirm(template: TemplateRef<any>) {
-        this.dialogService.addDialog(
-            ConfirmComponent,
-            {
-                title: 'Confirm deletion',
-                message: 'Are you sure you want to proceed?'
-            })
-                .subscribe((isConfirmed) => {
-                    if (isConfirmed) {
-                        this.delete();
-                    }
-                });
-    }
-
-    delete() {
-        this.milestone.date_modified = this.dateUtils.getCurrentDateString();
-        this.milestone.deleted = 1;
-        this.update(true, 'Unable to delete');
+        const educatorLatestTracked = observations.filter(o => o.educator_id === this.educator.id).sort((a, b) => new Date(b.date_tracked).getTime() - new Date(a.date_tracked).getTime())[0];
+        if (educatorLatestTracked && (!this.educator.last_milestone_activity || educatorLatestTracked.date_tracked > this.educator.last_milestone_activity)) {
+            this.educator.last_milestone_activity = educatorLatestTracked.date_tracked;
+            this.educatorService.updateEducator(this.educator)
+                .subscribe(_ => {});
+        }
     }
 }

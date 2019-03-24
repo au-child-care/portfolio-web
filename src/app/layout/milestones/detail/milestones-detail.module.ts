@@ -5,6 +5,7 @@ import { MilestonesDetailRoutingModule } from './milestones-detail-routing.modul
 import { MilestonesDetailComponent } from './milestones-detail.component';
 import { PageHeaderModule } from '../../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
@@ -12,7 +13,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         FormsModule,
         ReactiveFormsModule,
         MilestonesDetailRoutingModule,
-        PageHeaderModule],
+        PageHeaderModule,
+        NgbModule],
     declarations: [MilestonesDetailComponent]
 })
 export class MilestonesDetailModule {}

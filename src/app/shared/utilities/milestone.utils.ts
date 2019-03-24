@@ -14,7 +14,6 @@ export class MilestoneUtils {
             new MilestoneObservation('4 to 8 months', 'Social', 'responds to own name'),
             new MilestoneObservation('8 to 12 months', 'Emotional', 'actively seeks to be next to parent or principal caregiver'),
             new MilestoneObservation('8 to 12 months', 'Emotional', 'shows signs of anxiety or stress if parent goes away'),
-            new MilestoneObservation('1 to 2 years', 'Cognitive', 'shows signs of anxiety or stress if parent goes away'),
             new MilestoneObservation('1 to 2 years', 'Cognitive', 'repeats actions that lead to interesting/predictable results, e.g. bangs spoon on saucepan'),
             new MilestoneObservation('1 to 2 years', 'Cognitive', 'points to objects when named'),
             new MilestoneObservation('2 to 3 years', 'Language', 'uses two or three words together, e.g. “go potty now”'),

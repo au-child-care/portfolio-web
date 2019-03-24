@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 
-import { MilestoneView, MilestoneService, ChildService, OutcomeUtils, EducatorService, EducatorUtils, ChildUtils } from './../../shared';
+import { ChildService, Child } from './../../shared';
 
 @Component({
   selector: 'app-children',
@@ -11,51 +11,20 @@ import { MilestoneView, MilestoneService, ChildService, OutcomeUtils, EducatorSe
   animations: [routerTransition()]
 })
 export class MilestonesComponent implements OnInit {
-  milestones: MilestoneView[];
+  children: Child[];
 
-  constructor(
-    private router: Router,
-    private milestoneService: MilestoneService,
-    private educatorService: EducatorService,
-    private educatorUtils: EducatorUtils,
-    private childService: ChildService,
-    private childUtils: ChildUtils,
-    private outcomeUtils: OutcomeUtils) { }
+  constructor(private router: Router, private childService: ChildService) { }
 
   ngOnInit() {
-    this.getMilestones();
+    this.getChildren();
   }
 
-  getMilestones(): void {
-    this.milestoneService.getMilestones()
-      .subscribe(obs => {
-        this.educatorService.getEducators()
-          .subscribe(educators => {
-            this.childService.getChildren()
-              .subscribe(children => {
-                this.milestones = obs.map(o => Object.assign(new MilestoneView(), {
-                    id: o.id,
-                    educator_id: o.educator_id,
-                    educator_name: this.educatorUtils.getNameFromList(educators, o.educator_id),
-                    child_id: o.educator_id,
-                    child_name: this.childUtils.getNameFromList(children, o.child_id),
-                    age_group: o.age_group,
-                    developmental_area: o.developmental_area,
-                    outcome_id: o.outcome_id,
-                    outcome: this.outcomeUtils.getOutcomeDescription(o.outcome_id),
-                    date_tracked: o.date_tracked,
-                    published: o.published
-                  }));
-              });
-            });
-      });
+  getChildren(): void {
+    this.childService.getChildren()
+      .subscribe(children => this.children = children);
   }
 
-  addNew(): void {
-    this.router.navigateByUrl('milestones/detail/0');
-  }
-
-  goToDetail(milestone: MilestoneView): void {
-    this.router.navigateByUrl(`milestones/detail/${milestone.id}`);
+  goToDetail(child: Child): void {
+    this.router.navigateByUrl(`milestones/detail/${child.id}`);
   }
 }

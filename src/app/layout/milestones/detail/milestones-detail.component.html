@@ -1,104 +1,2009 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Milestone Details'"></app-page-header>
-    <div *ngIf="milestone && educator && children">
+    <app-page-header [heading]="'Milestones Details'"></app-page-header>
+    <div *ngIf="educator && educators && child && milestones && milestonesObservations && loaded">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="form-group">
                     <div class="row">
-                            <div class="col-lg-1 detail-label">By</div>
-                            <div class="col-lg-11">{{ educator.first_name + ' ' + educator.last_name }}</div>
+                            <div class="col-lg-1 detail-label">For</div>
+                            <div class="col-lg-8">{{ child.first_name + ' ' + child.last_name }}</div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="childInput" class="detail-label">For</label>
-                    <select [(ngModel)]="milestone.child_id" class="form-control" id="childInput">
-                        <option value="0" selected disabled>Select a child</option>
-                        <option *ngFor="let child of children" [value]="child.id" class="form-control">
-                            {{ child.first_name + ' ' + child.last_name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="ageGroupInput" class="detail-label">Age Group</label>
-                    <select [(ngModel)]="milestone.age_group" (ngModelChange)="updateObservations()" class="form-control" id="ageGroupInput">
-                      <option value="" selected disabled>Select an age group</option>
-                      <option>Birth to 4 months</option>
-                      <option>4 to 8 months</option>
-                      <option>8 to 12 months</option>
-                      <option>1 to 2 years</option>
-                      <option>2 to 3 years</option>
-                      <option>3 to 5 years</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="developmentalAreaInput" class="detail-label">Developmental Area</label>
-                    <select [(ngModel)]="milestone.developmental_area" (ngModelChange)="updateObservations()" class="form-control" id="developmentalAreaInput">
-                      <option value="" selected disabled>Select a development area</option>
-                      <option>Physical</option>
-                      <option>Social</option>
-                      <option>Emotional</option>
-                      <option>Cognitive</option>
-                      <option>Language</option>
-                      <option>Seek advice</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="observationInput" class="detail-label">Observation</label>
-                    <input [(ngModel)]="milestone.observation" class="form-control" list="observations" id="observationInput" placeholder="Select or type an observation" />
-                    <datalist id="observations">                        
-                        <option value="" selected disabled>Select or type an observation</option>
-                        <option *ngFor="let milestoneObservation of milestoneObservations" class="form-control">
-                            {{ milestoneObservation.observation }}
-                        </option>
-                    </datalist>
-                </div>
-                <div class="form-group">
-                    <label for="outcomeInput" class="detail-label">Outcome / Link</label>
-                    <select [(ngModel)]="milestone.outcome_id" class="form-control" id="outcomeInput">
-                        <option value="0" selected disabled>Select an EYLF outcome</option>
-                        <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control">
-                            {{ outcome.description }}
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="commentsInput" class="detail-label">Comments</label>                    
-                    <textarea [(ngModel)]="milestone.comments" class="form-control" rows="2" id="commentsInput" placeholder="Want to add a comment?"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="dateTrackedInput" class="detail-label">Date Tracked</label>
-                    <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control" id="dateTrackedInput" />
-                </div>
+                <ngb-tabset>
+
+<!-- Birth to 4 months START -->
+                
+                    <ngb-tab title="Birth to 4 months">
+                      <ng-template ngbTabContent>
+                        <div class="col-lg-12">
+                            <p></p>
+                            <ngb-tabset>
+                                <ngb-tab title="Physical">
+                                    <ng-template ngbTabContent>
+                                    <div class="col-lg-12">        
+                                        <table class="card-body table table-hover milestone-detail">
+                                            <thead>
+                                              <tr>
+                                                <th>Observation</th>
+                                                <th>Achieved</th>
+                                                <th>Date Achieved</th>
+                                                <th>Outcome Link</th>
+                                                <th>Tracked By</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr *ngFor="let milestone of milestonesBirthTo4mPhysical">
+                                                <td>
+                                                    <div class="form-group">
+                                                        {{ milestone.observation }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                            <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                            <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                {{ outcome.description }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group" [hidden]="!milestone.selected">
+                                                        {{ milestone.educator_name }}
+                                                    </div>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p></p>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="Social">
+                                        <ng-template ngbTabContent>
+                                                <div class="col-lg-12">        
+                                                    <table class="card-body table table-hover milestone-detail">
+                                                        <thead>
+                                                          <tr>
+                                                            <th>Observation</th>
+                                                            <th>Achieved</th>
+                                                            <th>Date Achieved</th>
+                                                            <th>Outcome Link</th>
+                                                            <th>Tracked By</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr *ngFor="let milestone of milestonesBirthTo4mSocial">
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    {{ milestone.observation }}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                        <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                        <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                            {{ outcome.description }}
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group" [hidden]="!milestone.selected">
+                                                                    {{ milestone.educator_name }}
+                                                                </div>
+                                                            </td>
+                                                          </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <p></p>
+                                                </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="Emotional">
+                                        <ng-template ngbTabContent>
+                                                <div class="col-lg-12">        
+                                                    <table class="card-body table table-hover milestone-detail">
+                                                        <thead>
+                                                          <tr>
+                                                            <th>Observation</th>
+                                                            <th>Achieved</th>
+                                                            <th>Date Achieved</th>
+                                                            <th>Outcome Link</th>
+                                                            <th>Tracked By</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr *ngFor="let milestone of milestonesBirthTo4mEmotional">
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    {{ milestone.observation }}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                        <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                        <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                            {{ outcome.description }}
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group" [hidden]="!milestone.selected">
+                                                                    {{ milestone.educator_name }}
+                                                                </div>
+                                                            </td>
+                                                          </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <p></p>
+                                                </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="Cognitive">
+                                        <ng-template ngbTabContent>
+                                                <div class="col-lg-12">        
+                                                    <table class="card-body table table-hover milestone-detail">
+                                                        <thead>
+                                                          <tr>
+                                                            <th>Observation</th>
+                                                            <th>Achieved</th>
+                                                            <th>Date Achieved</th>
+                                                            <th>Outcome Link</th>
+                                                            <th>Tracked By</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr *ngFor="let milestone of milestonesBirthTo4mCognitive">
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    {{ milestone.observation }}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                        <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                        <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                            {{ outcome.description }}
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group" [hidden]="!milestone.selected">
+                                                                    {{ milestone.educator_name }}
+                                                                </div>
+                                                            </td>
+                                                          </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <p></p>
+                                                </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="Language">
+                                    <<ng-template ngbTabContent>
+                                            <div class="col-lg-12">        
+                                                <table class="card-body table table-hover milestone-detail">
+                                                    <thead>
+                                                      <tr>
+                                                        <th>Observation</th>
+                                                        <th>Achieved</th>
+                                                        <th>Date Achieved</th>
+                                                        <th>Outcome Link</th>
+                                                        <th>Tracked By</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      <tr *ngFor="let milestone of milestonesBirthTo4mLanguage">
+                                                        <td>
+                                                            <div class="form-group">
+                                                                {{ milestone.observation }}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-check">
+                                                                <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                    <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                    <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                        {{ outcome.description }}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group" [hidden]="!milestone.selected">
+                                                                {{ milestone.educator_name }}
+                                                            </div>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <p></p>
+                                            </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="Seek advice">
+                                        <ng-template ngbTabContent>
+                                                <div class="col-lg-12">        
+                                                    <table class="card-body table table-hover milestone-detail">
+                                                        <thead>
+                                                          <tr>
+                                                            <th>Observation</th>
+                                                            <th>Achieved</th>
+                                                            <th>Date Achieved</th>
+                                                            <th>Outcome Link</th>
+                                                            <th>Tracked By</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr *ngFor="let milestone of milestonesBirthTo4mSeekAdvice">
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    {{ milestone.observation }}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                        <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                        <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                            {{ outcome.description }}
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group" [hidden]="!milestone.selected">
+                                                                    {{ milestone.educator_name }}
+                                                                </div>
+                                                            </td>
+                                                          </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <p></p>
+                                                </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                            <hr/>
+                        </div>
+                        <p></p>
+                      </ng-template>
+                    </ngb-tab>
+
+<!-- Birth to 4 months END -->
+
+
+
+
+<!-- 4 to 8 months START -->
+
+                    <ngb-tab title="4 to 8 months">
+                            <ng-template ngbTabContent>
+                              <div class="col-lg-12">
+                                  <p></p>
+                                  <ngb-tabset>
+                                      <ngb-tab title="Physical">
+                                          <ng-template ngbTabContent>
+                                          <div class="col-lg-12">        
+                                              <table class="card-body table table-hover milestone-detail">
+                                                  <thead>
+                                                    <tr>
+                                                      <th>Observation</th>
+                                                      <th>Achieved</th>
+                                                      <th>Date Achieved</th>
+                                                      <th>Outcome Link</th>
+                                                      <th>Tracked By</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    <tr *ngFor="let milestone of milestones4To8mPhysical">
+                                                      <td>
+                                                          <div class="form-group">
+                                                              {{ milestone.observation }}
+                                                          </div>
+                                                      </td>
+                                                      <td>
+                                                          <div class="form-check">
+                                                              <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                          </div>
+                                                      </td>
+                                                      <td>
+                                                          <div class="form-group">
+                                                              <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                          </div>
+                                                      </td>
+                                                      <td>
+                                                          <div class="form-group">
+                                                              <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                  <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                  <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                      {{ outcome.description }}
+                                                                  </option>
+                                                              </select>
+                                                          </div>
+                                                      </td>
+                                                      <td>
+                                                          <div class="form-group" [hidden]="!milestone.selected">
+                                                              {{ milestone.educator_name }}
+                                                          </div>
+                                                      </td>
+                                                    </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                          <p></p>
+                                          </ng-template>
+                                      </ngb-tab>
+                                      <ngb-tab title="Social">
+                                              <ng-template ngbTabContent>
+                                                      <div class="col-lg-12">        
+                                                          <table class="card-body table table-hover milestone-detail">
+                                                              <thead>
+                                                                <tr>
+                                                                  <th>Observation</th>
+                                                                  <th>Achieved</th>
+                                                                  <th>Date Achieved</th>
+                                                                  <th>Outcome Link</th>
+                                                                  <th>Tracked By</th>
+                                                                </tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                <tr *ngFor="let milestone of milestones4To8mSocial">
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          {{ milestone.observation }}
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-check">
+                                                                          <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                              <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                              <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                                  {{ outcome.description }}
+                                                                              </option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group" [hidden]="!milestone.selected">
+                                                                          {{ milestone.educator_name }}
+                                                                      </div>
+                                                                  </td>
+                                                                </tr>
+                                                              </tbody>
+                                                          </table>
+                                                      </div>
+                                                      <p></p>
+                                                      </ng-template>
+                                      </ngb-tab>
+                                      <ngb-tab title="Emotional">
+                                              <ng-template ngbTabContent>
+                                                      <div class="col-lg-12">        
+                                                          <table class="card-body table table-hover milestone-detail">
+                                                              <thead>
+                                                                <tr>
+                                                                  <th>Observation</th>
+                                                                  <th>Achieved</th>
+                                                                  <th>Date Achieved</th>
+                                                                  <th>Outcome Link</th>
+                                                                  <th>Tracked By</th>
+                                                                </tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                <tr *ngFor="let milestone of milestones4To8mEmotional">
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          {{ milestone.observation }}
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-check">
+                                                                          <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                              <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                              <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                                  {{ outcome.description }}
+                                                                              </option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group" [hidden]="!milestone.selected">
+                                                                          {{ milestone.educator_name }}
+                                                                      </div>
+                                                                  </td>
+                                                                </tr>
+                                                              </tbody>
+                                                          </table>
+                                                      </div>
+                                                      <p></p>
+                                                      </ng-template>
+                                      </ngb-tab>
+                                      <ngb-tab title="Cognitive">
+                                              <ng-template ngbTabContent>
+                                                      <div class="col-lg-12">        
+                                                          <table class="card-body table table-hover milestone-detail">
+                                                              <thead>
+                                                                <tr>
+                                                                  <th>Observation</th>
+                                                                  <th>Achieved</th>
+                                                                  <th>Date Achieved</th>
+                                                                  <th>Outcome Link</th>
+                                                                  <th>Tracked By</th>
+                                                                </tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                <tr *ngFor="let milestone of milestones4To8mCognitive">
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          {{ milestone.observation }}
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-check">
+                                                                          <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                              <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                              <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                                  {{ outcome.description }}
+                                                                              </option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group" [hidden]="!milestone.selected">
+                                                                          {{ milestone.educator_name }}
+                                                                      </div>
+                                                                  </td>
+                                                                </tr>
+                                                              </tbody>
+                                                          </table>
+                                                      </div>
+                                                      <p></p>
+                                                      </ng-template>
+                                      </ngb-tab>
+                                      <ngb-tab title="Language">
+                                          <<ng-template ngbTabContent>
+                                                  <div class="col-lg-12">        
+                                                      <table class="card-body table table-hover milestone-detail">
+                                                          <thead>
+                                                            <tr>
+                                                              <th>Observation</th>
+                                                              <th>Achieved</th>
+                                                              <th>Date Achieved</th>
+                                                              <th>Outcome Link</th>
+                                                              <th>Tracked By</th>
+                                                            </tr>
+                                                          </thead>
+                                                          <tbody>
+                                                            <tr *ngFor="let milestone of milestones4To8mLanguage">
+                                                              <td>
+                                                                  <div class="form-group">
+                                                                      {{ milestone.observation }}
+                                                                  </div>
+                                                              </td>
+                                                              <td>
+                                                                  <div class="form-check">
+                                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                  </div>
+                                                              </td>
+                                                              <td>
+                                                                  <div class="form-group">
+                                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                  </div>
+                                                              </td>
+                                                              <td>
+                                                                  <div class="form-group">
+                                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                              {{ outcome.description }}
+                                                                          </option>
+                                                                      </select>
+                                                                  </div>
+                                                              </td>
+                                                              <td>
+                                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                                      {{ milestone.educator_name }}
+                                                                  </div>
+                                                              </td>
+                                                            </tr>
+                                                          </tbody>
+                                                      </table>
+                                                  </div>
+                                                  <p></p>
+                                                  </ng-template>
+                                      </ngb-tab>
+                                      <ngb-tab title="Seek advice">
+                                              <ng-template ngbTabContent>
+                                                      <div class="col-lg-12">        
+                                                          <table class="card-body table table-hover milestone-detail">
+                                                              <thead>
+                                                                <tr>
+                                                                  <th>Observation</th>
+                                                                  <th>Achieved</th>
+                                                                  <th>Date Achieved</th>
+                                                                  <th>Outcome Link</th>
+                                                                  <th>Tracked By</th>
+                                                                </tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                <tr *ngFor="let milestone of milestones4To8mSeekAdvice">
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          {{ milestone.observation }}
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-check">
+                                                                          <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group">
+                                                                          <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                                              <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                                              <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                                                  {{ outcome.description }}
+                                                                              </option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </td>
+                                                                  <td>
+                                                                      <div class="form-group" [hidden]="!milestone.selected">
+                                                                          {{ milestone.educator_name }}
+                                                                      </div>
+                                                                  </td>
+                                                                </tr>
+                                                              </tbody>
+                                                          </table>
+                                                      </div>
+                                                      <p></p>
+                                                      </ng-template>
+                                      </ngb-tab>
+                                  </ngb-tabset>
+                                  <hr/>
+                              </div>
+                              <p></p>
+                            </ng-template>
+                          </ngb-tab>
+
+<!-- 4 to 8 months END -->
+
+
+
+
+<!-- 8 to 12 months START -->
+
+<ngb-tab title="8 to 12 months">
+        <ng-template ngbTabContent>
+          <div class="col-lg-12">
+              <p></p>
+              <ngb-tabset>
+                  <ngb-tab title="Physical">
+                      <ng-template ngbTabContent>
+                      <div class="col-lg-12">        
+                          <table class="card-body table table-hover milestone-detail">
+                              <thead>
+                                <tr>
+                                  <th>Observation</th>
+                                  <th>Achieved</th>
+                                  <th>Date Achieved</th>
+                                  <th>Outcome Link</th>
+                                  <th>Tracked By</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let milestone of milestones8To12mPhysical">
+                                  <td>
+                                      <div class="form-group">
+                                          {{ milestone.observation }}
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-check">
+                                          <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group">
+                                          <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group">
+                                          <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                              <option value="0" selected disabled>Select an EYLF outcome</option>
+                                              <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                  {{ outcome.description }}
+                                              </option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group" [hidden]="!milestone.selected">
+                                          {{ milestone.educator_name }}
+                                      </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <p></p>
+                      </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Social">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones8To12mSocial">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Emotional">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones8To12mEmotional">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Cognitive">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones8To12mCognitive">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Language">
+                      <<ng-template ngbTabContent>
+                              <div class="col-lg-12">        
+                                  <table class="card-body table table-hover milestone-detail">
+                                      <thead>
+                                        <tr>
+                                          <th>Observation</th>
+                                          <th>Achieved</th>
+                                          <th>Date Achieved</th>
+                                          <th>Outcome Link</th>
+                                          <th>Tracked By</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let milestone of milestones8To12mLanguage">
+                                          <td>
+                                              <div class="form-group">
+                                                  {{ milestone.observation }}
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-check">
+                                                  <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group">
+                                                  <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group">
+                                                  <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                      <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                      <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                          {{ outcome.description }}
+                                                      </option>
+                                                  </select>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group" [hidden]="!milestone.selected">
+                                                  {{ milestone.educator_name }}
+                                              </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                              <p></p>
+                              </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Seek advice">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones8To12mSeekAdvice">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+              </ngb-tabset>
+              <hr/>
+          </div>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+
+<!-- 8 to 12 months END -->
+
+
+
+
+<!-- 1 to 2 years START -->
+
+<ngb-tab title="1 to 2 years">
+        <ng-template ngbTabContent>
+          <div class="col-lg-12">
+              <p></p>
+              <ngb-tabset>
+                  <ngb-tab title="Physical">
+                      <ng-template ngbTabContent>
+                      <div class="col-lg-12">        
+                          <table class="card-body table table-hover milestone-detail">
+                              <thead>
+                                <tr>
+                                  <th>Observation</th>
+                                  <th>Achieved</th>
+                                  <th>Date Achieved</th>
+                                  <th>Outcome Link</th>
+                                  <th>Tracked By</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let milestone of milestones1to2yPhysical">
+                                  <td>
+                                      <div class="form-group">
+                                          {{ milestone.observation }}
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-check">
+                                          <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group">
+                                          <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group">
+                                          <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                              <option value="0" selected disabled>Select an EYLF outcome</option>
+                                              <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                  {{ outcome.description }}
+                                              </option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group" [hidden]="!milestone.selected">
+                                          {{ milestone.educator_name }}
+                                      </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <p></p>
+                      </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Social">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones1to2ySocial">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Emotional">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones1to2yEmotional">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Cognitive">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones1to2yCognitive">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Language">
+                      <<ng-template ngbTabContent>
+                              <div class="col-lg-12">        
+                                  <table class="card-body table table-hover milestone-detail">
+                                      <thead>
+                                        <tr>
+                                          <th>Observation</th>
+                                          <th>Achieved</th>
+                                          <th>Date Achieved</th>
+                                          <th>Outcome Link</th>
+                                          <th>Tracked By</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let milestone of milestones1to2yLanguage">
+                                          <td>
+                                              <div class="form-group">
+                                                  {{ milestone.observation }}
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-check">
+                                                  <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group">
+                                                  <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group">
+                                                  <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                      <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                      <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                          {{ outcome.description }}
+                                                      </option>
+                                                  </select>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group" [hidden]="!milestone.selected">
+                                                  {{ milestone.educator_name }}
+                                              </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                              <p></p>
+                              </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Seek advice">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones1to2ySeekAdvice">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+              </ngb-tabset>
+              <hr/>
+          </div>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+
+<!-- 1 to 2 years END -->
+
+
+
+
+
+<!-- 2 to 3 years START -->
+
+<ngb-tab title="2 to 3 years">
+        <ng-template ngbTabContent>
+          <div class="col-lg-12">
+              <p></p>
+              <ngb-tabset>
+                  <ngb-tab title="Physical">
+                      <ng-template ngbTabContent>
+                      <div class="col-lg-12">        
+                          <table class="card-body table table-hover milestone-detail">
+                              <thead>
+                                <tr>
+                                  <th>Observation</th>
+                                  <th>Achieved</th>
+                                  <th>Date Achieved</th>
+                                  <th>Outcome Link</th>
+                                  <th>Tracked By</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let milestone of milestones2to3yPhysical">
+                                  <td>
+                                      <div class="form-group">
+                                          {{ milestone.observation }}
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-check">
+                                          <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group">
+                                          <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group">
+                                          <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                              <option value="0" selected disabled>Select an EYLF outcome</option>
+                                              <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                  {{ outcome.description }}
+                                              </option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group" [hidden]="!milestone.selected">
+                                          {{ milestone.educator_name }}
+                                      </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <p></p>
+                      </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Social">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones2to3ySocial">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Emotional">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones2to3yEmotional">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Cognitive">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones2to3yCognitive">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Language">
+                      <<ng-template ngbTabContent>
+                              <div class="col-lg-12">        
+                                  <table class="card-body table table-hover milestone-detail">
+                                      <thead>
+                                        <tr>
+                                          <th>Observation</th>
+                                          <th>Achieved</th>
+                                          <th>Date Achieved</th>
+                                          <th>Outcome Link</th>
+                                          <th>Tracked By</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let milestone of milestones2to3yLanguage">
+                                          <td>
+                                              <div class="form-group">
+                                                  {{ milestone.observation }}
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-check">
+                                                  <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group">
+                                                  <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group">
+                                                  <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                      <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                      <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                          {{ outcome.description }}
+                                                      </option>
+                                                  </select>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group" [hidden]="!milestone.selected">
+                                                  {{ milestone.educator_name }}
+                                              </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                              <p></p>
+                              </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Seek advice">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones2to3ySeekAdvice">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+              </ngb-tabset>
+              <hr/>
+          </div>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+
+<!-- 2 to 3 years END -->
+
+
+
+
+<!-- 3 to 5 years START -->
+
+<ngb-tab title="3 to 5 years">
+        <ng-template ngbTabContent>
+          <div class="col-lg-12">
+              <p></p>
+              <ngb-tabset>
+                  <ngb-tab title="Physical">
+                      <ng-template ngbTabContent>
+                      <div class="col-lg-12">        
+                          <table class="card-body table table-hover milestone-detail">
+                              <thead>
+                                <tr>
+                                  <th>Observation</th>
+                                  <th>Achieved</th>
+                                  <th>Date Achieved</th>
+                                  <th>Outcome Link</th>
+                                  <th>Tracked By</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let milestone of milestones3to5yPhysical">
+                                  <td>
+                                      <div class="form-group">
+                                          {{ milestone.observation }}
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-check">
+                                          <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group">
+                                          <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group">
+                                          <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                              <option value="0" selected disabled>Select an EYLF outcome</option>
+                                              <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                  {{ outcome.description }}
+                                              </option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="form-group" [hidden]="!milestone.selected">
+                                          {{ milestone.educator_name }}
+                                      </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <p></p>
+                      </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Social">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones3to5ySocial">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Emotional">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones3to5yEmotional">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Cognitive">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones3to5yCognitive">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Language">
+                      <<ng-template ngbTabContent>
+                              <div class="col-lg-12">        
+                                  <table class="card-body table table-hover milestone-detail">
+                                      <thead>
+                                        <tr>
+                                          <th>Observation</th>
+                                          <th>Achieved</th>
+                                          <th>Date Achieved</th>
+                                          <th>Outcome Link</th>
+                                          <th>Tracked By</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let milestone of milestones3to5yLanguage">
+                                          <td>
+                                              <div class="form-group">
+                                                  {{ milestone.observation }}
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-check">
+                                                  <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group">
+                                                  <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group">
+                                                  <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                      <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                      <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                          {{ outcome.description }}
+                                                      </option>
+                                                  </select>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="form-group" [hidden]="!milestone.selected">
+                                                  {{ milestone.educator_name }}
+                                              </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                              <p></p>
+                              </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Seek advice">
+                          <ng-template ngbTabContent>
+                                  <div class="col-lg-12">        
+                                      <table class="card-body table table-hover milestone-detail">
+                                          <thead>
+                                            <tr>
+                                              <th>Observation</th>
+                                              <th>Achieved</th>
+                                              <th>Date Achieved</th>
+                                              <th>Outcome Link</th>
+                                              <th>Tracked By</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let milestone of milestones3to5ySeekAdvice">
+                                              <td>
+                                                  <div class="form-group">
+                                                      {{ milestone.observation }}
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" id="achievedInput" [(ngModel)]="milestone.selected">
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <input [(ngModel)]="milestone.date_tracked" type="date" class="form-control milestone-detail" id="dateTrackedInput" [disabled]="!milestone.selected" />
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group">
+                                                      <select [(ngModel)]="milestone.outcome_id" class="form-control milestone-detail" id="outcomeInput" [disabled]="!milestone.selected">
+                                                          <option value="0" selected disabled>Select an EYLF outcome</option>
+                                                          <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control milestone-detail">
+                                                              {{ outcome.description }}
+                                                          </option>
+                                                      </select>
+                                                  </div>
+                                              </td>
+                                              <td>
+                                                  <div class="form-group" [hidden]="!milestone.selected">
+                                                      {{ milestone.educator_name }}
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <p></p>
+                                  </ng-template>
+                  </ngb-tab>
+              </ngb-tabset>
+              <hr/>
+          </div>
+          <p></p>
+        </ng-template>
+      </ngb-tab>
+
+<!-- 3 to 5 years END -->
+
+
+                </ngb-tabset>
+                <hr/>
+
                 <p>&nbsp;</p>
 
                 <button class="btn btn-primary" (click)="save()">Save</button>
                 <span>&nbsp;</span>
                 <button class="btn btn-light" (click)="back()">Cancel</button>
-            </div>
-            <div *ngIf="milestone.id > 0" class="col-lg-4">
-                <div class="row">
-                    <span>&nbsp;</span>
-                    <div class="col-lg-11 admin-panel">
-                        <h5 class="detail-label">Actions</h5>
-                        <div class="row">
-                            <div class="col-lg-11">
-                                <button class="btn btn-{{ milestone.published === 1 ? 'secondary' : 'success' }}" (click)="publishUnpublish()">{{milestone.published === 1 ? 'Unpublish' : 'Publish' }}</button>                            
-                                <span>&nbsp;</span>
-                                <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
-                            </div>
-                        </div>
-                        <span><hr/></span>
-                        <h5 class="detail-label">More Details</h5>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Created on:</div>
-                                <div class="col-lg-6">{{ milestone.date_created | date }}</div>
-                        </div>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Last updated on:</div>
-                                <div class="col-lg-6">{{ milestone.date_modified | date }}</div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

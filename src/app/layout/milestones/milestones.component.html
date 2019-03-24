@@ -1,34 +1,23 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Milestones'" [icon]="'fa-table'"></app-page-header>
   <div class="row">
-    <div class="col-xl-12">
-      <button type="button" class="btn btn-primary" (click)="addNew()">Add new</button>
-    </div>
-  </div>
-  <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-12">
         <table class="card-body table table-hover">
-            <thead>
-              <tr>
-                <th>Date Tracked</th>
-                <th>By</th>
-                <th>For</th>
-                <th>Age Group</th>
-                <th>Developmental Area</th>
-                <th>Published</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let milestone of milestones" class="table-row" (click)="goToDetail(milestone)">
-                <td>{{ milestone.date_tracked }}</td>
-                <td>{{ milestone.educator_name }}</td>
-                <td>{{ milestone.child_name }}</td>
-                <td>{{ milestone.age_group }}</td>
-                <td>{{ milestone.developmental_area }}</td>
-                <td>{{ milestone.published | yesno }}</td>
-              </tr>
-            </tbody>
+          <thead>
+            <tr>
+              <th>For</th>
+              <th>Current Group</th>
+              <th>Latest Milestone Tracked</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let child of children" class="table-row" (click)="goToDetail(child)">
+              <td>{{ child.first_name + ' ' + child.last_name }}</td>
+              <td>{{ child.group }}</td>
+              <td>{{ child.last_milestone_activity | date }}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
