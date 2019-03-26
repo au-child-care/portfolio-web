@@ -58,6 +58,8 @@ export class ChildrenDetailComponent implements OnInit {
             this.child.active = 0;
             this.child.deleted = 0;
             this.child.last_observation_activity = null;
+            this.child.last_milestone_activity = null;
+            this.child.last_teachingplan_activity = null;
             this.childService.createChild(this.child)
                 .subscribe(
                     child => {
