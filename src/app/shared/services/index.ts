@@ -6,4 +6,5 @@ export * from './milestone.service';
 export * from './observation.service';
 export * from './parent-guardian-assignment.service';
 export * from './parent-guardian.service';
+export * from './statistics.service';
 export * from './teachingplan.service';

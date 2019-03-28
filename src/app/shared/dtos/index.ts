@@ -10,5 +10,8 @@ export * from './observation.dto';
 export * from './outcome-type.dto';
 export * from './parent-guardian-assignment.dto';
 export * from './parent-guardian.dto';
+export * from './statistics-all.dto';
+export * from './statistics-child.dto';
+export * from './statistics-educator.dto';
 export * from './teachingplan-view.dto';
 export * from './teachingplan.dto';
