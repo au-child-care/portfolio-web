@@ -30,4 +30,14 @@ export class MilestoneUtils {
     getObservationsByAgeAndArea(age_group: string, developmental_area: string): MilestoneObservation[] {
         return this.milestoneOnservations.filter(o => o.age_group === age_group && o.developmental_area === developmental_area);
     }
+
+    getDevelopmentalAreas(): string[] {
+        return [
+            'Physical',
+            'Social',
+            'Emotional',
+            'Cognitive',
+            'Language'
+        ];
+    }
 }
