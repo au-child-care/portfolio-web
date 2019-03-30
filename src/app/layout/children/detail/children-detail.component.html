@@ -19,18 +19,7 @@
                                         <div class="col-lg-5">{{ child.first_name + ' ' + child.last_name }}</div>
                                         <div class="col-lg-3">{{ child.group }}</div>
                                         <div class="col-lg-4">{{ child.birthday | date }}</div>
-                                    </div>         
-                                    <span>&nbsp;</span>                  
-                                    <div class="row">
-                                        <div class="col-lg-5 detail-label">Total Milestones</div>
-                                        <div class="col-lg-3 detail-label">Total Observations</div>
-                                        <div class="col-lg-4 detail-label">Total ITPs</div>
-                                    </div>                  
-                                    <div class="row">
-                                        <div class="col-lg-5">{{ statistics.total_milestones }} ({{ statistics.total_milestones_seek_advice }} seeking advice)</div>
-                                        <div class="col-lg-3">{{ statistics.total_observations }}</div>
-                                        <div class="col-lg-4">{{ statistics.total_itps }} ({{ statistics.total_itps_open }} open)</div>
-                                    </div>  
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -105,7 +94,7 @@
                 
                 </ngb-tabset>
             </div>
-            <div *ngIf="child.id > 0" class="col-lg-4">
+            <div *ngIf="child.id > 0 && statistics.child_id > 0" class="col-lg-4">
                 <div class="row">
                     <span>&nbsp;</span>
                     <div class="col-lg-11 admin-panel">
@@ -120,12 +109,28 @@
                         <span><hr/></span>                        
                         <h5 class="detail-label">Portfolio Tracking</h5>
                         <div class="row">
+                                <div class="col-lg-5 detail-label">Total Observations:</div>
+                                <div class="col-lg-6">{{ statistics.total_observations }}</div>
+                        </div>
+                        <div class="row">
                                 <div class="col-lg-5 detail-label">Latest Observation:</div>
                                 <div class="col-lg-6">{{ child.last_observation_activity | date }}</div>
                         </div>
                         <div class="row">
+                                <div class="col-lg-5 detail-label">Total Milestones:</div>
+                                <div class="col-lg-6">{{ statistics.total_milestones }}</div>
+                        </div>
+                        <div class="row">
                                 <div class="col-lg-5 detail-label">Latest Milestone:</div>
                                 <div class="col-lg-6">{{ child.last_milestone_activity | date }}</div>
+                        </div>
+                        <div class="row">
+                                <div class="col-lg-5 detail-label">Total ITPs:</div>
+                                <div class="col-lg-6">{{ statistics.total_itps }}</div>
+                        </div>
+                        <div class="row">
+                                <div class="col-lg-5 detail-label">Total Open ITPs:</div>
+                                <div class="col-lg-6">{{ statistics.total_itps_open }}</div>
                         </div>
                         <div class="row">
                                 <div class="col-lg-5 detail-label">Furthest ITP:</div>
@@ -142,7 +147,7 @@
                             <div class="col-lg-11">{{ educator.first_name + ' ' + educator.last_name }}</div>
                         </div>
                         <span><hr/></span>
-                        <h5 class="detail-label">More Details</h5>
+                        <h5 class="detail-label">Record Details</h5>
                         <div class="row">
                                 <div class="col-lg-5 detail-label">Created on:</div>
                                 <div class="col-lg-6">{{ child.date_created | date }}</div>
