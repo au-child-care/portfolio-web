@@ -2,38 +2,108 @@
     <app-page-header [heading]="'Child Details'"></app-page-header>
     <div *ngIf="child">
         <div class="row">
-            <div class="col-lg-8">
-                <div class="form-group">
-                    <label for="firstNameInput" class="detail-label">First name</label>
-                    <input [(ngModel)]="child.first_name" type="text" class="form-control" id="firstNameInput" placeholder="First name" />
-                </div>
-                <div class="form-group">
-                    <label for="lastNameInput" class="detail-label">Last name</label>
-                    <input [(ngModel)]="child.last_name" type="text" class="form-control" id="lastNameInput" placeholder="Last name" />
-                </div>
-                <div class="form-group">
-                    <label for="nicknameInput" class="detail-label">Nickname</label>
-                    <input [(ngModel)]="child.nickname" type="text" class="form-control" id="nicknameInput" placeholder="e.g. Joie" />
-                </div>
-                <div class="form-group">
-                    <label for="birthdayInput" class="detail-label">Birthday</label>
-                    <input [(ngModel)]="child.birthday" type="date" class="form-control" id="birthdayInput" placeholder="name@domain.com" />
-                </div>
-                <div class="form-group">
-                    <label for="groupInput" class="detail-label">Group:</label>
-                    <select [(ngModel)]="child.group" class="form-control" id="groupInput">
-                      <option value="" selected disabled>Select a group</option>
-                      <option>Babies</option>
-                      <option>Senior Babies</option>
-                      <option>Toddlers</option>
-                      <option>Juniors</option>
-                      <option>Kinders</option>
-                    </select>
-                </div>
+            <div class="col-lg-8">                
+                <ngb-tabset>
+                    
+                    <ngb-tab *ngIf="child.id > 0 && statistics.child_id > 0" title="Overview">
+                        <ng-template ngbTabContent>
+                            <div>
+                                <span>&nbsp;</span> 
+                                <div class="col-lg-12">                               
+                                    <div class="row">
+                                        <div class="col-lg-5 detail-label">Name</div>
+                                        <div class="col-lg-3 detail-label">Group</div>
+                                        <div class="col-lg-4 detail-label">Birthday</div>
+                                    </div>                             
+                                    <div class="row">
+                                        <div class="col-lg-5">{{ child.first_name + ' ' + child.last_name }}</div>
+                                        <div class="col-lg-3">{{ child.group }}</div>
+                                        <div class="col-lg-4">{{ child.birthday | date }}</div>
+                                    </div>         
+                                    <span>&nbsp;</span>                  
+                                    <div class="row">
+                                        <div class="col-lg-5 detail-label">Total Milestones</div>
+                                        <div class="col-lg-3 detail-label">Total Observations</div>
+                                        <div class="col-lg-4 detail-label">Total ITPs</div>
+                                    </div>                  
+                                    <div class="row">
+                                        <div class="col-lg-5">{{ statistics.total_milestones }} ({{ statistics.total_milestones_seek_advice }} seeking advice)</div>
+                                        <div class="col-lg-3">{{ statistics.total_observations }}</div>
+                                        <div class="col-lg-4">{{ statistics.total_itps }} ({{ statistics.total_itps_open }} open)</div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div>
+                                    <span>&nbsp;</span>
+                                    <div style="display: block;">
+                                        <label class="detail-label">Milestones Reached</label>
+                                        <canvas baseChart 
+                                            [datasets]="barChartData"
+                                            [labels]="barChartLabels"
+                                            [options]="barChartOptions"
+                                            [plugins]="barChartPlugins"
+                                            [legend]="barChartLegend"
+                                            [chartType]="barChartType"
+                                            [colors]="chartColors">
+                                        </canvas>
+                                    </div>
+                                    <span>&nbsp;</span>
+                                    <div style="display: block">
+                                        <label class="detail-label">Strengths Based on Observations</label>
+                                        <canvas baseChart
+                                            [datasets]="radarChartData"
+                                            [options]="radarChartOptions"
+                                            [labels]="radarChartLabels"
+                                            [chartType]="radarChartType"
+                                            [colors]="chartColors">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                
+                    <ngb-tab title="Details">
+                        <ng-template ngbTabContent>                            
+                            <div class="col-lg-12">
+                                <span>&nbsp;</span>
+                                <div class="form-group">
+                                    <label for="firstNameInput" class="detail-label">First name</label>
+                                    <input [(ngModel)]="child.first_name" type="text" class="form-control" id="firstNameInput" placeholder="First name" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastNameInput" class="detail-label">Last name</label>
+                                    <input [(ngModel)]="child.last_name" type="text" class="form-control" id="lastNameInput" placeholder="Last name" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="nicknameInput" class="detail-label">Nickname</label>
+                                    <input [(ngModel)]="child.nickname" type="text" class="form-control" id="nicknameInput" placeholder="e.g. Joie" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="birthdayInput" class="detail-label">Birthday</label>
+                                    <input [(ngModel)]="child.birthday" type="date" class="form-control" id="birthdayInput" placeholder="name@domain.com" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="groupInput" class="detail-label">Group:</label>
+                                    <select [(ngModel)]="child.group" class="form-control" id="groupInput">
+                                    <option value="" selected disabled>Select a group</option>
+                                    <option>Babies</option>
+                                    <option>Senior Babies</option>
+                                    <option>Toddlers</option>
+                                    <option>Juniors</option>
+                                    <option>Kinders</option>
+                                    </select>
+                                </div>
 
-                <button class="btn btn-primary" (click)="save()">Save</button>
-                <span>&nbsp;</span>
-                <button class="btn btn-light" (click)="back()">Cancel</button>
+                                <button class="btn btn-primary" (click)="save()">Save</button>
+                                <span>&nbsp;</span>
+                                <button class="btn btn-light" (click)="back()">Cancel</button>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                
+                </ngb-tabset>
             </div>
             <div *ngIf="child.id > 0" class="col-lg-4">
                 <div class="row">

@@ -5,6 +5,8 @@ import { ChildrenDetailRoutingModule } from './children-detail-routing.module';
 import { ChildrenDetailComponent } from './children-detail.component';
 import { PageHeaderModule } from '../../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
@@ -12,7 +14,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         FormsModule,
         ReactiveFormsModule,
         ChildrenDetailRoutingModule,
-        PageHeaderModule],
+        PageHeaderModule,
+        ChartsModule,
+        NgbModule],
     declarations: [ChildrenDetailComponent]
 })
 export class ChildrenDetailModule {}
