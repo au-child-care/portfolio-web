@@ -26,6 +26,6 @@ export class StatisticsService {
   }
 
   getForEducator(educator_id: number): Observable<StatisticsEducator> {
-    return this.http.get<StatisticsEducator>(`${this.statisticsUrl}/edducator/${educator_id}`);
+    return this.http.get<StatisticsEducator>(`${this.statisticsUrl}/educator/${educator_id}`);
   }
 }

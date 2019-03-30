@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Educator, EducatorService, DateUtils, EducatorAssignment, EducatorAssignmentService, ChildSelection } from 'src/app/shared';
+import { Educator, EducatorService, DateUtils, EducatorAssignment, EducatorAssignmentService, ChildSelection, StatisticsService, StatisticsEducator } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -17,6 +17,7 @@ export class EducatorsDetailComponent implements OnInit {
     @ViewChild(ChildSelectorComponent) childSelectorComponent;
     @Input() educator: Educator;
     assignedChildIds: number[];
+    statistics: StatisticsEducator;
 
     constructor(
         private router: Router,
@@ -25,6 +26,7 @@ export class EducatorsDetailComponent implements OnInit {
         private dialogService: DialogService,
         private educatorService: EducatorService,
         private educatorAssignmentService: EducatorAssignmentService,
+        private statisticsService: StatisticsService,
         private dateUtils: DateUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
@@ -37,6 +39,8 @@ export class EducatorsDetailComponent implements OnInit {
                         .subscribe(assignment => {
                             this.assignedChildIds = assignment.map(a => a.child_id);
                         });
+                    this.statisticsService.getForEducator(educator.id)
+                        .subscribe(stats => this.statistics = stats);
                 });
         } else {
             this.educator = new Educator();
