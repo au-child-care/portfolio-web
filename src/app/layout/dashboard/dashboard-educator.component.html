@@ -1,0 +1,63 @@
+<div [@routerTransition]>
+    <h2>My Dashboard</h2>
+    <div *ngIf="statistics && children">
+        <div class="row">
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'secondary'" [icon]="'fas fa-fw fa-clipboard-check'" count="{{ statistics.total_observations }}" [label]="'Observations Logged'" [detailsUrl]="'observations'"></app-stat>
+                <span>&nbsp;</span>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'secondary'" [icon]="'fas fa-fw fa-award'" count="{{ statistics.total_milestones }}" [label]="'Milestones Tracked'" [detailsUrl]="'milestones'"></app-stat>
+                <span>&nbsp;</span>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'secondary'" [icon]="'fas fa-fw fa-edit'" count="{{ statistics.total_itps }}" [label]="'Teaching Plans'" [detailsUrl]="'teachingplans'"></app-stat>
+                <span>&nbsp;</span>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+                <app-stat bgClass="{{ statistics.total_itps_open > 0 ? 'warning' : 'secondary'}}" [icon]="'fas fa-fw fa-edit'" count="{{ statistics.total_itps_open }}" [label]="'Open ITPs'" [detailsUrl]="'teachingplans'"></app-stat>
+                <span>&nbsp;</span>
+            </div>
+        </div>
+        
+        <div class="row">        
+            <div class="col-xl-6 col-lg-6">
+                <div class="card card-default" style="display: block;">
+                    <div class="card-header">
+                        Children under my care ({{ children.length }})
+                    </div>
+                    <div>
+                        <canvas baseChart 
+                            [data]="childrenChartData"
+                            [labels]="childrenChartLabels"
+                            [chartType]="childrenChartType">
+                        </canvas>
+                    </div>
+                    <div class="card-footer table-row" style="text-align: center;" (click)="onClickViewDetails('children')">
+                        View Details
+                    </div>
+                </div>
+                <span>&nbsp;</span>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+                <div class="card card-default" style="display: block;">
+                    <div class="card-header">
+                        My observation logging tally ({{ statistics.total_observations }})
+                    </div>
+                    <div>
+                        <canvas baseChart
+                            [datasets]="observationsChartData"
+                            [options]="observationsChartOptions"
+                            [labels]="observationsChartLabels"
+                            [chartType]="observationsChartType">
+                        </canvas>
+                    </div>
+                    <div class="card-footer table-row" style="text-align: center;" (click)="onClickViewDetails('observations')">
+                        View Details
+                    </div>
+                </div>
+                <span>&nbsp;</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 
 import { EducatorAssignment } from '../dtos/educator-assignment.dto';
 import { Educator } from '../dtos/educator.dto';
+import { Child } from '../dtos';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -28,6 +29,10 @@ export class EducatorAssignmentService {
 
   getByEducator(educator_id: number): Observable<EducatorAssignment[]> {
     return this.http.get<EducatorAssignment[]>(`${this.educatorAssignmentsUrl}/byEducator/${educator_id}`);
+  }
+
+  getChildrenByEducator(educator_id: number): Observable<Child[]> {
+    return this.http.get<Child[]>(`${this.educatorAssignmentsUrl}/byEducator/${educator_id}/children`);
   }
 
   setByEducator(educator_id: number, educatorassignments: EducatorAssignment[]): Observable<string> {
