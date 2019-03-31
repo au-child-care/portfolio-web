@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { Label, MultiDataSet } from 'ng2-charts';
+import { ChartType } from 'chart.js';
+import { StatisticsService, StatisticsAll } from 'src/app/shared';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',
@@ -8,54 +12,40 @@ import { routerTransition } from '../../router.animations';
     animations: [routerTransition()]
 })
 export class DashboardComponent implements OnInit {
-    public alerts: Array<any> = [];
-    public sliders: Array<any> = [];
+    childrenChartLabels: Label[] = ['Babies', 'Senior Babies', 'Toddlers', 'Juniors', 'Kinders'];
+    childrenChartData: MultiDataSet;
+    childrenChartType: ChartType = 'doughnut';
 
-    constructor() {
-        this.sliders.push(
-            {
-                imagePath: 'assets/images/slider1.jpg',
-                label: 'First slide label',
-                text:
-                    'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-            },
-            {
-                imagePath: 'assets/images/slider2.jpg',
-                label: 'Second slide label',
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-            },
-            {
-                imagePath: 'assets/images/slider3.jpg',
-                label: 'Third slide label',
-                text:
-                    'Praesent commodo cursus magna, vel scelerisque nisl consectetur.'
-            }
-        );
+    parentGuardianChartLabels: Label[] = ['Parents', 'Guardians'];
+    parentGuardianChartData: MultiDataSet;
+    parentGuardianChartType: ChartType = 'doughnut';
 
-        this.alerts.push(
-            {
-                id: 1,
-                type: 'success',
-                message: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptates est animi quibusdam praesentium quam, et perspiciatis,
-                consectetur velit culpa molestias dignissimos
-                voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
-            },
-            {
-                id: 2,
-                type: 'warning',
-                message: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptates est animi quibusdam praesentium quam, et perspiciatis,
-                consectetur velit culpa molestias dignissimos
-                voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
-            }
-        );
+    statistics: StatisticsAll;
+
+    constructor(
+        private router: Router,
+        private statisticsService: StatisticsService) {
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.statisticsService.getAll()
+            .subscribe(stats => {
+                this.statistics = stats;
+                this.childrenChartData = [[
+                    this.statistics.total_babies,
+                    this.statistics.total_senior_babies,
+                    this.statistics.total_toddlers,
+                    this.statistics.total_juniors,
+                    this.statistics.total_kinders]
+                ];
+                this.parentGuardianChartData = [[
+                    this.statistics.total_parents,
+                    this.statistics.total_guardians]
+                ];
+            });
+    }
 
-    public closeAlert(alert: any) {
-        const index: number = this.alerts.indexOf(alert);
-        this.alerts.splice(index, 1);
+    onClickViewDetails(detailsUrl: string): void {
+        this.router.navigateByUrl(detailsUrl);
     }
 }
