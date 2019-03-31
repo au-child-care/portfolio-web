@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss'],
+    templateUrl: './dashboard-admin.component.html',
+    styleUrls: ['./dashboard-admin.component.scss'],
     animations: [routerTransition()]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardAdminComponent implements OnInit {
     childrenChartLabels: Label[] = ['Babies', 'Senior Babies', 'Toddlers', 'Juniors', 'Kinders'];
     childrenChartData: MultiDataSet;
     childrenChartType: ChartType = 'doughnut';
