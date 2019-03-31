@@ -25,28 +25,38 @@
                             <div class="col-lg-12">
                                 <div>
                                     <span>&nbsp;</span>
-                                    <div style="display: block;">
-                                        <label class="detail-label">Milestones Reached</label>
-                                        <canvas baseChart 
-                                            [datasets]="barChartData"
-                                            [labels]="barChartLabels"
-                                            [options]="barChartOptions"
-                                            [plugins]="barChartPlugins"
-                                            [legend]="barChartLegend"
-                                            [chartType]="barChartType"
-                                            [colors]="chartColors">
-                                        </canvas>
+                                    <div class="card card-default" style="display: block;">
+                                        <div class="card-header">
+                                            Milestones Reached
+                                        </div>
+                                        <div>
+                                            <span>&nbsp;</span>
+                                            <canvas baseChart 
+                                                [datasets]="barChartData"
+                                                [labels]="barChartLabels"
+                                                [options]="barChartOptions"
+                                                [plugins]="barChartPlugins"
+                                                [legend]="barChartLegend"
+                                                [chartType]="barChartType"
+                                                [colors]="chartColors">
+                                            </canvas>
+                                        </div>
                                     </div>
                                     <span>&nbsp;</span>
-                                    <div style="display: block">
-                                        <label class="detail-label">Strengths Based on Observations</label>
-                                        <canvas baseChart
-                                            [datasets]="radarChartData"
-                                            [options]="radarChartOptions"
-                                            [labels]="radarChartLabels"
-                                            [chartType]="radarChartType"
-                                            [colors]="chartColors">
-                                        </canvas>
+                                    <div class="card card-default" style="display: block;">
+                                        <div class="card-header">
+                                            Strengths Based on Observations
+                                        </div>
+                                        <div>
+                                            <span>&nbsp;</span>
+                                            <canvas baseChart
+                                                [datasets]="radarChartData"
+                                                [options]="radarChartOptions"
+                                                [labels]="radarChartLabels"
+                                                [chartType]="radarChartType"
+                                                [colors]="chartColors">
+                                            </canvas>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
