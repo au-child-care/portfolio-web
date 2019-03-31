@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 
 import { ParentGuardianAssignment } from '../dtos/parent-guardian-assignment.dto';
 import { ParentGuardian } from '../dtos/parent-guardian.dto';
+import { Child } from '../dtos';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -28,6 +29,10 @@ export class ParentGuardianAssignmentService {
 
   getByParentGuardian(parentGuardian_id: number): Observable<ParentGuardianAssignment[]> {
     return this.http.get<ParentGuardianAssignment[]>(`${this.parentGuardianAssignmentsUrl}/byParentGuardian/${parentGuardian_id}`);
+  }
+
+  getChildrenByParentGuardian(parentGuardian_id: number): Observable<Child[]> {
+    return this.http.get<Child[]>(`${this.parentGuardianAssignmentsUrl}/byParentGuardian/${parentGuardian_id}/children`);
   }
 
   setByParentGuardian(parentGuardian_id: number, parentGuardianAssignments: ParentGuardianAssignment[]): Observable<string> {
