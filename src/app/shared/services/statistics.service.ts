@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 
-import { StatisticsAll, StatisticsChild, StatisticsEducator } from '../dtos';
+import { StatisticsAll, StatisticsChild, StatisticsEducator, StatisticsChildConsolidated, StatisticsEducatorTracking } from '../dtos';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,5 +27,13 @@ export class StatisticsService {
 
   getForEducator(educator_id: number): Observable<StatisticsEducator> {
     return this.http.get<StatisticsEducator>(`${this.statisticsUrl}/educator/${educator_id}`);
+  }
+
+  getAllEducatorTracking(): Observable<StatisticsEducatorTracking[]> {
+    return this.http.get<StatisticsEducatorTracking[]>(`${this.statisticsUrl}/educator/tracking/all`);
+  }
+
+  getChildrenByEducator(educator_id: number): Observable<StatisticsChildConsolidated> {
+    return this.http.get<StatisticsChildConsolidated>(`${this.statisticsUrl}/educator/${educator_id}/children`);
   }
 }
