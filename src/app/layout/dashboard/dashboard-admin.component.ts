@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Label, MultiDataSet } from 'ng2-charts';
 import { ChartType } from 'chart.js';
-import { StatisticsService, StatisticsAll } from 'src/app/shared';
+import { StatisticsService, StatisticsAll, StatisticsEducatorTracking } from 'src/app/shared';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,6 +21,7 @@ export class DashboardAdminComponent implements OnInit {
     parentGuardianChartType: ChartType = 'doughnut';
 
     statistics: StatisticsAll;
+    statisticsEducatorTracking: StatisticsEducatorTracking[];
 
     constructor(
         private router: Router,
@@ -42,6 +43,10 @@ export class DashboardAdminComponent implements OnInit {
                     this.statistics.total_parents,
                     this.statistics.total_guardians]
                 ];
+            });
+        this.statisticsService.getAllEducatorTracking()
+            .subscribe(stats => {
+                this.statisticsEducatorTracking = stats;
             });
     }
 

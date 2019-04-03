@@ -1,6 +1,6 @@
 <div [@routerTransition]>
     <h2>My Dashboard</h2>
-    <div *ngIf="statistics">
+    <div *ngIf="statistics && statisticsEducatorTracking">
         <div class="row">
             <div class="col-xl-3 col-lg-6">
                 <app-stat [bgClass]="'secondary'" [icon]="'fas fa-fw fa-chalkboard-teacher'" count="{{ statistics.total_educators }}" [label]="'Educators'" [detailsUrl]="'educators'"></app-stat>
@@ -54,6 +54,45 @@
                             View Details
                         </div>
                     </div>
+            </div>
+
+        </div>
+
+        <div class="row">        
+            <div class="col-xl-12 col-lg-12">
+                <div class="card card-default" style="display: block;">
+                    <div class="card-header">
+                        Educators
+                    </div>
+                    <div>
+                        <table class="card-body table table-hover">
+                            <thead>
+                                <tr>
+                                <th>Name</th>
+                                <th>Groups Handled</th>
+                                <th>Children Handled</th>
+                                <th>Milestones Tracked</th>         
+                                <th>Observations</th>
+                                <th>Teaching Plans</th>  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let stat of statisticsEducatorTracking" class="table-row" (click)="onClickViewDetails('educators/detail/' + stat.educator_id)">
+                                <td>{{ stat.name }}</td>
+                                <td>{{ stat.groups_handled }}</td>
+                                <td>{{ stat.total_children }}</td>
+                                <td>{{ stat.total_milestones }}</td>
+                                <td>{{ stat.total_observations }}</td>
+                                <td>{{ stat.total_itps }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer table-row" style="text-align: center;" (click)="onClickViewDetails('educators')">
+                        View Details
+                    </div>
+                </div>
+                <span>&nbsp;</span>
             </div>
         </div>
     </div>
