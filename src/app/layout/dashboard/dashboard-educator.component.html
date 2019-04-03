@@ -1,6 +1,6 @@
 <div [@routerTransition]>
     <h2>My Dashboard</h2>
-    <div *ngIf="statistics && children">
+    <div *ngIf="statistics && children && consolidatedStatistics">
         <div class="row">
             <div class="col-xl-3 col-lg-6">
                 <app-stat [bgClass]="'secondary'" [icon]="'fas fa-fw fa-clipboard-check'" count="{{ statistics.total_observations }}" [label]="'Observations Logged'" [detailsUrl]="'observations'"></app-stat>
@@ -59,5 +59,109 @@
                 <span>&nbsp;</span>
             </div>
         </div>
+
+        <div class="row">        
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card card-default {{ consolidatedStatistics.observations_due.length > 0 ? 'highlighted-panel' : ''}}" style="display: block;">
+                        <div class="card-header">
+                            Due Observations ({{ consolidatedStatistics.observations_due.length }})
+                        </div>
+                        <div>
+                            <table class="card-body table table-hover">
+                                <thead>
+                                    <tr>
+                                    <th>Name</th>
+                                    <th>Group</th>
+                                    <th>Last Observation Made</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let stat of consolidatedStatistics.observations_due" class="table-row" (click)="onClickViewDetails('observations')">
+                                    <td>{{ stat.name }}</td>
+                                    <td>{{ stat.group }}</td>
+                                    <td>{{ stat.last_observation | date }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer table-row" style="text-align: center;" (click)="onClickViewDetails('observations')">
+                            View Details
+                        </div>
+                    </div>
+                    <span>&nbsp;</span>
+                </div>
+            </div>
+
+
+        <div class="row">        
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card card-default {{ consolidatedStatistics.seeking_advice.length > 0 ? 'highlighted-panel' : ''}}" style="display: block;">
+                        <div class="card-header">
+                            Seek For Advice ({{ consolidatedStatistics.seeking_advice.length }})
+                        </div>
+                        <div>
+                            <table class="card-body table table-hover">
+                                <thead>
+                                    <tr>
+                                    <th>Name</th>
+                                    <th>Group</th>
+                                    <th>Milestones Age Group</th>
+                                    <th>No. of issues</th>  
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let stat of consolidatedStatistics.seeking_advice" class="table-row" (click)="onClickViewDetails('milestones/detail/' + stat.child_id)">
+                                    <td>{{ stat.name }}</td>
+                                    <td>{{ stat.current_group }}</td>
+                                    <td>{{ stat.milestone_age_group }}</td>
+                                    <td>{{ stat.count }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer table-row" style="text-align: center;" (click)="onClickViewDetails('milestones')">
+                            View Details
+                        </div>
+                    </div>
+                    <span>&nbsp;</span>
+                </div>
+            </div>
+
+            <div class="row">        
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card card-default {{ consolidatedStatistics.milestones_pending.length > 0 ? 'highlighted-panel' : ''}}" style="display: block;">
+                            <div class="card-header">
+                                Pending Milestones Tracking ({{ consolidatedStatistics.milestones_pending.length }})
+                            </div>
+                            <div>
+                                <table class="card-body table table-hover">
+                                    <thead>
+                                        <tr>
+                                        <th>Name</th>
+                                        <th>Group</th>
+                                        <th>Milestones Age Group</th>
+                                        <th>Pending Milestones</th>  
+                                        <th>Total</th>  
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let stat of consolidatedStatistics.milestones_pending" class="table-row" (click)="onClickViewDetails('milestones/detail/' + stat.child_id)">
+                                        <td>{{ stat.name }}</td>
+                                        <td>{{ stat.current_group }}</td>
+                                        <td>{{ stat.current_age_group }}</td>
+                                        <td>{{ stat.pending_milestones }}</td>
+                                        <td>{{ stat.total }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer table-row" style="text-align: center;" (click)="onClickViewDetails('milestones')">
+                                View Details
+                            </div>
+                        </div>
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+
     </div>
 </div>

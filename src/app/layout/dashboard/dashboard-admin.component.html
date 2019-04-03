@@ -62,7 +62,7 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="card card-default" style="display: block;">
                     <div class="card-header">
-                        Educators
+                        Educators ({{ statisticsEducatorTracking.length }})
                     </div>
                     <div>
                         <table class="card-body table table-hover">
@@ -70,10 +70,13 @@
                                 <tr>
                                 <th>Name</th>
                                 <th>Groups Handled</th>
-                                <th>Children Handled</th>
-                                <th>Milestones Tracked</th>         
-                                <th>Observations</th>
-                                <th>Teaching Plans</th>  
+                                <th>Total Children</th>
+                                <th>Observations Due</th>
+                                <th>Children To Seek Advice For</th>
+                                <th>Children Milestones Pending</th>        
+                                <th>Total Observations</th>
+                                <th>Total Milestones Tracked</th> 
+                                <th>Total ITPs</th>  
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,8 +84,11 @@
                                 <td>{{ stat.name }}</td>
                                 <td>{{ stat.groups_handled }}</td>
                                 <td>{{ stat.total_children }}</td>
-                                <td>{{ stat.total_milestones }}</td>
+                                <td class="{{ stat.total_children_observations_due > 0 ? 'text-warning font-weight-bold' : '' }}">{{ stat.total_children_observations_due }}</td>
+                                <td class="{{ stat.total_children_seeking_advice > 0 ? 'text-danger font-weight-bold' : '' }}">{{ stat.total_children_seeking_advice }}</td>
+                                <td class="{{ stat.total_children_milestones_pending > 0 ? 'text-warning font-weight-bold' : '' }}">{{ stat.total_children_milestones_pending }}</td>
                                 <td>{{ stat.total_observations }}</td>
+                                <td>{{ stat.total_milestones }}</td>
                                 <td>{{ stat.total_itps }}</td>
                                 </tr>
                             </tbody>

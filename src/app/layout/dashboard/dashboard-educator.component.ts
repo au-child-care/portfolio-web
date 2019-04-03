@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Label, MultiDataSet } from 'ng2-charts';
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
-import { StatisticsService, EducatorAssignmentService, StatisticsEducator, Child, OutcomeUtils } from 'src/app/shared';
+import { StatisticsService, EducatorAssignmentService, StatisticsEducator, Child, OutcomeUtils, StatisticsChildConsolidated } from 'src/app/shared';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,6 +23,7 @@ export class DashboardEducatorComponent implements OnInit {
 
     statistics: StatisticsEducator;
     children: Child[];
+    consolidatedStatistics: StatisticsChildConsolidated;
 
     constructor(
         private router: Router,
@@ -33,15 +34,19 @@ export class DashboardEducatorComponent implements OnInit {
 
     ngOnInit() {
         // TO DO: Get educator id from session
-        this.statisticsService.getForEducator(1)
+        const id = 1;
+
+        this.statisticsService.getForEducator(id)
             .subscribe(stats => {
                 this.statistics = stats;
-                this.educatorAssignmentService.getChildrenByEducator(1)
+                this.educatorAssignmentService.getChildrenByEducator(id)
                     .subscribe(children => {
                         this.children = children;
                         this.initializeStatistics();
                 });
             });
+        this.statisticsService.getChildrenByEducator(id)
+            .subscribe(stats => this.consolidatedStatistics = stats);
     }
 
     initializeStatistics() {
