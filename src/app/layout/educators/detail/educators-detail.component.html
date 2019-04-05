@@ -1,98 +1,176 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Educator Details'"></app-page-header>
     <div *ngIf="educator">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="form-group">
-                    <label for="firstNameInput" class="detail-label">First name</label>
-                    <input [(ngModel)]="educator.first_name" type="text" class="form-control" id="firstNameInput" placeholder="First name" />
-                </div>
-                <div class="form-group">
-                    <label for="lastNameInput" class="detail-label">Last name</label>
-                    <input [(ngModel)]="educator.last_name" type="text" class="form-control" id="lastNameInput" placeholder="Last name" />
-                </div>
-                <div class="form-group">
-                    <label for="nicknameInput" class="detail-label">Nickname</label>
-                    <input [(ngModel)]="educator.nickname" type="text" class="form-control" id="nicknameInput" placeholder="e.g. Joie" />
-                </div>
-                <div class="form-group">
-                    <label for="emailInput" class="detail-label">Email</label>
-                    <input [(ngModel)]="educator.email" type="email" class="form-control" id="emailInput" placeholder="name@domain.com" />
-                </div>
-                <div class="form-group">
-                    <label for="passwordInput" class="detail-label">Password</label>
-                    <input [(ngModel)]="educator.password" type="password" class="form-control" id="passwordInput" placeholder="" />
-                </div>
-                <div class="form-group">
-                    <label for="contactNumberInput" class="detail-label">Contact number</label>
-                    <input [(ngModel)]="educator.contact_number" type="text" class="form-control" id="contactNumberInput" placeholder="0#########" />
-                </div>
 
-                <div class="form-group">
-                    <app-child-selector [label]="'Assigned Children'" [selectedIdsInput]="assignedChildIds"></app-child-selector>
-                </div>
-                <p>&nbsp;</p>
+            <form name="form" #f="ngForm" novalidate>
 
-                <button class="btn btn-primary" (click)="save()">Save</button>
-                <span>&nbsp;</span>
-                <button class="btn btn-light" (click)="back()">Cancel</button>
-                <p>&nbsp;</p>
-            </div>
-            <div *ngIf="educator.id > 0 && statistics.educator_id > 0" class="col-lg-4">
                 <div class="row">
-                    <span>&nbsp;</span>
-                    <div class="col-lg-11 admin-panel">
-                        <h5 class="detail-label">Actions</h5>
-                        <div class="row">
-                            <div class="col-lg-11">
-                                <button class="btn btn-{{ educator.active === 1 ? 'secondary' : 'success' }}" (click)="activateDeactivate()">{{ educator.active === 1 ? 'Deactivate' : 'Activate' }}</button>                            
-                                <span>&nbsp;</span>
-                                <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <label for="firstNameInput" class="detail-label">First name</label>
+                            <input [(ngModel)]="educator.first_name" type="text" class="form-control" id="firstNameInput" name="firstNameInput" placeholder="First name"
+                            required maxlength="50" pattern="^[a-zA-Z\s]*$" #first_name="ngModel" [ngClass]="{ 'is-invalid': first_name.invalid && (first_name.dirty || first_name.touched) }" />
+                            <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)" class="text-danger">
+                                <div *ngIf="first_name.errors.required">
+                                    <small>* First name is required</small>
+                                </div>
+                                <div *ngIf="first_name.errors.maxlength">
+                                    <small>* First name must not exceed 50 characters</small>
+                                </div>
+                                <div *ngIf="first_name.errors.pattern">
+                                    <small>* First name should only consist of letters</small>
+                                </div>
                             </div>
                         </div>
-                        <span><hr/></span>
-                        <h5 class="detail-label">Portfolio Tracking</h5>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Total Observations:</div>
-                                <div class="col-lg-6">{{ statistics.total_observations }}</div>
+                        <div class="form-group">
+                            <label for="lastNameInput" class="detail-label">Last name</label>
+                            <input [(ngModel)]="educator.last_name" type="text" class="form-control" id="lastNameInput" name="lastNameInput" placeholder="Last name"
+                            required maxlength="50" pattern="^[a-zA-Z\s]*$" #last_name="ngModel" [ngClass]="{ 'is-invalid': last_name.invalid && (last_name.dirty || last_name.touched) }" />
+                            <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)" class="text-danger">
+                                <div *ngIf="last_name.errors.required">
+                                    <small>* Last name is required</small>
+                                </div>
+                                <div *ngIf="last_name.errors.maxlength">
+                                    <small>* Last name must not exceed 50 characters</small>
+                                </div>
+                                <div *ngIf="last_name.errors.pattern">
+                                    <small>* Last name should only consist of letters</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Latest Observation:</div>
-                                <div class="col-lg-6">{{ educator.last_observation_activity | date }}</div>
+                        <div class="form-group">
+                            <label for="nicknameInput" class="detail-label">Nickname</label>
+                            <input [(ngModel)]="educator.nickname" type="text" class="form-control" id="nicknameInput" name="nicknameInput" placeholder="e.g. Joie"
+                            maxlength="20" pattern="^[a-zA-Z\s]*$" #nickname="ngModel" [ngClass]="{ 'is-invalid': nickname.invalid && (nickname.dirty || nickname.touched) }" />
+                            <div *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)" class="text-danger">
+                                <div *ngIf="nickname.errors.maxlength">
+                                    <small>* Nickname must not exceed 20 characters</small>
+                                </div>
+                                <div *ngIf="nickname.errors.pattern">
+                                    <small>* Nickname should only consist of letters</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Total Milestones:</div>
-                                <div class="col-lg-6">{{ statistics.total_milestones }}</div>
+                        <div class="form-group">
+                            <label for="emailInput" class="detail-label">Email</label>
+                            <input [(ngModel)]="educator.email" type="email" class="form-control" id="emailInput" name="emailInput" placeholder="name@domain.com"
+                            required maxlength="50" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" />
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                                <div *ngIf="email.errors.required">
+                                    <small>* Email is required</small>
+                                </div>
+                                <div *ngIf="email.errors.maxlength">
+                                    <small>* Email must not exceed 50 characters</small>
+                                </div>
+                                <div *ngIf="email.errors.pattern">
+                                    <small>* Email must be in valid format e.g. name@domain.com</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Latest Milestone:</div>
-                                <div class="col-lg-6">{{ educator.last_milestone_activity | date }}</div>
+                        <div class="form-group">
+                            <label for="passwordInput" class="detail-label">Password</label>
+                            <input [(ngModel)]="educator.password" type="password" class="form-control" id="passwordInput" name="passwordInput" placeholder=""
+                            required maxlength="20" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,20}" #password="ngModel" [ngClass]="{ 'is-invalid': password.invalid && (password.dirty || password.touched) }" />
+                            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+                                <div *ngIf="password.errors.required">
+                                    <small>* Password is required</small>
+                                </div>
+                                <div *ngIf="password.errors.maxlength">
+                                    <small>* Password must not exceed 20 characters</small>
+                                </div>
+                                <div *ngIf="password.errors.pattern">
+                                    <small>* Password must be have atleast 1 letter, 1 number, and between 4 and 20 characters</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Total ITPs:</div>
-                                <div class="col-lg-6">{{ statistics.total_itps }}</div>
+                        <div class="form-group">
+                            <label for="contactNumberInput" class="detail-label">Contact number</label>
+                            <input [(ngModel)]="educator.contact_number" type="text" class="form-control" id="contactNumberInput" name="contactNumberInput" placeholder="0#########"
+                            minlength="7" maxlength="20" #contact_number="ngModel" [ngClass]="{ 'is-invalid': contact_number.invalid && (contact_number.dirty || contact_number.touched) }" />
+                            <div *ngIf="contact_number.invalid && (contact_number.dirty || contact_number.touched)" class="text-danger">
+                                <div *ngIf="contact_number.errors.required">
+                                    <small>* Contact number is required</small>
+                                </div>
+                                <div *ngIf="contact_number.errors.minlength">
+                                    <small>* Contact number must be at least 7 characters</small>
+                                </div>
+                                <div *ngIf="contact_number.errors.maxlength">
+                                    <small>* Contact number must not exceed 20 characters</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Total Open ITPs:</div>
-                                <div class="col-lg-6">{{ statistics.total_itps_open }}</div>
+
+                        <div class="form-group">
+                            <app-child-selector [label]="'Assigned Children'" [selectedIdsInput]="assignedChildIds"></app-child-selector>
                         </div>
+                        <p>&nbsp;</p>
+
+                        <button class="btn btn-primary" (click)="save()" [disabled]="f.invalid">Save</button>
+                        <span>&nbsp;</span>
+                        <button class="btn btn-light" (click)="back()">Cancel</button>
+                        <p>&nbsp;</p>
+                    </div>
+
+
+                    <div *ngIf="educator.id > 0" class="col-lg-4">
                         <div class="row">
-                                <div class="col-lg-5 detail-label">Furthest ITP:</div>
-                                <div class="col-lg-6">{{ educator.last_teachingplan_activity | date }}</div>
-                        </div>
-                        <span><hr/></span>
-                        <h5 class="detail-label">Account Details</h5>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Created on:</div>
-                                <div class="col-lg-6">{{ educator.date_created | date }}</div>
-                        </div>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Last updated on:</div>
-                                <div class="col-lg-6">{{ educator.date_modified | date }}</div>
+                            <span>&nbsp;</span>
+                            <div class="col-lg-11 admin-panel">
+                                <h5 class="detail-label">Actions</h5>
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <button class="btn btn-{{ educator.active === 1 ? 'secondary' : 'success' }}" (click)="activateDeactivate()">{{ educator.active === 1 ? 'Deactivate' : 'Activate' }}</button>                            
+                                        <span>&nbsp;</span>
+                                        <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                                    </div>
+                                </div>
+                                <span><hr/></span>
+                                <h5 class="detail-label">Portfolio Tracking</h5>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Total Observations:</div>
+                                        <div class="col-lg-6">{{ statistics?.total_observations || 0 }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Latest Observation:</div>
+                                        <div class="col-lg-6">{{ educator.last_observation_activity | date }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Total Milestones:</div>
+                                        <div class="col-lg-6">{{ statistics?.total_milestones || 0 }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Latest Milestone:</div>
+                                        <div class="col-lg-6">{{ educator.last_milestone_activity | date }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Total ITPs:</div>
+                                        <div class="col-lg-6">{{ statistics?.total_itps || 0 }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Total Open ITPs:</div>
+                                        <div class="col-lg-6">{{ statistics?.total_itps_open || 0 }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Furthest ITP:</div>
+                                        <div class="col-lg-6">{{ educator.last_teachingplan_activity | date }}</div>
+                                </div>
+                                <span><hr/></span>
+                                <h5 class="detail-label">Account Details</h5>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Created on:</div>
+                                        <div class="col-lg-6">{{ educator.date_created | date }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-5 detail-label">Last updated on:</div>
+                                        <div class="col-lg-6">{{ educator.date_modified | date }}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+
             </div>
-        </div>
+
+        </form>
+
     </div>
 </div>

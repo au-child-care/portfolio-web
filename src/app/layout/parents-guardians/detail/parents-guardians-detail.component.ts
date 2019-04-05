@@ -68,7 +68,7 @@ export class ParentsGuardiansDetailComponent implements OnInit {
                     this.setChildAssignment('Unable to save');
                 },
                 error => {
-                    this.toastr.error(error.statusText, 'Unable to save');
+                    this.toastr.error(error.error.email || error.statusText, 'Unable to save');
                 });
     }
 

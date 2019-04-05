@@ -52,7 +52,7 @@ export class AdministratorsDetailComponent implements OnInit {
                         this.toastr.success('', 'Success');
                     },
                     error => {
-                        this.toastr.error(error.statusText, 'Unable to save');
+                        this.toastr.error(error.error.email || error.statusText, 'Unable to save');
                     });
         }
     }
