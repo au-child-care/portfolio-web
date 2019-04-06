@@ -1,75 +1,117 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Teaching Plan Details'"></app-page-header>
     <div *ngIf="teachingPlan && educator && children">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="form-group">
-                    <div class="row">
-                            <div class="col-lg-1 detail-label">By</div>
-                            <div class="col-lg-11">{{ educator.first_name + ' ' + educator.last_name }}</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="childInput" class="detail-label">For</label>
-                    <select [(ngModel)]="teachingPlan.child_id" class="form-control" id="childInput">
-                        <option value="0" selected disabled>Select a child</option>
-                        <option *ngFor="let child of children" [value]="child.id" class="form-control">
-                            {{ child.first_name + ' ' + child.last_name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="titleInput" class="detail-label">Title</label>                    
-                    <input [(ngModel)]="teachingPlan.title" type="text" class="form-control" id="titleInput" placeholder="e.g. Encourage Joey to share" />
-                </div>
-                <div class="form-group">
-                    <label for="detailsInput" class="detail-label">Details</label>                    
-                    <textarea [(ngModel)]="teachingPlan.details" class="form-control" rows="7" id="detailsInput" placeholder="What's the plan?"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="outcomeInput" class="detail-label">Outcome / Link</label>
-                    <select [(ngModel)]="teachingPlan.target_outcome_id" class="form-control" id="outcomeInput">
-                        <option value="0" selected disabled>Select an EYLF outcome</option>
-                        <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control">
-                            {{ outcome.description }}
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="targetDateInput" class="detail-label">Target Date</label>
-                    <input [(ngModel)]="teachingPlan.target_date" type="date" class="form-control" id="targetDateInput" />
-                </div>
-                <p>&nbsp;</p>
+        
+        <form name="form" #f="ngForm" novalidate>
 
-                <button class="btn btn-primary" (click)="save()">Save</button>
-                <span>&nbsp;</span>
-                <button class="btn btn-light" (click)="back()">Cancel</button>
-            </div>
-            <div *ngIf="teachingPlan.id > 0" class="col-lg-4">
-                <div class="row">
-                    <span>&nbsp;</span>
-                    <div class="col-lg-11 admin-panel">
-                        <h5 class="detail-label">Actions</h5>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="form-group">
                         <div class="row">
-                            <div class="col-lg-11">
-                                <button class="btn btn-{{ teachingPlan.done === 1 ? 'secondary' : 'success' }}" (click)="doneUndone()">{{ teachingPlan.done === 1 ? 'Unmark Done' : 'Mark Done' }}</button>                            
-                                <span>&nbsp;</span>
-                                <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                                <div class="col-lg-1 detail-label">By</div>
+                                <div class="col-lg-11">{{ educator.first_name + ' ' + educator.last_name }}</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="childInput" class="detail-label">For</label>
+                        <select [(ngModel)]="teachingPlan.child_id" class="form-control" id="childInput" name="childInput"
+                        required pattern="^[1-9]\d*$" #childctl="ngModel" [ngClass]="{ 'is-invalid': childctl.invalid }">
+                            <option value="0" selected disabled>Select a child</option>
+                            <option *ngFor="let child of children" [value]="child.id" class="form-control">
+                                {{ child.first_name + ' ' + child.last_name }}
+                            </option>
+                        </select>
+                        <div *ngIf="childctl.invalid && (childctl.dirty || childctl.touched)" class="text-danger">
+                            <div *ngIf="childctl.errors.required || childctl.errors.pattern">
+                                <small>* Child is required</small>
                             </div>
                         </div>
-                        <span><hr/></span>
-                        <h5 class="detail-label">More Details</h5>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Created on:</div>
-                                <div class="col-lg-6">{{ teachingPlan.date_created | date }}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="titleInput" class="detail-label">Title</label>                    
+                        <input [(ngModel)]="teachingPlan.title" type="text" class="form-control" id="titleInput" name="titleInput" placeholder="e.g. Encourage Joey to share"
+                        required maxlength="80" #titlectl="ngModel" [ngClass]="{ 'is-invalid': titlectl.invalid }" />
+                        <div *ngIf="titlectl.invalid && (titlectl.dirty || titlectl.touched)" class="text-danger">
+                            <div *ngIf="titlectl.errors.required">
+                                <small>* Title is required</small>
+                            </div>
+                            <div *ngIf="titlectl.errors.maxlength">
+                                <small>* Title must not exceed 80 characters</small>
+                            </div>
                         </div>
-                        <div class="row">
-                                <div class="col-lg-5 detail-label">Last updated on:</div>
-                                <div class="col-lg-6">{{ teachingPlan.date_modified | date }}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="detailsInput" class="detail-label">Details</label>                    
+                        <textarea [(ngModel)]="teachingPlan.details" class="form-control" rows="7" id="detailsInput" name="detailsInput" placeholder="What's the plan?"
+                        required #detailsctl="ngModel" [ngClass]="{ 'is-invalid': detailsctl.invalid }">
+                        </textarea>
+                        <div *ngIf="detailsctl.invalid && (detailsctl.dirty || detailsctl.touched)" class="text-danger">
+                            <div *ngIf="detailsctl.errors.required">
+                                <small>* Details are required</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="outcomeInput" class="detail-label">Outcome / Link</label>
+                        <select [(ngModel)]="teachingPlan.target_outcome_id" class="form-control" id="outcomeInput" name="outcomeInput"
+                        required pattern="^[1-9]\d*$" #outcomectl="ngModel" [ngClass]="{ 'is-invalid': outcomectl.invalid }">
+                            <option value="0" selected disabled>Select an EYLF outcome</option>
+                            <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control">
+                                {{ outcome.description }}
+                            </option>
+                        </select>
+                        <div *ngIf="outcomectl.invalid && (outcomectl.dirty || outcomectl.touched)" class="text-danger">
+                            <div *ngIf="outcomectl.errors.required || outcomectl.errors.pattern">
+                                <small>* Outcome is required</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="targetDateInput" class="detail-label">Target Date</label>
+                        <input [(ngModel)]="teachingPlan.target_date" type="date" class="form-control" id="targetDateInput" name="targetDateInput"
+                        required #targetdatectl="ngModel" [ngClass]="{ 'is-invalid': targetdatectl.invalid }" />
+                        <div *ngIf="targetdatectl.invalid && (targetdatectl.dirty || targetdatectl.touched)" class="text-danger">
+                            <div *ngIf="targetdatectl.errors.required">
+                                <small>* Target date is required</small>
+                            </div>
+                        </div>
+                    </div>
+                    <p>&nbsp;</p>
+
+                    <button class="btn btn-primary" (click)="save()" [disabled]="f.invalid">Save</button>
+                    <span>&nbsp;</span>
+                    <button class="btn btn-light" (click)="back()">Cancel</button>
+                </div>
+
+
+                <div *ngIf="teachingPlan.id > 0" class="col-lg-4">
+                    <div class="row">
+                        <span>&nbsp;</span>
+                        <div class="col-lg-11 admin-panel">
+                            <h5 class="detail-label">Actions</h5>
+                            <div class="row">
+                                <div class="col-lg-11">
+                                    <button class="btn btn-{{ teachingPlan.done === 1 ? 'secondary' : 'success' }}" (click)="doneUndone()">{{ teachingPlan.done === 1 ? 'Unmark Done' : 'Mark Done' }}</button>                            
+                                    <span>&nbsp;</span>
+                                    <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                                </div>
+                            </div>
+                            <span><hr/></span>
+                            <h5 class="detail-label">More Details</h5>
+                            <div class="row">
+                                    <div class="col-lg-5 detail-label">Created on:</div>
+                                    <div class="col-lg-6">{{ teachingPlan.date_created | date }}</div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-lg-5 detail-label">Last updated on:</div>
+                                    <div class="col-lg-6">{{ teachingPlan.date_modified | date }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+        </form>
+
     </div>
 </div>
