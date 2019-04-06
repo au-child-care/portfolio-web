@@ -148,14 +148,23 @@ export class MilestonesDetailComponent implements OnInit {
 
     save() {
         const observations = this.milestonesObservations.filter(o => o.selected);
-        this.milestoneService.setByChild(this.child.id, observations)
-            .subscribe(success => {
-                this.postSaveActions(observations);
-                this.toastr.success('', 'Success');
-            },
-            error => {
-                this.toastr.error(error.statusText, 'Unable to save');
-            });
+        if (this.validate(observations)) {
+            this.milestoneService.setByChild(this.child.id, observations)
+                .subscribe(success => {
+                    this.postSaveActions(observations);
+                    this.toastr.success('', 'Success');
+                },
+                error => {
+                    this.toastr.error(error.statusText, 'Unable to save');
+                });
+        } else {
+            this.toastr.error('Please provide the date and outcome for all the ticked (achieved) milestones', 'Unable to save');
+        }
+    }
+
+    validate(observations: MilestoneObservation[]): boolean {
+        return !observations.some(o => o.date_tracked === '') &&
+            !observations.some(o => o.outcome_id < 1);
     }
 
     postSaveActions(observations: MilestoneObservation[]) {
