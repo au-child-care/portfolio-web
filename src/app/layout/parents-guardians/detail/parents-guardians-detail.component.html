@@ -9,7 +9,7 @@
                     <div class="form-group">
                         <label for="firstNameInput" class="detail-label">First name</label>
                         <input [(ngModel)]="parentGuardian.first_name" type="text" class="form-control" id="firstNameInput" name="firstNameInput" placeholder="First name"
-                        required maxlength="50" pattern="^[a-zA-Z\s]*$" #first_name="ngModel" [ngClass]="{ 'is-invalid': first_name.invalid && (first_name.dirty || first_name.touched) }" />
+                        required maxlength="50" pattern="^[a-zA-Z\s]*$" #first_name="ngModel" [ngClass]="{ 'is-invalid': first_name.invalid }" />
                         <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)" class="text-danger">
                             <div *ngIf="first_name.errors.required">
                                 <small>* First name is required</small>
@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label for="lastNameInput" class="detail-label">Last name</label>
                         <input [(ngModel)]="parentGuardian.last_name" type="text" class="form-control" id="lastNameInput" name="lastNameInput" placeholder="Last name"
-                        required maxlength="50" pattern="^[a-zA-Z\s]*$" #last_name="ngModel" [ngClass]="{ 'is-invalid': last_name.invalid && (last_name.dirty || last_name.touched) }" />
+                        required maxlength="50" pattern="^[a-zA-Z\s]*$" #last_name="ngModel" [ngClass]="{ 'is-invalid': last_name.invalid }" />
                         <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)" class="text-danger">
                             <div *ngIf="last_name.errors.required">
                                 <small>* Last name is required</small>
@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label for="nicknameInput" class="detail-label">Nickname</label>
                         <input [(ngModel)]="parentGuardian.nickname" type="text" class="form-control" id="nicknameInput" name="nicknameInput" placeholder="e.g. Joie"
-                        maxlength="20" pattern="^[a-zA-Z\s]*$" #nickname="ngModel" [ngClass]="{ 'is-invalid': nickname.invalid && (nickname.dirty || nickname.touched) }" />
+                        maxlength="20" pattern="^[a-zA-Z\s]*$" #nickname="ngModel" [ngClass]="{ 'is-invalid': nickname.invalid }" />
                         <div *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)" class="text-danger">
                             <div *ngIf="nickname.errors.maxlength">
                                 <small>* Nickname must not exceed 20 characters</small>
@@ -54,7 +54,7 @@
                     <div class="form-group">
                         <label for="emailInput" class="detail-label">Email</label>
                         <input [(ngModel)]="parentGuardian.email" type="email" class="form-control" id="emailInput" name="emailInput" placeholder="name@domain.com"
-                        required maxlength="50" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" />
+                        required maxlength="50" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid }" />
                         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
                             <div *ngIf="email.errors.required">
                                 <small>* Email is required</small>
@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label for="passwordInput" class="detail-label">Password</label>
                         <input [(ngModel)]="parentGuardian.password" type="password" class="form-control" id="passwordInput" name="passwordInput" placeholder=""
-                        required maxlength="20" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,20}" #password="ngModel" [ngClass]="{ 'is-invalid': password.invalid && (password.dirty || password.touched) }" />
+                        required maxlength="20" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,20}" #password="ngModel" [ngClass]="{ 'is-invalid': password.invalid }" />
                         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
                             <div *ngIf="password.errors.required">
                                 <small>* Password is required</small>
@@ -79,14 +79,14 @@
                                 <small>* Password must not exceed 20 characters</small>
                             </div>
                             <div *ngIf="password.errors.pattern">
-                                <small>* Password must be have atleast 1 letter, 1 number, and between 4 and 20 characters</small>
+                                <small>* Password must have at least 1 letter, 1 number, and between 4 and 20 characters</small>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="contactNumberInput" class="detail-label">Contact number</label>
                         <input [(ngModel)]="parentGuardian.contact_number" type="text" class="form-control" id="contactNumberInput" name="contactNumberInput" placeholder="0#########"
-                        minlength="7" maxlength="20" #contact_number="ngModel" [ngClass]="{ 'is-invalid': contact_number.invalid && (contact_number.dirty || contact_number.touched) }" />
+                        minlength="7" maxlength="20" #contact_number="ngModel" [ngClass]="{ 'is-invalid': contact_number.invalid }" />
                         <div *ngIf="contact_number.invalid && (contact_number.dirty || contact_number.touched)" class="text-danger">
                             <div *ngIf="contact_number.errors.required">
                                 <small>* Contact number is required</small>
@@ -102,14 +102,14 @@
                     <div class="form-group">
                         <label for="typeInput" class="detail-label">Type</label>
                         <select [(ngModel)]="parentGuardian.type" class="form-control" id="typeInput" name="typeInput"
-                        required #type="ngModel" [ngClass]="{ 'is-invalid': type.invalid && (type.dirty || type.touched) }">
+                        required #type="ngModel" [ngClass]="{ 'is-invalid': type.invalid }">
                         <option value="" selected disabled>Select a type</option>
                         <option>Parent</option>
                         <option>Guardian</option>
                         </select>
                         <div *ngIf="type.invalid && (type.dirty || type.touched)" class="text-danger">
                             <div *ngIf="type.errors.required">
-                                <small>* Contact number is required</small>
+                                <small>* Type is required</small>
                             </div>
                         </div>
                     </div>
