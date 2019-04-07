@@ -6,6 +6,7 @@ export * from './educator.dto';
 export * from './feedback.dto';
 export * from './milestone-observation.dto';
 export * from './milestone.dto';
+export * from './notification.dto';
 export * from './observation-view.dto';
 export * from './observation.dto';
 export * from './outcome-type.dto';

@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
+    hasNewNotifications = true;
 
     constructor(private translate: TranslateService, public router: Router) {
 

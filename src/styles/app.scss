@@ -85,3 +85,14 @@ q {
 .feedback-detail .btn  {
     font-size: x-small;
 }
+
+.navbar-nav .nav-item {
+    border-left: 1px solid rgb(71, 71, 71);
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.row-unread {
+    font-weight: bold;
+    background-color: #fff5d5;
+}

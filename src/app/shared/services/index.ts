@@ -4,6 +4,7 @@ export * from './educator-assignment.service';
 export * from './educator.service';
 export * from './feedback.service';
 export * from './milestone.service';
+export * from './notification.service';
 export * from './observation.service';
 export * from './parent-guardian-assignment.service';
 export * from './parent-guardian.service';

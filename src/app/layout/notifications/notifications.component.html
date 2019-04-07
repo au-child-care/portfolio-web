@@ -1,0 +1,47 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Notifications'" [icon]="'fa-table'"></app-page-header>
+  <div class="row">
+    <div class="col-xl-12">
+      <button class="btn btn-info" (click)="selectAll()">Select all</button>
+      <span>&nbsp;</span>
+      <button class="btn btn-info" (click)="markSelectedAsRead()">Mark selected as read</button>
+      <span>&nbsp;</span>
+      <button class="btn btn-danger" (click)="markSelectedAsDeleted()">Delete selected</button>        
+      <p></p>          
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-12">
+        <table class="card-body table table-hover">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Date</th>
+                <th>Notification</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let notification of notifications" class="{{ notification.marked_read === 0 ? 'row-unread' : '' }}">
+                <td>
+                  <div class="form-group">
+                    <input [(ngModel)]="notification.selected" type="checkbox" />
+                  </div>
+                </td>
+                <td>{{ notification.date_created | date }}</td>
+                <td>{{ notification.giver_name }} ({{ notification.giver_role }}) made a {{ notification.notification_for.toLowerCase() }} for {{ notification.child_name }}</td>
+                <td>
+                  <button class="btn btn-info" (click)="goToDetail(notification)" title="View details"><i class="fas fa-search"></i></button>
+                  <span>&nbsp;</span>
+                  <button class="btn btn-info" (click)="markAsRead(notification)" title="Mark as read" [hidden]="notification.marked_read === 1"><i class="fas fa-check"></i></button>
+                  <span [hidden]="notification.marked_read === 1">&nbsp;</span>
+                  <button class="btn btn-danger" (click)="markAsDeleted(notification)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+ </div>
