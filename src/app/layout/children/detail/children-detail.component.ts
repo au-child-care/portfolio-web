@@ -148,6 +148,7 @@ export class ChildrenDetailComponent implements OnInit {
                     child => {
                         this.child = child;
                         this.toastr.success('', 'Success');
+                        this.initializeStatistics();
                     },
                     error => {
                         this.toastr.error(error.statusText, 'Unable to save');

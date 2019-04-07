@@ -8,8 +8,8 @@
                 <div class="col-lg-8">                
                     <ngb-tabset>
                         
-                        <ngb-tab *ngIf="child.id > 0 && statistics?.child_id > 0" title="Overview">
-                            <ng-template ngbTabContent>
+                        <ngb-tab *ngIf="child.id > 0" title="Overview">
+                            <ng-template ngbTabContent *ngIf="statistics?.child_id > 0">
                                 <div>
                                     <span>&nbsp;</span> 
                                     <div class="col-lg-12">                               
