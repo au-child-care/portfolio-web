@@ -11,6 +11,10 @@
     }
 }
 
+q {
+    font-style: italic;
+}
+
 .table-row {
     cursor:pointer;
 }
@@ -71,4 +75,13 @@
 .highlighted-panel {
     border-color: #ffc107;
     border-width: 2px;
+}
+
+.feedback-detail {
+    margin: 10px;
+    font-size: small;
+}
+
+.feedback-detail .btn  {
+    font-size: x-small;
 }

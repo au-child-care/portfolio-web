@@ -66,6 +66,7 @@
                             </ng-template>
                         </ngb-tab>
                     
+
                         <ngb-tab title="Details">
                             <ng-template ngbTabContent>                            
                                 <div class="col-lg-12">
@@ -150,6 +151,42 @@
                             </ng-template>
                         </ngb-tab>
                     
+
+                        <ngb-tab *ngIf="child.id > 0 && feedback" title="Feedback">
+                            <ng-template ngbTabContent>                         
+                                <div class="col-lg-12">
+                                    <span>&nbsp;</span>
+                                    <div class="form-group">
+                                        <label for="feedbackInput" class="detail-label">Add Feedback:</label>&nbsp;<small>(Visible only to the child's parents / guardians and the educators)</small>
+                                        <textarea [(ngModel)]="feedback.feedback" class="form-control" rows="3" id="feedbackInput" name="feedbackInput" placeholder="Suggest? Praise? Comment?..."></textarea>
+                                    </div>
+                                    <button class="btn btn-primary" (click)="saveFeedback()" [disabled]="feedback.feedback.trim() == ''">Save</button>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <div *ngIf="feedbacks" class="card card-default" style="display: block;">
+                                            <div class="card-header">
+                                                Feedbacks ({{ feedbacks.length }})
+                                            </div>
+                                            <div>                                                                      
+                                                <div class="col-lg-12">
+                                                    
+                                                    <div *ngFor="let feed of feedbacks" class="feedback-detail">
+                                                        <strong>{{ feed.giver_name }}</strong> ({{ feed.giver_role }}) on {{ feed.date_created | date }}:
+                                                        <p>
+                                                            <q>{{ feed.feedback }}</q>
+                                                        </p>
+                                                        <button class="btn btn-danger" (click)="showConfirmFeedback(feed)">Delete</button>
+                                                        <hr/>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
                     </ngb-tabset>
                 </div>
 

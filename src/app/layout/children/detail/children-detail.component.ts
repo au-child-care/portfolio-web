@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Child, ChildService, DateUtils, ParentGuardianAssignmentService, EducatorAssignmentService, ParentGuardian, Educator, StatisticsChild, OutcomeType, OutcomeUtils, StatisticsService, MilestoneUtils } from 'src/app/shared';
+import { Child, ChildService, DateUtils, ParentGuardianAssignmentService, EducatorAssignmentService, ParentGuardian, Educator, StatisticsChild, OutcomeType, OutcomeUtils, StatisticsService, MilestoneUtils, Feedback, FeedbackService } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -19,6 +19,8 @@ export class ChildrenDetailComponent implements OnInit {
     assignedParentsGuardians: ParentGuardian[];
     assignedEducators: Educator[];
     statistics: StatisticsChild;
+    feedback: Feedback;
+    feedbacks: Feedback[];
 
     radarChartOptions: any;
     radarChartLabels: Label[];
@@ -43,6 +45,7 @@ export class ChildrenDetailComponent implements OnInit {
         private parentGuardianAssignmentService: ParentGuardianAssignmentService,
         private educatorAssignmentService: EducatorAssignmentService,
         private statisticsService: StatisticsService,
+        private feedbackService: FeedbackService,
         private dateUtils: DateUtils,
         private outcomeUtils: OutcomeUtils,
         private milestoneUtils: MilestoneUtils) {}
@@ -59,6 +62,7 @@ export class ChildrenDetailComponent implements OnInit {
                     this.parentGuardianAssignmentService.getParentsGuardiansByChild(this.child.id)
                         .subscribe(parentsGuardians => this.assignedParentsGuardians = parentsGuardians);
                     this.initializeStatistics();
+                    this.initializeFeedback();
                 });
         } else {
             this.child = new Child();
@@ -128,6 +132,12 @@ export class ChildrenDetailComponent implements OnInit {
         ];
     }
 
+    initializeFeedback() {
+        this.feedback = new Feedback();
+        this.feedbackService.getFeedbackByChild(this.child.id)
+            .subscribe(feedbacks => this.feedbacks = feedbacks);
+    }
+
     back() {
         this.router.navigateByUrl('children');
     }
@@ -149,6 +159,7 @@ export class ChildrenDetailComponent implements OnInit {
                         this.child = child;
                         this.toastr.success('', 'Success');
                         this.initializeStatistics();
+                        this.initializeFeedback();
                     },
                     error => {
                         this.toastr.error(error.statusText, 'Unable to save');
@@ -181,7 +192,7 @@ export class ChildrenDetailComponent implements OnInit {
         this.dialogService.addDialog(
             ConfirmComponent,
             {
-                title: 'Confirm deletion',
+                title: 'Confirm child portfolio deletion',
                 message: 'Are you sure you want to proceed?'
             })
                 .subscribe((isConfirmed) => {
@@ -207,5 +218,38 @@ export class ChildrenDetailComponent implements OnInit {
             error => {
                 this.toastr.error(error.statusText, 'Unable to delete');
             });
+    }
+
+    saveFeedback() {
+        // TO DO: get from session
+        this.feedback.giver_id = 1;
+        this.feedback.giver_role = 'Administrator';
+        this.feedback.giver_name = 'test user';
+        this.feedback.child_id = this.child.id;
+        this.feedback.date_created = this.dateUtils.getCurrentDateString();
+        this.feedback.date_modified = this.dateUtils.getCurrentDateString();
+        this.feedbackService.createFeedback(this.feedback)
+            .subscribe(fb => {
+                this.initializeFeedback();
+            });
+    }
+
+    showConfirmFeedback(feed: Feedback) {
+        this.dialogService.addDialog(
+            ConfirmComponent,
+            {
+                title: 'Confirm feedback deletion',
+                message: 'Are you sure you want to proceed?'
+            })
+                .subscribe((isConfirmed) => {
+                    if (isConfirmed) {
+                        feed.deleted = 1;
+                        this.feedback.date_modified = this.dateUtils.getCurrentDateString();
+                        this.feedbackService.updateFeedback(feed)
+                            .subscribe(fb => {
+                                this.initializeFeedback();
+                            });
+                    }
+                });
     }
 }
