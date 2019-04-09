@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observation, ObservationService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType, Educator, EducatorService } from './../../../shared';
+import { Observation, ObservationService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType, Educator, EducatorService, Recommendation, RecommendationRequest } from './../../../shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -17,6 +17,7 @@ export class ObservationsDetailComponent implements OnInit {
     outcomes: OutcomeType[];
     children: Child[];
     educator: Educator;
+    recommendation: Recommendation;
 
     constructor(
         private router: Router,
@@ -26,7 +27,7 @@ export class ObservationsDetailComponent implements OnInit {
         private observationService: ObservationService,
         private educatorService: EducatorService,
         private childService: ChildService,
-        private outcomeUtils: OutcomeUtils,
+        public outcomeUtils: OutcomeUtils,
         private dateUtils: DateUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
@@ -140,5 +141,13 @@ export class ObservationsDetailComponent implements OnInit {
         this.observation.date_modified = this.dateUtils.getCurrentDateString();
         this.observation.deleted = 1;
         this.update(true, 'Unable to delete');
+    }
+
+    getRecommendation() {
+        const request = {
+            observation: this.observation.observation
+        };
+        this.observationService.getRecommendation(request)
+            .subscribe(recommendation => this.recommendation = recommendation);
     }
 }

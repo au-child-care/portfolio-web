@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 
-import { Observation } from '../dtos';
+import { Observation, RecommendationRequest, Recommendation } from '../dtos';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -31,5 +31,9 @@ export class ObservationService {
 
   updateObservation(observation: Observation): Observable<Observation> {
     return this.http.put<Observation>(`${this.observationsUrl}/${observation.id}`, observation, httpOptions);
+  }
+
+  getRecommendation(request: RecommendationRequest): Observable<Recommendation>  {
+    return this.http.post<Recommendation>(`${this.observationsUrl}/classify`, request, httpOptions);
   }
 }

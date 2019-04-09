@@ -52,6 +52,32 @@
                                 <small>* Outcome is required</small>
                             </div>
                         </div>
+                        <div class="recommendation-panel alert alert-secondary">
+                            <p>
+                                <button class="btn btn-info" (click)="getRecommendation()" [disabled]="observation.observation === ''">Show recommendation <i class="fas fa-sync"></i></button>
+                            </p>
+                            <div *ngIf="recommendation">
+                                <strong><q>{{ recommendation.recommendedOutcomeId > 0 ? outcomeUtils.getOutcomeDescription(recommendation.recommendedOutcomeId) : 'Unknown observation outcome' }}</q></strong>
+                                <div *ngIf="recommendation.recommendedOutcomeId > 0" class="recommendation-panel-breakdown">
+                                    <strong>Breakdown:</strong>
+                                    <div *ngIf="recommendation.matchedPercentage.outcome1 > 0">
+                                        {{ outcomeUtils.getOutcomeDescription(1) }}: <strong>{{ recommendation.matchedPercentage.outcome1 }}%</strong>
+                                    </div>
+                                    <div *ngIf="recommendation.matchedPercentage.outcome2 > 0">
+                                        {{ outcomeUtils.getOutcomeDescription(2) }}: <strong>{{ recommendation.matchedPercentage.outcome2 }}%</strong>
+                                    </div>
+                                    <div *ngIf="recommendation.matchedPercentage.outcome3 > 0">
+                                        {{ outcomeUtils.getOutcomeDescription(3) }}: <strong>{{ recommendation.matchedPercentage.outcome3 }}%</strong>
+                                    </div>
+                                    <div *ngIf="recommendation.matchedPercentage.outcome4 > 0">
+                                        {{ outcomeUtils.getOutcomeDescription(4) }}: <strong>{{ recommendation.matchedPercentage.outcome4 }}%</strong>
+                                    </div>
+                                    <div *ngIf="recommendation.matchedPercentage.outcome5 > 0">
+                                        {{ outcomeUtils.getOutcomeDescription(5) }}: <strong>{{ recommendation.matchedPercentage.outcome5 }}%</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="dateTrackedInput" class="detail-label">Date Tracked</label>
