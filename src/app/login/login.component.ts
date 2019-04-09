@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { routerTransition } from '../router.animations';
@@ -10,6 +10,12 @@ import { routerTransition } from '../router.animations';
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
+    @Input() email: string;
+    @Input() password: string;
+    @Input() roleEducator = true;
+    @Input() roleAdmin = false;
+    @Input() roleParentGuardian = false;
+
     constructor(
         private translate: TranslateService,
         public router: Router
@@ -24,5 +30,25 @@ export class LoginComponent implements OnInit {
 
     onLoggedin() {
         localStorage.setItem('isLoggedin', 'true');
+    }
+
+    updateRoleToggle(sender: number) {
+        switch (sender) {
+            case 1:
+                this.roleEducator = true;
+                this.roleAdmin = false;
+                this.roleParentGuardian = false;
+            break;
+            case 2:
+                this.roleEducator = false;
+                this.roleAdmin = true;
+                this.roleParentGuardian = false;
+            break;
+            case 3:
+                this.roleEducator = false;
+                this.roleAdmin = false;
+                this.roleParentGuardian = true;
+            break;
+        }
     }
 }

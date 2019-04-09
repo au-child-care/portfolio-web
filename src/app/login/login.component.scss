@@ -9,7 +9,8 @@ $topnav-background-color: #222;
     right: 0;
     bottom: 0;
     overflow: auto;
-    background: $topnav-background-color;
+    background-image: url("../../assets/images/login-background.jpg");
+    background-size: cover;
     text-align: center;
     color: #fff;
     padding: 3em;
@@ -87,9 +88,21 @@ $topnav-background-color: #222;
     .form-content {
         padding: 40px 0;
     }
-    .user-avatar {
-        -webkit-border-radius: 50%;
-        border-radius: 50%;
-        border: 2px solid #fff;
+    .role-selection {
+        -webkit-border-radius: 10%;
+        border-radius: 10%;
+        border: 1px solid r(165, 165, 165);
+    }
+    .role-selection-image {
+        font-size: xx-large;
+    }
+    .login-panel {
+        -webkit-border-radius: 2%;
+        border-radius: 2%;
+        padding: 15px;
+        background-color: rgba(40, 40, 40, 0.6) !important;
+    }
+    .btn-group-toggle .active {
+        background-color: rgba(40, 40, 40, 0.7) !important;
     }
 }
