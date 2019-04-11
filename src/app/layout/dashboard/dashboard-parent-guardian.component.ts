@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import { Child, ParentGuardianAssignmentService, StatisticsChild, StatisticsService } from 'src/app/shared';
+import { Child, ParentGuardianAssignmentService, StatisticsChild, StatisticsService, SessionUtils } from 'src/app/shared';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,12 +16,12 @@ export class DashboardParentGuardianComponent implements OnInit {
     constructor(
         private router: Router,
         private statisticsService: StatisticsService,
-        private parentGuardianAssignmentService: ParentGuardianAssignmentService) {
+        private parentGuardianAssignmentService: ParentGuardianAssignmentService,
+        private sessionUtils: SessionUtils) {
     }
 
     ngOnInit() {
-        // TO DO: get parent-guardian from session
-        this.parentGuardianAssignmentService.getChildrenByParentGuardian(1)
+        this.parentGuardianAssignmentService.getChildrenByParentGuardian(this.sessionUtils.getId())
             .subscribe(children => {
                 this.childrenStatistics = [];
                 children.forEach(child => {

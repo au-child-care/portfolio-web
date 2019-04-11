@@ -1,6 +1,6 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
     <div class="list-group">
-        <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a (click)="goToDashboard()" [routerLinkActive]="['router-link-active']" class="list-group-item" style="cursor:pointer;">
             <i class="fas fa-fw fa-tachometer-alt"></i>&nbsp;
             <span>{{ 'Dashboard' | translate }}</span>
         </a>        
@@ -29,7 +29,7 @@
                             <span>{{ 'Milestones' | translate }}</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="sessionUtils.isAllowed('ROLE_ADMIN','ROLE_EDUCATOR')">
                         <a [routerLink]="['/teachingplans']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                             <i class="fas fa-fw fa-edit"></i>&nbsp;
                             <span>{{ 'Teaching Plans' | translate }}</span>
@@ -38,21 +38,21 @@
                 </ul>
             </li>
         </div>
-        <a [routerLink]="['/parents-guardians']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/parents-guardians']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fas fa-fw fa-user-friends"></i>&nbsp;
             <span>{{ 'Parents and Guardians' | translate }}</span>
         </a>
-        <a [routerLink]="['/educators']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/educators']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fas fa-fw fa-chalkboard-teacher"></i>&nbsp;
             <span>{{ 'Educators' | translate }}</span>
         </a>
-        <a [routerLink]="['/administrators']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/administrators']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fas fa-fw fa-user-cog"></i>&nbsp;
             <span>{{ 'Administrators' | translate }}</span>
         </a>
         <a [routerLink]="['/account']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fas fa-fw fa-cog"></i>&nbsp;
-            <span>{{ 'Account Management' | translate }}</span>
+            <span>{{ 'My Account' | translate }}</span>
         </a>
 
         <div class="header-fields">

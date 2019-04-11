@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         this.accountService.authenticate(request)
             .subscribe(response => {
                 this.sessionUtils.setAccount(response);
-                this.router.navigateByUrl('dashboard');
+                this.router.navigateByUrl(`dashboard-${this.sessionUtils.getRolePath()}`);
             },
             error => {
                 this.errorMessage = error.error.message;

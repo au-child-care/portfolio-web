@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Milestone, MilestoneService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType, Educator, EducatorService, MilestoneObservation, MilestoneUtils } from './../../../shared';
+import { Milestone, MilestoneService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType, Educator, EducatorService, MilestoneObservation, MilestoneUtils, SessionUtils } from './../../../shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -67,79 +67,88 @@ export class MilestonesDetailComponent implements OnInit {
         private educatorService: EducatorService,
         private childService: ChildService,
         private outcomeUtils: OutcomeUtils,
-        private dateUtils: DateUtils) {}
+        private dateUtils: DateUtils,
+        private sessionUtils: SessionUtils) {}
 
-    ngOnInit() {this.route.params.subscribe(params => {
-        this.outcomes = this.outcomeUtils.getOutcomes();
-        if (params['id'] > 0) {
-            // TO DO: Get from session
-            this.educatorService.getEducator(1)
-                .subscribe(edcator => {
-                    this.educator = edcator;
-                    this.educatorService.getEducators()
-                        .subscribe(educators => {
-                            this.educators = educators;
-                            this.childService.getChild(params['id'])
-                                .subscribe(child => {
-                                    this.child = child;
-                                    this.milestoneService.getByChild(params['id'])
-                                        .subscribe(milestones => {
-                                            this.milestones = milestones;
-                                            const observations = this.milestoneUtils.getObservations();
-                                            observations.forEach(o => {
-                                                    const tracked = this.milestones.find(m => m.age_group === o.age_group && m.developmental_area === o.developmental_area && m.observation === o.observation);
-                                                    const tracker = this.educators.find(m => m.id === (tracked ? tracked.educator_id : this.educator.id));
-                                                    o.child_id = this.child.id;
-                                                    o.date_tracked = tracked ? tracked.date_tracked : '';
-                                                    o.outcome_id = tracked ? tracked.outcome_id : 0;
-                                                    o.educator_id = tracked ? tracked.educator_id : this.educator.id;
-                                                    o.educator_name = tracker ? tracker.first_name + ' ' + tracker.last_name : 'Unknown';
-                                                    o.selected = tracked ? 1 : 0;
-                                                });
-                                            this.milestonesObservations = observations;
-                                            this.milestonesBirthTo4mPhysical = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Physical');
-                                            this.milestonesBirthTo4mSocial = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Social');
-                                            this.milestonesBirthTo4mEmotional = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Emotional');
-                                            this.milestonesBirthTo4mCognitive = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Cognitive');
-                                            this.milestonesBirthTo4mLanguage = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Language');
-                                            this.milestonesBirthTo4mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Seek advice');
-                                            this.milestones4To8mPhysical = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Physical');
-                                            this.milestones4To8mSocial = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Social');
-                                            this.milestones4To8mEmotional = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Emotional');
-                                            this.milestones4To8mCognitive = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Cognitive');
-                                            this.milestones4To8mLanguage = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Language');
-                                            this.milestones4To8mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Seek advice');
-                                            this.milestones8To12mPhysical = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Physical');
-                                            this.milestones8To12mSocial = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Social');
-                                            this.milestones8To12mEmotional = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Emotional');
-                                            this.milestones8To12mCognitive = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Cognitive');
-                                            this.milestones8To12mLanguage = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Language');
-                                            this.milestones8To12mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Seek advice');
-                                            this.milestones1to2yPhysical = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Physical');
-                                            this.milestones1to2ySocial = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Social');
-                                            this.milestones1to2yEmotional = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Emotional');
-                                            this.milestones1to2yCognitive = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Cognitive');
-                                            this.milestones1to2yLanguage = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Language');
-                                            this.milestones1to2ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Seek advice');
-                                            this.milestones2to3yPhysical = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Physical');
-                                            this.milestones2to3ySocial = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Social');
-                                            this.milestones2to3yEmotional = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Emotional');
-                                            this.milestones2to3yCognitive = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Cognitive');
-                                            this.milestones2to3yLanguage = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Language');
-                                            this.milestones2to3ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Seek advice');
-                                            this.milestones3to5yPhysical = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Physical');
-                                            this.milestones3to5ySocial = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Social');
-                                            this.milestones3to5yEmotional = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Emotional');
-                                            this.milestones3to5yCognitive = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Cognitive');
-                                            this.milestones3to5yLanguage = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Language');
-                                            this.milestones3to5ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Seek advice');
-                                            this.loaded = true;
-                                        });
-                                });
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.outcomes = this.outcomeUtils.getOutcomes();
+            if (params['id'] > 0) {
+                if (this.sessionUtils.getRole() === 'ROLE_EDUCATOR') {
+                    this.educatorService.getEducator(this.sessionUtils.getId())
+                        .subscribe(edcator => {
+                            this.educator = edcator;
+                            this.initMilestones(params['id']);
                         });
-                });
-        }
-      });
+                } else {
+                    this.initMilestones(params['id']);
+                }
+            }
+        });
+    }
+
+    initMilestones(childId) {
+        this.educatorService.getEducators()
+            .subscribe(educators => {
+                this.educators = educators;
+                this.childService.getChild(childId)
+                    .subscribe(child => {
+                        this.child = child;
+                        this.milestoneService.getByChild(childId)
+                            .subscribe(milestones => {
+                                this.milestones = milestones;
+                                const observations = this.milestoneUtils.getObservations();
+                                observations.forEach(o => {
+                                        const tracked = this.milestones.find(m => m.age_group === o.age_group && m.developmental_area === o.developmental_area && m.observation === o.observation);
+                                        const tracker = this.educators.find(m => m.id === (tracked ? tracked.educator_id : (this.educator ? this.educator.id : 0)));
+                                        o.child_id = this.child.id;
+                                        o.date_tracked = tracked ? tracked.date_tracked : '';
+                                        o.outcome_id = tracked ? tracked.outcome_id : 0;
+                                        o.educator_id = tracked ? tracked.educator_id : (this.educator ? this.educator.id : 0);
+                                        o.educator_name = tracker ? tracker.first_name + ' ' + tracker.last_name : 'Unknown';
+                                        o.selected = tracked ? 1 : 0;
+                                    });
+                                this.milestonesObservations = observations;
+                                this.milestonesBirthTo4mPhysical = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Physical');
+                                this.milestonesBirthTo4mSocial = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Social');
+                                this.milestonesBirthTo4mEmotional = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Emotional');
+                                this.milestonesBirthTo4mCognitive = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Cognitive');
+                                this.milestonesBirthTo4mLanguage = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Language');
+                                this.milestonesBirthTo4mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === 'Birth to 4 months' && m.developmental_area === 'Seek advice');
+                                this.milestones4To8mPhysical = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Physical');
+                                this.milestones4To8mSocial = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Social');
+                                this.milestones4To8mEmotional = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Emotional');
+                                this.milestones4To8mCognitive = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Cognitive');
+                                this.milestones4To8mLanguage = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Language');
+                                this.milestones4To8mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === '4 to 8 months' && m.developmental_area === 'Seek advice');
+                                this.milestones8To12mPhysical = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Physical');
+                                this.milestones8To12mSocial = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Social');
+                                this.milestones8To12mEmotional = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Emotional');
+                                this.milestones8To12mCognitive = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Cognitive');
+                                this.milestones8To12mLanguage = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Language');
+                                this.milestones8To12mSeekAdvice = this.milestonesObservations.filter(m => m.age_group === '8 to 12 months' && m.developmental_area === 'Seek advice');
+                                this.milestones1to2yPhysical = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Physical');
+                                this.milestones1to2ySocial = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Social');
+                                this.milestones1to2yEmotional = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Emotional');
+                                this.milestones1to2yCognitive = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Cognitive');
+                                this.milestones1to2yLanguage = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Language');
+                                this.milestones1to2ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '1 to 2 years' && m.developmental_area === 'Seek advice');
+                                this.milestones2to3yPhysical = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Physical');
+                                this.milestones2to3ySocial = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Social');
+                                this.milestones2to3yEmotional = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Emotional');
+                                this.milestones2to3yCognitive = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Cognitive');
+                                this.milestones2to3yLanguage = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Language');
+                                this.milestones2to3ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '2 to 3 years' && m.developmental_area === 'Seek advice');
+                                this.milestones3to5yPhysical = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Physical');
+                                this.milestones3to5ySocial = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Social');
+                                this.milestones3to5yEmotional = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Emotional');
+                                this.milestones3to5yCognitive = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Cognitive');
+                                this.milestones3to5yLanguage = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Language');
+                                this.milestones3to5ySeekAdvice = this.milestonesObservations.filter(m => m.age_group === '3 to 5 years' && m.developmental_area === 'Seek advice');
+                                this.loaded = true;
+                            });
+                    });
+            });
     }
 
     back() {

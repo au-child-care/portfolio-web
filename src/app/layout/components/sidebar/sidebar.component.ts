@@ -82,6 +82,10 @@ export class SidebarComponent implements OnInit {
         this.translate.use(language);
     }
 
+    goToDashboard() {
+        this.router.navigateByUrl(`dashboard-${this.sessionUtils.getRolePath()}`);
+    }
+
     onLoggedout() {
         this.sessionUtils.clearSession();
     }

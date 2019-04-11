@@ -15,7 +15,8 @@
                     <div class="form-group">
                         <label for="childInput" class="detail-label">For</label>
                         <select [(ngModel)]="observation.child_id" class="form-control" id="childInput" name="childInput"
-                        required pattern="^[1-9]\d*$" #childctl="ngModel" [ngClass]="{ 'is-invalid': childctl.invalid }">
+                        required pattern="^[1-9]\d*$" #childctl="ngModel" [ngClass]="{ 'is-invalid': childctl.invalid }"
+                        [disabled]="!(sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId())">
                         <option value="0" selected disabled>Select a child</option>
                             <option *ngFor="let child of children" [value]="child.id" class="form-control">
                                 {{ child.first_name + ' ' + child.last_name }}
@@ -30,7 +31,8 @@
                     <div class="form-group">
                         <label for="observationInput" class="detail-label">Observation</label>                    
                         <textarea [(ngModel)]="observation.observation" class="form-control" rows="7" id="observationInput" name="observationInput" placeholder="What was observed?"
-                        required #observationctl="ngModel" [ngClass]="{ 'is-invalid': observationctl.invalid }">
+                        required #observationctl="ngModel" [ngClass]="{ 'is-invalid': observationctl.invalid }"
+                        [disabled]="!(sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId())">
                         </textarea>
                         <div *ngIf="observationctl.invalid && (observationctl.dirty || observationctl.touched)" class="text-danger">
                             <div *ngIf="observationctl.errors.required">
@@ -41,7 +43,8 @@
                     <div class="form-group">
                         <label for="outcomeInput" class="detail-label">Outcome / Link</label>
                         <select [(ngModel)]="observation.outcome_id" class="form-control" id="outcomeInput" name="outcomeInput"
-                        required pattern="^[1-9]\d*$" #outcomectl="ngModel" [ngClass]="{ 'is-invalid': outcomectl.invalid }">
+                        required pattern="^[1-9]\d*$" #outcomectl="ngModel" [ngClass]="{ 'is-invalid': outcomectl.invalid }"
+                        [disabled]="!(sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId())">
                             <option value="0" selected disabled>Select an EYLF outcome</option>
                             <option *ngFor="let outcome of outcomes" [value]="outcome.id" class="form-control">
                                 {{ outcome.description }}
@@ -52,7 +55,7 @@
                                 <small>* Outcome is required</small>
                             </div>
                         </div>
-                        <div class="recommendation-panel alert alert-secondary">
+                        <div *ngIf="sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId()" class="recommendation-panel alert alert-secondary">
                             <p>
                                 <button class="btn btn-info" (click)="getRecommendation()" [disabled]="observation.observation === ''">Show recommendation <i class="fas fa-sync"></i></button>
                             </p>
@@ -82,7 +85,8 @@
                     <div class="form-group">
                         <label for="dateTrackedInput" class="detail-label">Date Tracked</label>
                         <input [(ngModel)]="observation.date_tracked" type="date" class="form-control" id="dateTrackedInput" name="dateTrackedInput"
-                        required #datetrackedctl="ngModel" [ngClass]="{ 'is-invalid': datetrackedctl.invalid }" />
+                        required #datetrackedctl="ngModel" [ngClass]="{ 'is-invalid': datetrackedctl.invalid }" 
+                        [disabled]="!(sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId())"/>
                         <div *ngIf="datetrackedctl.invalid && (datetrackedctl.dirty || datetrackedctl.touched)" class="text-danger">
                             <div *ngIf="datetrackedctl.errors.required">
                                 <small>* Date tracked is required</small>
@@ -91,7 +95,7 @@
                     </div>
                     <p>&nbsp;</p>
 
-                    <button class="btn btn-primary" (click)="save()" [disabled]="f.invalid">Save</button>
+                    <button class="btn btn-primary" (click)="save()" [disabled]="f.invalid || !(sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId())">Save</button>
                     <span>&nbsp;</span>
                     <button class="btn btn-light" (click)="back()">Cancel</button>
                 </div>
@@ -101,15 +105,17 @@
                     <div class="row">
                         <span>&nbsp;</span>
                         <div class="col-lg-11 admin-panel">
-                            <h5 class="detail-label">Actions</h5>
-                            <div class="row">
-                                <div class="col-lg-11">
-                                    <button class="btn btn-{{ observation.published === 1 ? 'secondary' : 'success' }}" (click)="publishUnpublish()">{{ observation.published === 1 ? 'Unpublish' : 'Publish' }}</button>                            
-                                    <span>&nbsp;</span>
-                                    <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                            <div *ngIf="sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId()">
+                                <h5 class="detail-label">Actions</h5>
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <button class="btn btn-{{ observation.published === 1 ? 'secondary' : 'success' }}" (click)="publishUnpublish()">{{ observation.published === 1 ? 'Unpublish' : 'Publish' }}</button>                            
+                                        <span>&nbsp;</span>
+                                        <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                                    </div>
                                 </div>
+                                <span><hr/></span>
                             </div>
-                            <span><hr/></span>
                             <h5 class="detail-label">More Details</h5>
                             <div class="row">
                                     <div class="col-lg-5 detail-label">Created on:</div>

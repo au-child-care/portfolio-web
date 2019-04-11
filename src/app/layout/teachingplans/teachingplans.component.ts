@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 
-import { TeachingPlanView, TeachingPlanService, ChildService, OutcomeUtils, EducatorService, EducatorUtils, ChildUtils } from './../../shared';
+import { TeachingPlanView, TeachingPlanService, ChildService, OutcomeUtils, EducatorService, EducatorUtils, ChildUtils, SessionUtils } from './../../shared';
 
 @Component({
   selector: 'app-children',
@@ -20,7 +20,8 @@ export class TeachingPlansComponent implements OnInit {
     private educatorUtils: EducatorUtils,
     private childService: ChildService,
     private childUtils: ChildUtils,
-    private outcomeUtils: OutcomeUtils) { }
+    private outcomeUtils: OutcomeUtils,
+    private sessionUtils: SessionUtils) { }
 
   ngOnInit() {
     this.getTeachingPlans();

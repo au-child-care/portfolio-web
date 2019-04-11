@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SessionUtils } from 'src/app/shared';
+import { SessionUtils, NotificationService } from 'src/app/shared';
 
 @Component({
     selector: 'app-header',
@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
     constructor(
         private translate: TranslateService,
         public router: Router,
+        private notificationService: NotificationService,
         private sessionUtils: SessionUtils) {
 
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
@@ -37,6 +38,8 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.pushRightClass = 'push-right';
         this.user_name = this.sessionUtils.getUserName();
+        this.notificationService.getNotificationsByRecipient(this.sessionUtils.getId(), this.sessionUtils.getRole())
+            .subscribe(notifs => this.hasNewNotifications = notifs.filter(n => n.marked_read === 0).length > 0);
     }
 
     isToggled(): boolean {
@@ -60,5 +63,9 @@ export class HeaderComponent implements OnInit {
 
     changeLang(language: string) {
         this.translate.use(language);
+    }
+
+    goToDashboard() {
+        this.router.navigateByUrl(`dashboard-${this.sessionUtils.getRolePath()}`);
     }
 }

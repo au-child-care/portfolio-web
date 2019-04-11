@@ -4,11 +4,6 @@ import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DashboardParentGuardianRoutingModule } from './dashboard-parent-guardian-routing.module';
 import { DashboardParentGuardianComponent } from './dashboard-parent-guardian.component';
-import {
-    TimelineComponent,
-    NotificationComponent,
-    ChatComponent
-} from './components';
 import { StatModule } from '../../shared';
 import { ChartsModule } from 'ng2-charts';
 
@@ -22,10 +17,7 @@ import { ChartsModule } from 'ng2-charts';
         ChartsModule
     ],
     declarations: [
-        DashboardParentGuardianComponent,
-        TimelineComponent,
-        NotificationComponent,
-        ChatComponent
+        DashboardParentGuardianComponent
     ]
 })
 export class DashboardParentGuardianModule {}

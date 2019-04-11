@@ -4,11 +4,6 @@ import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DashboardAdminRoutingModule } from './dashboard-admin-routing.module';
 import { DashboardAdminComponent } from './dashboard-admin.component';
-import {
-    TimelineComponent,
-    NotificationComponent,
-    ChatComponent
-} from './components';
 import { StatModule } from '../../shared';
 import { ChartsModule } from 'ng2-charts';
 
@@ -22,10 +17,7 @@ import { ChartsModule } from 'ng2-charts';
         ChartsModule
     ],
     declarations: [
-        DashboardAdminComponent,
-        TimelineComponent,
-        NotificationComponent,
-        ChatComponent
+        DashboardAdminComponent
     ]
 })
 export class DashboardAdminModule {}

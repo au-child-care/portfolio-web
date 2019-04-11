@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observation, ObservationService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType, Educator, EducatorService, Recommendation, RecommendationRequest } from './../../../shared';
+import { Observation, ObservationService, DateUtils, ChildService, Child, OutcomeUtils, OutcomeType, Educator, EducatorService, Recommendation, RecommendationRequest, SessionUtils } from './../../../shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -28,7 +28,8 @@ export class ObservationsDetailComponent implements OnInit {
         private educatorService: EducatorService,
         private childService: ChildService,
         public outcomeUtils: OutcomeUtils,
-        private dateUtils: DateUtils) {}
+        private dateUtils: DateUtils,
+        private sessionUtils: SessionUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.outcomes = this.outcomeUtils.getOutcomes();
@@ -43,8 +44,7 @@ export class ObservationsDetailComponent implements OnInit {
                         .subscribe(educator => this.educator = educator);
                 });
         } else {
-            // TO DO: Get educator id from session
-            this.educatorService.getEducator(1)
+            this.educatorService.getEducator(this.sessionUtils.getId())
                 .subscribe(educator => this.educator = educator);
             this.observation = new Observation();
         }

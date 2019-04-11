@@ -30,7 +30,7 @@
                   </div>
                 </td>
                 <td>{{ notification.date_created | date }}</td>
-                <td>{{ notification.giver_name }} ({{ notification.giver_role }}) made a {{ notification.notification_for.toLowerCase() }} for {{ notification.child_name }}</td>
+                <td>{{ notification.giver_name }} ({{ getProperRoleDisplay(notification.giver_role) }}) made a {{ notification.notification_for.toLowerCase() }} for {{ notification.child_name }}</td>
                 <td>
                   <button class="btn btn-info" (click)="goToDetail(notification)" title="View details"><i class="fas fa-search"></i></button>
                   <span>&nbsp;</span>

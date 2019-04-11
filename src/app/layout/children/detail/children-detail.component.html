@@ -67,7 +67,7 @@
                         </ngb-tab>
                     
 
-                        <ngb-tab title="Details">
+                        <ngb-tab *ngIf="sessionUtils.isAllowed('ROLE_ADMIN','ROLE_EDUCATOR')" title="Details">
                             <ng-template ngbTabContent>                            
                                 <div class="col-lg-12">
                                     <span>&nbsp;</span>
@@ -171,11 +171,11 @@
                                                 <div class="col-lg-12">
                                                     
                                                     <div *ngFor="let feed of feedbacks" class="feedback-detail">
-                                                        <strong>{{ feed.giver_name }}</strong> ({{ feed.giver_role }}) on {{ feed.date_created | date }}:
+                                                        <strong>{{ feed.giver_name }}</strong> ({{ getProperRoleDisplay(feed.giver_role) }}) on {{ feed.date_created | date }}:
                                                         <p>
                                                             <q>{{ feed.feedback }}</q>
                                                         </p>
-                                                        <button class="btn btn-danger" (click)="showConfirmFeedback(feed)">Delete</button>
+                                                        <button *ngIf="sessionUtils.getId() === feed.giver_id && sessionUtils.isAllowed(feed.giver_role)" class="btn btn-danger" (click)="showConfirmFeedback(feed)">Delete</button>
                                                         <hr/>
                                                     </div>
 
@@ -195,15 +195,17 @@
                     <div class="row">
                         <span>&nbsp;</span>
                         <div class="col-lg-11 admin-panel">
-                            <h5 class="detail-label">Actions</h5>
-                            <div class="row">
-                                <div class="col-lg-11">
-                                    <button class="btn btn-{{ child.active === 1 ? 'secondary' : 'success' }}" (click)="activateDeactivate()">{{ child.active === 1 ? 'Deactivate' : 'Activate' }}</button>                            
-                                    <span>&nbsp;</span>
-                                    <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                            <div *ngIf="sessionUtils.isAllowed('ROLE_ADMIN','ROLE_EDUCATOR')">
+                                <h5 class="detail-label">Actions</h5>
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <button class="btn btn-{{ child.active === 1 ? 'secondary' : 'success' }}" (click)="activateDeactivate()">{{ child.active === 1 ? 'Deactivate' : 'Activate' }}</button>                            
+                                        <span>&nbsp;</span>
+                                        <button *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" class="btn btn-danger" (click)="showConfirm()">Delete</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <span><hr/></span>                        
+                                <span><hr/></span>
+                            </div>           
                             <h5 class="detail-label">Portfolio Tracking</h5>
                             <div class="row">
                                     <div class="col-lg-5 detail-label">Total Observations:</div>

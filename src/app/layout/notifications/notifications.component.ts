@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 
-import { Notification, DateUtils } from './../../shared';
+import { Notification, DateUtils, SessionUtils } from './../../shared';
 import { NotificationService } from './../../shared';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -20,7 +20,8 @@ export class NotificationsComponent implements OnInit {
     private router: Router,
     private dialogService: DialogService,
     private notificationService: NotificationService,
-    private dateUtils: DateUtils
+    private dateUtils: DateUtils,
+    private sessionUtils: SessionUtils
   ) {}
 
   ngOnInit() {
@@ -28,8 +29,8 @@ export class NotificationsComponent implements OnInit {
   }
 
   getNotifications(): void {
-    // TO DO: Get from session
-    this.notificationService.getNotificationsByRecipient(2, 'Educator').subscribe(notifications => (this.notifications = notifications));
+    this.notificationService.getNotificationsByRecipient(this.sessionUtils.getId(), this.sessionUtils.getRole())
+      .subscribe(notifications => (this.notifications = notifications));
   }
 
   markAsRead(notification: Notification) {
@@ -125,5 +126,18 @@ export class NotificationsComponent implements OnInit {
       }
     }
     this.router.navigateByUrl(`${routeBase}/${notification.target_id}`);
+  }
+
+  getProperRoleDisplay(role: string) {
+      switch (role) {
+          case 'ROLE_ADMIN':
+              return 'Administrator';
+          case 'ROLE_EDUCATOR':
+              return 'Educator';
+          case 'ROLE_PARENT_GUARDIAN':
+              return 'Parent / Guardian';
+          default:
+              return role;
+      }
   }
 }

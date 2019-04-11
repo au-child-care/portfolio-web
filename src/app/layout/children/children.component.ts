@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 
-import { Child } from './../../shared';
+import { Child, SessionUtils } from './../../shared';
 import { ChildService } from './../../shared';
 
 @Component({
@@ -14,7 +14,10 @@ import { ChildService } from './../../shared';
 export class ChildrenComponent implements OnInit {
   children: Child[];
 
-  constructor(private router: Router, private childService: ChildService) { }
+  constructor(
+    private router: Router,
+    private childService: ChildService,
+    private sessionUtils: SessionUtils) { }
 
   ngOnInit() {
     this.getChildren();

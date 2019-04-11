@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Child, ChildService, DateUtils, ParentGuardianAssignmentService, EducatorAssignmentService, ParentGuardian, Educator, StatisticsChild, OutcomeType, OutcomeUtils, StatisticsService, MilestoneUtils, Feedback, FeedbackService } from 'src/app/shared';
+import { Child, ChildService, DateUtils, ParentGuardianAssignmentService, EducatorAssignmentService, ParentGuardian, Educator, StatisticsChild, OutcomeType, OutcomeUtils, StatisticsService, MilestoneUtils, Feedback, FeedbackService, SessionUtils } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -48,7 +48,8 @@ export class ChildrenDetailComponent implements OnInit {
         private feedbackService: FeedbackService,
         private dateUtils: DateUtils,
         private outcomeUtils: OutcomeUtils,
-        private milestoneUtils: MilestoneUtils) {}
+        private milestoneUtils: MilestoneUtils,
+        private sessionUtils: SessionUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.assignedParentsGuardians = [];
@@ -221,10 +222,9 @@ export class ChildrenDetailComponent implements OnInit {
     }
 
     saveFeedback() {
-        // TO DO: get from session
-        this.feedback.giver_id = 1;
-        this.feedback.giver_role = 'Administrator';
-        this.feedback.giver_name = 'test user';
+        this.feedback.giver_id = this.sessionUtils.getId();
+        this.feedback.giver_role = this.sessionUtils.getRole();
+        this.feedback.giver_name = this.sessionUtils.getUserName();
         this.feedback.child_id = this.child.id;
         this.feedback.date_created = this.dateUtils.getCurrentDateString();
         this.feedback.date_modified = this.dateUtils.getCurrentDateString();
@@ -251,5 +251,18 @@ export class ChildrenDetailComponent implements OnInit {
                             });
                     }
                 });
+    }
+
+    getProperRoleDisplay(role: string) {
+        switch (role) {
+            case 'ROLE_ADMIN':
+                return 'Administrator';
+            case 'ROLE_EDUCATOR':
+                return 'Educator';
+            case 'ROLE_PARENT_GUARDIAN':
+                return 'Parent / Guardian';
+            default:
+                return role;
+        }
     }
 }
