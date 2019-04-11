@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { routerTransition } from '../router.animations';
+import { AccountService, SessionUtils } from '../shared';
 
 @Component({
     selector: 'app-login',
@@ -15,10 +16,13 @@ export class LoginComponent implements OnInit {
     @Input() roleEducator = true;
     @Input() roleAdmin = false;
     @Input() roleParentGuardian = false;
+    errorMessage: string;
 
     constructor(
         private translate: TranslateService,
-        public router: Router
+        public router: Router,
+        private accountService: AccountService,
+        private sessionUtils: SessionUtils
         ) {
             this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
             this.translate.setDefaultLang('en');
@@ -26,10 +30,28 @@ export class LoginComponent implements OnInit {
             this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.sessionUtils.clearSession();
+    }
 
-    onLoggedin() {
-        localStorage.setItem('isLoggedin', 'true');
+    login() {
+        const request = {
+            email: this.email,
+            password: this.password,
+            role: this.roleAdmin ? 'ROLE_ADMIN' :
+                this.roleEducator ? 'ROLE_EDUCATOR' :
+                this.roleParentGuardian ? 'ROLE_PARENT_GUARDIAN' :
+                'Unknown'
+        };
+        this.accountService.authenticate(request)
+            .subscribe(response => {
+                this.sessionUtils.setAccount(response);
+                this.router.navigateByUrl('dashboard');
+            },
+            error => {
+                this.errorMessage = error.error.message;
+            });
+
     }
 
     updateRoleToggle(sender: number) {

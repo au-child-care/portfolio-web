@@ -92,6 +92,8 @@ $topnav-background-color: #222;
         -webkit-border-radius: 10%;
         border-radius: 10%;
         border: 1px solid r(165, 165, 165);
+        min-width: 90px;
+        max-width: 90px;
     }
     .role-selection-image {
         font-size: xx-large;

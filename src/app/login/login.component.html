@@ -12,7 +12,7 @@
                             </label>
                             <span>&nbsp;</span>
                             <label class="btn btn-secondary role-selection {{ roleAdmin ? 'active' : '' }}" (click)="updateRoleToggle(2)">
-                                <input type="radio" name="options" id="option2" autocomplete="off"><span class="role-selection-image"><i class="fas fa-fw fa-user-cog"></i></span><br/>Centre<br/>Administrator
+                                <input type="radio" name="options" id="option2" autocomplete="off"><span class="role-selection-image"><i class="fas fa-fw fa-user-cog"></i></span><br/>Centre's<br/>Admin
                             </label>
                             <span>&nbsp;</span>
                             <label class="btn btn-secondary role-selection {{ roleParentGuardian ? 'active' : '' }}" (click)="updateRoleToggle(3)">
@@ -28,8 +28,12 @@
                     <div class="form-group">
                         <input type="password" [(ngModel)]="password" class="form-control input-underline input-lg" id="passwword" name="passwword" placeholder="{{ 'Password' | translate }}">
                     </div>
+
+                    <div *ngIf="errorMessage" class="alert alert-danger">
+                        {{ errorMessage }}
+                    </div>
                 </div>
-                <button class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()" [disabled]="email === '' || password === ''">{{ 'Log in' | translate }}</button>               
+                <button class="btn rounded-btn" (click)="login()" [disabled]="email === '' || password === ''">{{ 'Log in' | translate }}</button>               
             </form>
         </div>
     </div>

@@ -1,4 +1,7 @@
+export * from './account-details.dto';
 export * from './administrator.dto';
+export * from './authenticate-request.dto';
+export * from './authenticate-response.dto';
 export * from './child-selection.dto';
 export * from './child.dto';
 export * from './educator-assignment.dto';

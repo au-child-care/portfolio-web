@@ -1,3 +1,4 @@
+export * from './account.service';
 export * from './administrator.service';
 export * from './child.service';
 export * from './educator-assignment.service';

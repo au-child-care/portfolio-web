@@ -3,3 +3,4 @@ export * from './date.utils';
 export * from './educator.utils';
 export * from './milestone.utils';
 export * from './outcome.utils';
+export * from './session.utils';
