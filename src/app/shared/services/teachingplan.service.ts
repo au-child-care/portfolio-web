@@ -25,6 +25,10 @@ export class TeachingPlanService {
     return this.http.get<TeachingPlan>(`${this.teachingPlansUrl}/${id}`);
   }
 
+  getTeachingPlansByEducator(educator_id: number): Observable<TeachingPlan[]> {
+    return this.http.get<TeachingPlan[]>(`${this.teachingPlansUrl}/all/byEducator/${educator_id}`);
+  }
+
   createTeachingPlan(teachingPlan: TeachingPlan): Observable<TeachingPlan> {
     return this.http.post<TeachingPlan>(`${this.teachingPlansUrl}`, teachingPlan, httpOptions);
   }

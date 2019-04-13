@@ -33,7 +33,16 @@ export class DashboardParentGuardianComponent implements OnInit {
     }
 
     getStatisticsValue(child_id: number, property: string) {
-        return this.childrenStatistics.find(c => c.child_id === child_id)[property] || 0;
+        if (this.childrenStatistics) {
+            const stat = this.childrenStatistics.find(c => c.child_id === child_id);
+            if (stat) {
+                return stat[property] || 0;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
     }
 
     onClickViewDetails(detailsUrl: string): void {

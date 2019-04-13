@@ -1,8 +1,20 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Observations'" [icon]="'fa-table'"></app-page-header>
-  <div *ngIf="sessionUtils.getRole() === 'ROLE_EDUCATOR'" class="row">
-    <div class="col-xl-12">
-      <button type="button" class="btn btn-primary" (click)="addNew()">Add new</button>
+  <div *ngIf="sessionUtils.isAllowed('ROLE_EDUCATOR')" class="row">
+    <div class="col-xl-9">
+      <button type="button" class="btn btn-primary" (click)="addNew()">Add new</button>      
+      &nbsp;
+    </div>
+    <div class="col-xl-1 detail-label">
+      Show:
+    </div>
+    <div class="col-xl-2">
+      <select [(ngModel)]="filter_mode" class="form-control" id="filterInput" name="filterInput" (ngModelChange)="getObservations()">
+        <option>Mine</option>
+        <option>Under my care</option>
+        <option>All</option>
+      </select>
+      &nbsp;
     </div>
   </div>
   <div class="row">
@@ -15,7 +27,7 @@
                 <th>By</th>
                 <th>For</th>
                 <th>Outcome</th>
-                <th>Published</th>
+                <th *ngIf="!sessionUtils.isAllowed('ROLE_PARENT_GUARDIAN')">Published</th>
               </tr>
             </thead>
             <tbody>
@@ -24,7 +36,7 @@
                 <td>{{ observation.educator_name }}</td>
                 <td>{{ observation.child_name }}</td>
                 <td>{{ observation.outcome }}</td>
-                <td>{{ observation.published | yesno }}</td>
+                <td *ngIf="!sessionUtils.isAllowed('ROLE_PARENT_GUARDIAN')">{{ observation.published | yesno }}</td>
               </tr>
             </tbody>
         </table>

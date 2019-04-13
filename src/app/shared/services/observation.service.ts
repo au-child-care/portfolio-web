@@ -25,6 +25,10 @@ export class ObservationService {
     return this.http.get<Observation>(`${this.observationsUrl}/${id}`);
   }
 
+  getObservationsByEducator(educator_id: number): Observable<Observation[]> {
+    return this.http.get<Observation[]>(`${this.observationsUrl}/all/byEducator/${educator_id}`);
+  }
+
   createObservation(observation: Observation): Observable<Observation> {
     return this.http.post<Observation>(`${this.observationsUrl}`, observation, httpOptions);
   }

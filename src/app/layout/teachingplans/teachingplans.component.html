@@ -1,8 +1,20 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Teaching Plans'" [icon]="'fa-table'"></app-page-header>
-  <div *ngIf="sessionUtils.getRole() === 'ROLE_EDUCATOR'" class="row">
-    <div class="col-xl-12">
-      <button type="button" class="btn btn-primary" (click)="addNew()">Add new</button>
+  <div *ngIf="sessionUtils.isAllowed('ROLE_EDUCATOR')" class="row">
+    <div class="col-xl-9">
+      <button type="button" class="btn btn-primary" (click)="addNew()">Add new</button>      
+      &nbsp;
+    </div>
+    <div class="col-xl-1 detail-label">
+      Show:
+    </div>
+    <div class="col-xl-2">
+      <select [(ngModel)]="filter_mode" class="form-control" id="filterInput" name="filterInput" (ngModelChange)="getTeachingPlans()">
+        <option>Mine</option>
+        <option>Under my care</option>
+        <option>All</option>
+      </select>
+      &nbsp;
     </div>
   </div>
   <div class="row">

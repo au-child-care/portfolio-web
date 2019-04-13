@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 
-import { TeachingPlanView, TeachingPlanService, ChildService, OutcomeUtils, EducatorService, EducatorUtils, ChildUtils, SessionUtils } from './../../shared';
+import { TeachingPlanView, TeachingPlanService, ChildService, OutcomeUtils, EducatorService, EducatorUtils, ChildUtils, SessionUtils, Educator, Child, TeachingPlan, EducatorAssignmentService, ParentGuardianAssignmentService } from './../../shared';
 
 @Component({
   selector: 'app-children',
@@ -12,6 +12,9 @@ import { TeachingPlanView, TeachingPlanService, ChildService, OutcomeUtils, Educ
 })
 export class TeachingPlansComponent implements OnInit {
   teachingPlans: TeachingPlanView[];
+  educators: Educator[];
+  children: Child[];
+  @Input() filter_mode = this.sessionUtils.isAllowed('ROLE_ADMIN') ? 'All' : 'Mine';
 
   constructor(
     private router: Router,
@@ -21,34 +24,55 @@ export class TeachingPlansComponent implements OnInit {
     private childService: ChildService,
     private childUtils: ChildUtils,
     private outcomeUtils: OutcomeUtils,
-    private sessionUtils: SessionUtils) { }
+    private sessionUtils: SessionUtils,
+    private educatorAssignmentService: EducatorAssignmentService,
+    private parentGuardianService: ParentGuardianAssignmentService) { }
 
   ngOnInit() {
-    this.getTeachingPlans();
+    this.educatorService.getEducators()
+      .subscribe(educators => {
+        this.educators = educators;
+        this.childService.getChildren()
+          .subscribe(children => {
+            this.children = children;
+            this.getTeachingPlans();
+          });
+        });
   }
 
   getTeachingPlans(): void {
-    this.teachingPlanService.getTeachingPlans()
-      .subscribe(obs => {
-        this.educatorService.getEducators()
-          .subscribe(educators => {
-            this.childService.getChildren()
-              .subscribe(children => {
-                this.teachingPlans = obs.map(o => Object.assign(new TeachingPlanView(), {
-                    id: o.id,
-                    educator_id: o.educator_id,
-                    educator_name: this.educatorUtils.getNameFromList(educators, o.educator_id),
-                    child_id: o.educator_id,
-                    child_name: this.childUtils.getNameFromList(children, o.child_id),
-                    title: o.title,
-                    target_outcome_id: o.target_outcome_id,
-                    target_outcome: this.outcomeUtils.getOutcomeDescription(o.target_outcome_id),
-                    target_date: o.target_date,
-                    done: o.done
-                  }));
-              });
-            });
-      });
+    if (this.filter_mode === 'All' || this.sessionUtils.isAllowed('ROLE_ADMIN')) {
+      this.teachingPlanService.getTeachingPlans()
+        .subscribe(tps => this.composeTeachingPlans(tps));
+    } else {
+      if (this.sessionUtils.isAllowed('ROLE_EDUCATOR')) {
+        if (this.filter_mode === 'Mine') {
+          this.teachingPlanService.getTeachingPlansByEducator(this.sessionUtils.getId())
+            .subscribe(tps => this.composeTeachingPlans(tps));
+        } else {
+          this.educatorAssignmentService.getTeachingPlansByAssignedEducator(this.sessionUtils.getId())
+            .subscribe(tps => this.composeTeachingPlans(tps));
+        }
+      } else {
+        this.parentGuardianService.getTeachingPlansByAssignedParentGuardian(this.sessionUtils.getId())
+          .subscribe(tps => this.composeTeachingPlans(tps));
+      }
+    }
+  }
+
+  composeTeachingPlans(tps: TeachingPlan[]): void {
+    this.teachingPlans = tps.map(tp => Object.assign(new TeachingPlanView(), {
+      id: tp.id,
+      educator_id: tp.educator_id,
+      educator_name: this.educatorUtils.getNameFromList(this.educators, tp.educator_id),
+      child_id: tp.educator_id,
+      child_name: this.childUtils.getNameFromList(this.children, tp.child_id),
+      title: tp.title,
+      target_outcome_id: tp.target_outcome_id,
+      target_outcome: this.outcomeUtils.getOutcomeDescription(tp.target_outcome_id),
+      target_date: tp.target_date,
+      done: tp.done
+    }));
   }
 
   addNew(): void {

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 
-import { ChildService, Child } from './../../shared';
+import { ChildService, Child, EducatorAssignmentService, ParentGuardianAssignmentService, SessionUtils } from './../../shared';
 
 @Component({
   selector: 'app-children',
@@ -12,16 +12,32 @@ import { ChildService, Child } from './../../shared';
 })
 export class MilestonesComponent implements OnInit {
   children: Child[];
+  @Input() filter_mode = this.sessionUtils.isAllowed('ROLE_ADMIN') ? 'All' : 'Under my care';
 
-  constructor(private router: Router, private childService: ChildService) { }
+  constructor(
+    private router: Router,
+    private childService: ChildService,
+    private educatorAssignmentService: EducatorAssignmentService,
+    private parentGuardianService: ParentGuardianAssignmentService,
+    private sessionUtils: SessionUtils) { }
 
   ngOnInit() {
     this.getChildren();
   }
 
   getChildren(): void {
-    this.childService.getChildren()
-      .subscribe(children => this.children = children);
+    if (this.filter_mode === 'All' || this.sessionUtils.isAllowed('ROLE_ADMIN')) {
+      this.childService.getChildren()
+        .subscribe(children => this.children = children);
+    } else {
+      if (this.sessionUtils.isAllowed('ROLE_EDUCATOR')) {
+        this.educatorAssignmentService.getChildrenByEducator(this.sessionUtils.getId())
+          .subscribe(children => this.children = children);
+      } else {
+        this.parentGuardianService.getChildrenByParentGuardian(this.sessionUtils.getId())
+          .subscribe(children => this.children = children);
+      }
+    }
   }
 
   goToDetail(child: Child): void {

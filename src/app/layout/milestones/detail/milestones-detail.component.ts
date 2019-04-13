@@ -74,7 +74,7 @@ export class MilestonesDetailComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.outcomes = this.outcomeUtils.getOutcomes();
             if (params['id'] > 0) {
-                if (this.sessionUtils.getRole() === 'ROLE_EDUCATOR') {
+                if (this.sessionUtils.isAllowed('ROLE_EDUCATOR')) {
                     this.educatorService.getEducator(this.sessionUtils.getId())
                         .subscribe(edcator => {
                             this.educator = edcator;
