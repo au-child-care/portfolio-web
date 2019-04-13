@@ -21,7 +21,7 @@
             </li>
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    {{ user_name }} <b class="caret"></b>
+                    {{ sessionUtils.getUserName() }} <b class="caret"></b>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
                     <a class="dropdown-item" [routerLink]="['/notifications']">

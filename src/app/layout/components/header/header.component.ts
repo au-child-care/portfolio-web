@@ -11,7 +11,6 @@ import { SessionUtils, NotificationService } from 'src/app/shared';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
     hasNewNotifications = true;
-    user_name: string;
 
     constructor(
         private translate: TranslateService,
@@ -37,7 +36,6 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.pushRightClass = 'push-right';
-        this.user_name = this.sessionUtils.getUserName();
         this.notificationService.getNotificationsByRecipient(this.sessionUtils.getId(), this.sessionUtils.getRole())
             .subscribe(notifs => this.hasNewNotifications = notifs.filter(n => n.marked_read === 0).length > 0);
     }

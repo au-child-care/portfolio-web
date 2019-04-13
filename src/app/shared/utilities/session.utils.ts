@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthenticateResponse, AccountDetails } from '../dtos';
+import { AuthenticateResponse, AccountDetails, CentreDetails } from '../dtos';
 
 @Injectable({ providedIn: 'root' })
 export class SessionUtils {
@@ -17,6 +17,11 @@ export class SessionUtils {
     updateAccount(account: AccountDetails) {
         localStorage.setItem('user_name', account.first_name + ' ' + account.last_name);
         localStorage.setItem('user_details', JSON.stringify(account));
+    }
+
+    updateCentre(centre: CentreDetails) {
+        localStorage.setItem('centre_name', centre.name);
+        localStorage.setItem('centre_details', JSON.stringify(centre));
     }
 
     isLoggedIn(): boolean {
@@ -61,6 +66,10 @@ export class SessionUtils {
 
     getCentreName(): string {
         return localStorage.getItem('centre_name');
+    }
+
+    getCentre(): CentreDetails {
+        return JSON.parse(localStorage.getItem('centre_details'));
     }
 
     isAllowed(...allowedRoles: string[]): boolean {

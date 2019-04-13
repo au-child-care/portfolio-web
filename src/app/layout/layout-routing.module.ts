@@ -36,7 +36,8 @@ const routes: Routes = [
             { path: 'parents-guardians/detail/:id', loadChildren: './parents-guardians/detail/parents-guardians-detail.module#ParentsGuardiansDetailModule' },
 
             { path: 'notifications', loadChildren: './notifications/notifications.module#NotificationsModule' },
-            { path: 'account', loadChildren: './account/account.module#AccountModule' }
+            { path: 'account', loadChildren: './account/account.module#AccountModule' },
+            { path: 'centre', loadChildren: './centre/centre.module#CentreModule' }
         ]
     }
 ];

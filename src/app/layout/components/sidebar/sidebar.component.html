@@ -77,7 +77,7 @@
             </li>
         </div>
 
-        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/settings']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/centre']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-home"></i>
             <span>{{ 'Centre Details' | translate }}</span>
         </a>
