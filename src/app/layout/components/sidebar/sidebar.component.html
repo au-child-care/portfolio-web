@@ -1,64 +1,84 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
     <div class="list-group">
         <a (click)="goToDashboard()" [routerLinkActive]="['router-link-active']" class="list-group-item" style="cursor:pointer;">
-            <i class="fas fa-fw fa-tachometer-alt"></i>&nbsp;
+            <i class="fa fa-fw fa-tachometer-alt"></i>
             <span>{{ 'Dashboard' | translate }}</span>
-        </a>        
+        </a>    
+
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">
-                <i class="fa fa-address-book"></i>&nbsp;
+                <i class="fa fa-fw fa-address-book"></i>
                 <span>{{ 'Child Portfolio' | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
                     <li>
                         <a [routerLink]="['/children']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                            <i class="fas fa-fw fa-child"></i>&nbsp;
+                            <i class="fa fa-fw fa-child"></i>
                             <span>{{ 'Children' | translate }}</span>
                         </a>
                     </li>
                     <li>
                         <a [routerLink]="['/observations']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                            <i class="fas fa-fw fa-clipboard-check"></i>&nbsp;
+                            <i class="fa fa-fw fa-clipboard-check"></i>
                             <span>{{ 'Observations' | translate }}</span>
                         </a>
                     </li>
                     <li>
                         <a [routerLink]="['/milestones']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                            <i class="fas fa-fw fa-award"></i>&nbsp;
+                            <i class="fa fa-fw fa-award"></i>
                             <span>{{ 'Milestones' | translate }}</span>
                         </a>
                     </li>
                     <li *ngIf="sessionUtils.isAllowed('ROLE_ADMIN','ROLE_EDUCATOR')">
                         <a [routerLink]="['/teachingplans']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                            <i class="fas fa-fw fa-edit"></i>&nbsp;
+                            <i class="fa fa-fw fa-edit"></i>
                             <span>{{ 'Teaching Plans' | translate }}</span>
                         </a>
                     </li>
                 </ul>
             </li>
         </div>
-        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/parents-guardians']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fas fa-fw fa-user-friends"></i>&nbsp;
-            <span>{{ 'Parents and Guardians' | translate }}</span>
-        </a>
-        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/educators']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fas fa-fw fa-chalkboard-teacher"></i>&nbsp;
-            <span>{{ 'Educators' | translate }}</span>
-        </a>
-        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/administrators']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fas fa-fw fa-user-cog"></i>&nbsp;
-            <span>{{ 'Administrators' | translate }}</span>
-        </a>
-        <a [routerLink]="['/account']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fas fa-fw fa-cog"></i>&nbsp;
-            <span>{{ 'My Account' | translate }}</span>
+
+        <div *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('accounts')">
+                <i class="fa fa-fw fa-user"></i>
+                <span>{{ 'Accounts' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'accounts'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/parents-guardians']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-user-friends"></i>
+                            <span>{{ 'Parents / Guardians' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/educators']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-chalkboard-teacher"></i>
+                            <span>{{ 'Educators' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/administrators']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-user-cog"></i>
+                            <span>{{ 'Administrators' | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/settings']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-home"></i>
+            <span>{{ 'Centre Details' | translate }}</span>
         </a>
 
         <div class="header-fields">
+            <div class="dropdown-divider"></div>
             <div class="nested-menu">
                 <a class="list-group-item" (click)="addExpandClass('profile')">
-                    <span><i class="fa fa-user"></i>&nbsp; {{ user_name }}</span>
+                    <span><i class="fa fa-fw fa-user-circle"></i> {{ user_name }}</span>
                 </a>
                 <li class="nested" [class.expand]="showMenu === 'profile'">
                     <ul class="submenu">
@@ -69,7 +89,7 @@
                         </li>
                         <li>
                             <a [routerLink]="['/account']">
-                                <span><i class="fas fa-fw fa-cog"></i> My account</span>
+                                <span><i class="fa fa-fw fa-cog"></i> My account</span>
                             </a>
                         </li>
                         <div class="dropdown-divider"></div>
@@ -84,7 +104,7 @@
         </div>
     </div>
     <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
-        <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>&nbsp;
-        <span>{{ 'Collapse Sidebar' | translate }}</span>
+        <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>
+        <span>{{ 'Hide menu' | translate }}</span>
     </div>
 </nav>

@@ -1,0 +1,33 @@
+:host {
+    display: block;
+}
+.not-found-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    background-image: url("../../assets/images/not-found.jpg");
+    background-size: cover;
+    text-align: center;
+    color: #fff;
+    padding: 3em;
+
+    h1 {
+        font-weight: 300;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 36px;
+        small {
+            color: rgba(255, 255, 255, 0.7);
+        }
+    }
+}
+
+.message-panel {
+    -webkit-border-radius: 2%;
+    border-radius: 2%;
+    padding: 15px;
+    background-color: rgba(40, 40, 40, 0.6) !important;
+}
