@@ -208,27 +208,27 @@
                             </div>           
                             <h5 class="detail-label">Portfolio Tracking</h5>
                             <div class="row">
-                                    <div class="col-lg-5 detail-label">Total Observations:</div>
+                                    <div class="col-lg-5 detail-label">Observations:</div>
                                     <div class="col-lg-6">{{ statistics?.total_observations || 0 }}</div>
                             </div>
                             <div class="row">
-                                    <div class="col-lg-5 detail-label">Latest Observation:</div>
+                                    <div class="col-lg-5 detail-label">Last Observation:</div>
                                     <div class="col-lg-6">{{ child.last_observation_activity | date }}</div>
                             </div>
                             <div class="row">
-                                    <div class="col-lg-5 detail-label">Total Milestones:</div>
+                                    <div class="col-lg-5 detail-label">Milestones:</div>
                                     <div class="col-lg-6">{{ statistics?.total_milestones || 0 }}</div>
                             </div>
                             <div class="row">
-                                    <div class="col-lg-5 detail-label">Latest Milestone:</div>
+                                    <div class="col-lg-5 detail-label">Last Milestone:</div>
                                     <div class="col-lg-6">{{ child.last_milestone_activity | date }}</div>
                             </div>
                             <div class="row">
-                                    <div class="col-lg-5 detail-label">Total ITPs:</div>
+                                    <div class="col-lg-5 detail-label">ITPs:</div>
                                     <div class="col-lg-6">{{ statistics?.total_itps || 0 }}</div>
                             </div>
                             <div class="row">
-                                    <div class="col-lg-5 detail-label">Total Open ITPs:</div>
+                                    <div class="col-lg-5 detail-label">Open ITPs:</div>
                                     <div class="col-lg-6">{{ statistics?.total_itps_open || 0 }}</div>
                             </div>
                             <div class="row">
@@ -252,7 +252,7 @@
                                     <div class="col-lg-6">{{ child.date_created | date }}</div>
                             </div>
                             <div class="row">
-                                    <div class="col-lg-5 detail-label">Last updated on:</div>
+                                    <div class="col-lg-5 detail-label">Updated on:</div>
                                     <div class="col-lg-6">{{ child.date_modified | date }}</div>
                             </div>
                         </div>
