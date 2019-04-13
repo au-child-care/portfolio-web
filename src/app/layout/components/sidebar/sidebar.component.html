@@ -1,6 +1,14 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
     <div class="list-group">
-        <a (click)="goToDashboard()" [routerLinkActive]="['router-link-active']" class="list-group-item" style="cursor:pointer;">
+        <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/dashboard-admin']" [routerLinkActive]="['router-link-active']" class="list-group-item" style="cursor:pointer;">
+            <i class="fa fa-fw fa-tachometer-alt"></i>
+            <span>{{ 'Dashboard' | translate }}</span>
+        </a>    
+        <a *ngIf="sessionUtils.isAllowed('ROLE_EDUCATOR')" [routerLink]="['/dashboard-educator']" [routerLinkActive]="['router-link-active']" class="list-group-item" style="cursor:pointer;">
+            <i class="fa fa-fw fa-tachometer-alt"></i>
+            <span>{{ 'Dashboard' | translate }}</span>
+        </a>    
+        <a *ngIf="sessionUtils.isAllowed('ROLE_PARENT_GUARDIAN')" [routerLink]="['/dashboard-parent-guardian']" [routerLinkActive]="['router-link-active']" class="list-group-item" style="cursor:pointer;">
             <i class="fa fa-fw fa-tachometer-alt"></i>
             <span>{{ 'Dashboard' | translate }}</span>
         </a>    
