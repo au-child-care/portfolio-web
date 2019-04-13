@@ -14,6 +14,11 @@ export class SessionUtils {
         localStorage.setItem('centre_details', JSON.stringify(response.centre_details));
     }
 
+    updateAccount(account: AccountDetails) {
+        localStorage.setItem('user_name', account.first_name + ' ' + account.last_name);
+        localStorage.setItem('user_details', JSON.stringify(account));
+    }
+
     isLoggedIn(): boolean {
         return localStorage.getItem('isLoggedin') === 'true';
     }

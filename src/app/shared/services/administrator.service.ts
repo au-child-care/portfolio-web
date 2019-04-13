@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 
 import { Administrator } from '../dtos/administrator.dto';
 import { SessionUtils } from '../utilities';
+import { PasswordUtils } from '../utilities/password.utils';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,7 +18,8 @@ export class AdministratorService {
 
   constructor(
     private http: HttpClient,
-    private sessionUtils: SessionUtils) { }
+    private sessionUtils: SessionUtils,
+    private passwordUtils: PasswordUtils) { }
 
   getAdministrators(): Observable<Administrator[]> {
     return this.http.get<Administrator[]>(`${this.administratorsUrl}?centre_id=${this.sessionUtils.getCentreId()}`);
@@ -32,6 +34,7 @@ export class AdministratorService {
   }
 
   updateAdministrator(admin: Administrator): Observable<Administrator> {
-    return this.http.put<Administrator>(`${this.administratorsUrl}/${admin.id}`, admin, httpOptions);
+    const newAdmin = this.passwordUtils.removeDummyPassword(admin);
+    return this.http.put<Administrator>(`${this.administratorsUrl}/${admin.id}`, newAdmin, httpOptions);
   }
 }

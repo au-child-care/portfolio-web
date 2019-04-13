@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 
 import { Educator } from '../dtos/educator.dto';
 import { SessionUtils } from '../utilities';
+import { PasswordUtils } from '../utilities/password.utils';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,7 +18,8 @@ export class EducatorService {
 
   constructor(
     private http: HttpClient,
-    private sessionUtils: SessionUtils) { }
+    private sessionUtils: SessionUtils,
+    private passwordUtils: PasswordUtils) { }
 
   getEducators(): Observable<Educator[]> {
     return this.http.get<Educator[]>(`${this.educatorsUrl}?centre_id=${this.sessionUtils.getCentreId()}`);
@@ -32,6 +34,7 @@ export class EducatorService {
   }
 
   updateEducator(educator: Educator): Observable<Educator> {
-    return this.http.put<Educator>(`${this.educatorsUrl}/${educator.id}`, educator, httpOptions);
+    const newEducator = this.passwordUtils.removeDummyPassword(educator);
+    return this.http.put<Educator>(`${this.educatorsUrl}/${educator.id}`, newEducator, httpOptions);
   }
 }

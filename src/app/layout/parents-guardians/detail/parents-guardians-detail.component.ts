@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
 import { ChildSelectorComponent } from 'src/app/shared/modules/child-selector/child-selector.component';
+import { PasswordUtils } from 'src/app/shared/utilities/password.utils';
 
 @Component({
     selector: 'app-parents-guardians-detail',
@@ -26,7 +27,8 @@ export class ParentsGuardiansDetailComponent implements OnInit {
         private parentGuardianService: ParentGuardianService,
         private parentGuardianAssignmentService: ParentGuardianAssignmentService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils) {}
+        private sessionUtils: SessionUtils,
+        private passwordUtils: PasswordUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.assignedChildIds = [];
@@ -34,6 +36,7 @@ export class ParentsGuardiansDetailComponent implements OnInit {
             this.parentGuardianService.getParentGuardian(params['id'])
                 .subscribe(parentGuardian => {
                     this.parentGuardian = parentGuardian;
+                    this.parentGuardian.password = this.passwordUtils.getDummyPassword();
                     this.parentGuardianAssignmentService.getByParentGuardian(parentGuardian.id)
                         .subscribe(assignment => {
                             this.assignedChildIds = assignment.map(a => a.child_id);
@@ -67,6 +70,7 @@ export class ParentsGuardiansDetailComponent implements OnInit {
             .subscribe(
                 parentGuardian => {
                     this.parentGuardian = parentGuardian;
+                    this.parentGuardian.password = this.passwordUtils.getDummyPassword();
                     this.setChildAssignment('Unable to save');
                 },
                 error => {
@@ -79,6 +83,7 @@ export class ParentsGuardiansDetailComponent implements OnInit {
         .subscribe(
             parentGuardian => {
                 this.parentGuardian = parentGuardian;
+                this.parentGuardian.password = this.passwordUtils.getDummyPassword();
                 if (saveAssignments) {
                     this.setChildAssignment(failMessage);
                 } else {

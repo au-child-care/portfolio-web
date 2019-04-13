@@ -34,7 +34,9 @@ const routes: Routes = [
             { path: 'educators/detail/:id', loadChildren: './educators/detail/educators-detail.module#EducatorsDetailModule' },
             { path: 'parents-guardians', loadChildren: './parents-guardians/parents-guardians.module#ParentsGuardiansModule' },
             { path: 'parents-guardians/detail/:id', loadChildren: './parents-guardians/detail/parents-guardians-detail.module#ParentsGuardiansDetailModule' },
-            { path: 'notifications', loadChildren: './notifications/notifications.module#NotificationsModule' }
+
+            { path: 'notifications', loadChildren: './notifications/notifications.module#NotificationsModule' },
+            { path: 'account', loadChildren: './account/account.module#AccountModule' }
         ]
     }
 ];

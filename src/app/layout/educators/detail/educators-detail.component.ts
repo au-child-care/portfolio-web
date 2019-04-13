@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
 import { ChildSelectorComponent } from 'src/app/shared/modules/child-selector/child-selector.component';
+import { PasswordUtils } from 'src/app/shared/utilities/password.utils';
 
 @Component({
     selector: 'app-educators-detail',
@@ -28,7 +29,8 @@ export class EducatorsDetailComponent implements OnInit {
         private educatorAssignmentService: EducatorAssignmentService,
         private statisticsService: StatisticsService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils) {}
+        private sessionUtils: SessionUtils,
+        private passwordUtils: PasswordUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.assignedChildIds = [];
@@ -36,6 +38,7 @@ export class EducatorsDetailComponent implements OnInit {
             this.educatorService.getEducator(params['id'])
                 .subscribe(educator => {
                     this.educator = educator;
+                    this.educator.password = this.passwordUtils.getDummyPassword();
                     this.educatorAssignmentService.getByEducator(educator.id)
                         .subscribe(assignment => {
                             this.assignedChildIds = assignment.map(a => a.child_id);
@@ -74,6 +77,7 @@ export class EducatorsDetailComponent implements OnInit {
             .subscribe(
                 educator => {
                     this.educator = educator;
+                    this.educator.password = this.passwordUtils.getDummyPassword();
                     this.setChildAssignment('Unable to save');
                 },
                 error => {
@@ -86,6 +90,7 @@ export class EducatorsDetailComponent implements OnInit {
         .subscribe(
             educator => {
                 this.educator = educator;
+                this.educator.password = this.passwordUtils.getDummyPassword();
                 if (saveAssignments) {
                     this.setChildAssignment(failMessage);
                 } else {

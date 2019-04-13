@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 
 import { ParentGuardian } from '../dtos/parent-guardian.dto';
 import { SessionUtils } from '../utilities';
+import { PasswordUtils } from '../utilities/password.utils';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,7 +18,8 @@ export class ParentGuardianService {
 
   constructor(
     private http: HttpClient,
-    private sessionUtils: SessionUtils) { }
+    private sessionUtils: SessionUtils,
+    private passwordUtils: PasswordUtils) { }
 
   getParentsGuardians(): Observable<ParentGuardian[]> {
     return this.http.get<ParentGuardian[]>(`${this.parentsGuardiansUrl}?centre_id=${this.sessionUtils.getCentreId()}`);
@@ -32,6 +34,7 @@ export class ParentGuardianService {
   }
 
   updateParentGuardian(parentGuardian: ParentGuardian): Observable<ParentGuardian> {
-    return this.http.put<ParentGuardian>(`${this.parentsGuardiansUrl}/${parentGuardian.id}`, parentGuardian, httpOptions);
+    const newParentGuardian = this.passwordUtils.removeDummyPassword(parentGuardian);
+    return this.http.put<ParentGuardian>(`${this.parentsGuardiansUrl}/${parentGuardian.id}`, newParentGuardian, httpOptions);
   }
 }

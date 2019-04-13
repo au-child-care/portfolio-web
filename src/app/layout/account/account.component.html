@@ -1,6 +1,6 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Admin Details'"></app-page-header>
-    <div *ngIf="admin">
+    <app-page-header [heading]="'My Account'"></app-page-header>
+    <div *ngIf="account">
 
         <form name="form" #f="ngForm" novalidate>
 
@@ -8,7 +8,7 @@
                 <div class="col-lg-8">
                     <div class="form-group">
                         <label for="firstNameInput" class="detail-label">First name</label>
-                        <input [(ngModel)]="admin.first_name" type="text" class="form-control" id="firstNameInput" name="firstNameInput" placeholder="First name"
+                        <input [(ngModel)]="account.first_name" type="text" class="form-control" id="firstNameInput" name="firstNameInput" placeholder="First name"
                         required maxlength="50" pattern="^[a-zA-Z\s]*$" #first_name="ngModel" [ngClass]="{ 'is-invalid': first_name.invalid }" />
                         <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)" class="text-danger">
                             <div *ngIf="first_name.errors.required">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label for="lastNameInput" class="detail-label">Last name</label>
-                        <input [(ngModel)]="admin.last_name" type="text" class="form-control" id="lastNameInput" name="lastNameInput" placeholder="Last name"
+                        <input [(ngModel)]="account.last_name" type="text" class="form-control" id="lastNameInput" name="lastNameInput" placeholder="Last name"
                         required maxlength="50" pattern="^[a-zA-Z\s]*$" #last_name="ngModel" [ngClass]="{ 'is-invalid': last_name.invalid }" />
                         <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)" class="text-danger">
                             <div *ngIf="last_name.errors.required">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nicknameInput" class="detail-label">Nickname</label>
-                        <input [(ngModel)]="admin.nickname" type="text" class="form-control" id="nicknameInput" name="nicknameInput" placeholder="e.g. Joie"
+                        <input [(ngModel)]="account.nickname" type="text" class="form-control" id="nicknameInput" name="nicknameInput" placeholder="e.g. Joie"
                         maxlength="20" pattern="^[a-zA-Z\s]*$" #nickname="ngModel" [ngClass]="{ 'is-invalid': nickname.invalid }" />
                         <div *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)" class="text-danger">
                             <div *ngIf="nickname.errors.maxlength">
@@ -53,7 +53,7 @@
                     </div>
                     <div class="form-group">
                         <label for="emailInput" class="detail-label">Email</label>
-                        <input [(ngModel)]="admin.email" type="email" class="form-control" id="emailInput" name="emailInput" placeholder="name@domain.com" 
+                        <input [(ngModel)]="account.email" type="email" class="form-control" id="emailInput" name="emailInput" placeholder="name@domain.com" 
                         required maxlength="50" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid }" />
                         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
                             <div *ngIf="email.errors.required">
@@ -69,7 +69,7 @@
                     </div>
                     <div class="form-group">
                         <label for="passwordInput" class="detail-label">Password</label>
-                        <input [(ngModel)]="admin.password" type="password" class="form-control" id="passwordInput" name="passwordInput" placeholder="" 
+                        <input [(ngModel)]="account.password" type="password" class="form-control" id="passwordInput" name="passwordInput" placeholder="" 
                         required maxlength="20" pattern="^(.*)(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d](.*){4,20}" #password="ngModel" [ngClass]="{ 'is-invalid': password.invalid }" />
                         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
                             <div *ngIf="password.errors.required">
@@ -85,7 +85,7 @@
                     </div>
                     <div class="form-group">
                         <label for="contactNumberInput" class="detail-label">Contact number</label>
-                        <input [(ngModel)]="admin.contact_number" type="text" class="form-control" id="contactNumberInput" name="contactNumberInput" placeholder="0#########" 
+                        <input [(ngModel)]="account.contact_number" type="text" class="form-control" id="contactNumberInput" name="contactNumberInput" placeholder="0#########" 
                         minlength="7" maxlength="20" #contact_number="ngModel" [ngClass]="{ 'is-invalid': contact_number.invalid }" />
                         <div *ngIf="contact_number.invalid && (contact_number.dirty || contact_number.touched)" class="text-danger">
                             <div *ngIf="contact_number.errors.required">
@@ -100,36 +100,7 @@
                         </div>
                     </div>
                     
-                    <button class="btn btn-primary" (click)="save()" [disabled]="f.invalid">Save</button>
-                    <span>&nbsp;</span>
-                    <button class="btn btn-light" (click)="back()">Cancel</button>
-                </div>
-
-                
-                <div *ngIf="admin.id > 0" class="col-lg-4">
-                    <div class="row">
-                        <span>&nbsp;</span>
-                        <div class="col-lg-11 admin-panel">
-                            <h5 class="detail-label">Actions</h5>
-                            <div class="row">
-                                <div class="col-lg-11">
-                                    <button class="btn btn-{{ admin.active === 1 ? 'secondary' : 'success' }}" (click)="activateDeactivate()">{{ admin.active === 1 ? 'Deactivate' : 'Activate' }}</button>                            
-                                    <span>&nbsp;</span>
-                                    <button class="btn btn-danger" (click)="showConfirm()">Delete</button>
-                                </div>
-                            </div>
-                            <span><hr/></span>
-                            <h5 class="detail-label">Account Details</h5>
-                            <div class="row">
-                                    <div class="col-lg-5 detail-label">Created on:</div>
-                                    <div class="col-lg-6">{{ admin.date_created | date }}</div>
-                            </div>
-                            <div class="row">
-                                    <div class="col-lg-5 detail-label">Updated on:</div>
-                                    <div class="col-lg-6">{{ admin.date_modified | date }}</div>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="btn btn-primary" (click)="showConfirm()" [disabled]="f.invalid">Save</button>
                 </div>
             </div>
 

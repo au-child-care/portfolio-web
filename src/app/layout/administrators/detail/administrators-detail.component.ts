@@ -5,6 +5,7 @@ import { Administrator, AdministratorService, DateUtils, SessionUtils } from 'sr
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
+import { PasswordUtils } from 'src/app/shared/utilities/password.utils';
 
 @Component({
     selector: 'app-administrators-detail',
@@ -22,12 +23,16 @@ export class AdministratorsDetailComponent implements OnInit {
         private dialogService: DialogService,
         private administratorService: AdministratorService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils) {}
+        private sessionUtils: SessionUtils,
+        private passwordUtils: PasswordUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         if (params['id'] > 0) {
             this.administratorService.getAdministrator(params['id'])
-                .subscribe(admin => this.admin = admin);
+                .subscribe(admin => {
+                    this.admin = admin;
+                    this.admin.password = this.passwordUtils.getDummyPassword();
+                });
         } else {
             this.admin = new Administrator();
         }
@@ -51,6 +56,7 @@ export class AdministratorsDetailComponent implements OnInit {
                 .subscribe(
                     admin => {
                         this.admin = admin;
+                        this.admin.password = this.passwordUtils.getDummyPassword();
                         this.toastr.success('', 'Success');
                     },
                     error => {
@@ -64,6 +70,7 @@ export class AdministratorsDetailComponent implements OnInit {
         .subscribe(
             admin => {
                 this.admin = admin;
+                this.admin.password = this.passwordUtils.getDummyPassword();
                 this.toastr.success('', 'Success');
                 if (routeOnSuccess) {
                     this.back();
