@@ -1,5 +1,6 @@
 export class Educator {
     id = 0;
+    centre_id = 0;
     first_name = '';
     last_name = '';
     nickname = '';

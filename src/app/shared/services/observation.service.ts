@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { Observation, RecommendationRequest, Recommendation } from '../dtos';
+import { SessionUtils } from '../utilities';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,10 +16,11 @@ export class ObservationService {
   private observationsUrl = 'http://localhost:8000/api/observation';  // URL to web api
 
   constructor(
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private sessionUtils: SessionUtils) { }
 
   getObservations(): Observable<Observation[]> {
-    return this.http.get<Observation[]>(this.observationsUrl);
+    return this.http.get<Observation[]>(`${this.observationsUrl}?centre_id=${this.sessionUtils.getCentreId()}`);
   }
 
   getObservation(id: number): Observable<Observation> {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ParentGuardian, ParentGuardianService, DateUtils, ParentGuardianAssignmentService, ParentGuardianAssignment } from './../../../shared';
+import { ParentGuardian, ParentGuardianService, DateUtils, ParentGuardianAssignmentService, ParentGuardianAssignment, SessionUtils } from './../../../shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -25,7 +25,8 @@ export class ParentsGuardiansDetailComponent implements OnInit {
         private dialogService: DialogService,
         private parentGuardianService: ParentGuardianService,
         private parentGuardianAssignmentService: ParentGuardianAssignmentService,
-        private dateUtils: DateUtils) {}
+        private dateUtils: DateUtils,
+        private sessionUtils: SessionUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.assignedChildIds = [];
@@ -58,6 +59,7 @@ export class ParentsGuardiansDetailComponent implements OnInit {
     }
 
     create() {
+        this.parentGuardian.centre_id = this.sessionUtils.getCentreId();
         this.parentGuardian.date_created = this.dateUtils.getCurrentDateString();
         this.parentGuardian.active = 0;
         this.parentGuardian.deleted = 0;

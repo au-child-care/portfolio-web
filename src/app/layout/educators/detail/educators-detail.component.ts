@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Educator, EducatorService, DateUtils, EducatorAssignment, EducatorAssignmentService, ChildSelection, StatisticsService, StatisticsEducator } from 'src/app/shared';
+import { Educator, EducatorService, DateUtils, EducatorAssignment, EducatorAssignmentService, ChildSelection, StatisticsService, StatisticsEducator, SessionUtils } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -27,7 +27,8 @@ export class EducatorsDetailComponent implements OnInit {
         private educatorService: EducatorService,
         private educatorAssignmentService: EducatorAssignmentService,
         private statisticsService: StatisticsService,
-        private dateUtils: DateUtils) {}
+        private dateUtils: DateUtils,
+        private sessionUtils: SessionUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.assignedChildIds = [];
@@ -62,6 +63,7 @@ export class EducatorsDetailComponent implements OnInit {
     }
 
     create() {
+        this.educator.centre_id = this.sessionUtils.getCentreId();
         this.educator.date_created = this.dateUtils.getCurrentDateString();
         this.educator.active = 0;
         this.educator.deleted = 0;

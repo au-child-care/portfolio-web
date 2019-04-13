@@ -5,26 +5,28 @@
             <form role="form">
                 <div class="form-content">
                     <div class="form-group">
-                        <h3>I am a{{ roleEducator ? 'n' : '' }}:</h3>
+                        <h4>I am a{{ roleEducator ? 'n' : '' }}:</h4>
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             <label class="btn btn-secondary role-selection {{ roleEducator ? 'active' : '' }}" (click)="updateRoleToggle(1)">
-                                <input type="radio" name="options" id="option1" autocomplete="off"><span class="role-selection-image"><i class="fas fa-fw fa-chalkboard-teacher"></i></span><br/>Educator
+                                <input type="radio" name="options" id="option1" autocomplete="off"><span class="role-selection-image"><i class="fas fa-fw fa-chalkboard-teacher"></i></span><br/><small>Educator</small>
                             </label>
                             <span>&nbsp;</span>
                             <label class="btn btn-secondary role-selection {{ roleAdmin ? 'active' : '' }}" (click)="updateRoleToggle(2)">
-                                <input type="radio" name="options" id="option2" autocomplete="off"><span class="role-selection-image"><i class="fas fa-fw fa-user-cog"></i></span><br/>Centre's<br/>Admin
+                                <input type="radio" name="options" id="option2" autocomplete="off"><span class="role-selection-image"><i class="fas fa-fw fa-user-cog"></i></span><br/><small>Centre's<br/>Admin</small>
                             </label>
                             <span>&nbsp;</span>
                             <label class="btn btn-secondary role-selection {{ roleParentGuardian ? 'active' : '' }}" (click)="updateRoleToggle(3)">
-                                <input type="radio" name="options" id="option3" autocomplete="off"><span class="role-selection-image"><i class="fas fa-fw fa-user-friends"></i></span><br/>Parent /<br/>Guardian
+                                <input type="radio" name="options" id="option3" autocomplete="off"><span class="role-selection-image"><i class="fas fa-fw fa-user-friends"></i></span><br/><small>Parent /<br/>Guardian</small>
                             </label>
                         </div>                        
                     </div>
 
                     <div class="form-group">
+                        <input type="text" [(ngModel)]="centre_code" class="form-control input-underline input-lg" id="centre_code" name="centre_code" placeholder="{{ 'Centre code' | translate }}">
+                    </div>
+                    <div class="form-group">
                         <input type="text" [(ngModel)]="email" class="form-control input-underline input-lg" id="email" name="email" placeholder="{{ 'Email' | translate }}">
                     </div>
-
                     <div class="form-group">
                         <input type="password" [(ngModel)]="password" class="form-control input-underline input-lg" id="passwword" name="passwword" placeholder="{{ 'Password' | translate }}">
                     </div>
@@ -33,7 +35,7 @@
                         {{ errorMessage }}
                     </div>
                 </div>
-                <button class="btn rounded-btn" (click)="login()" [disabled]="email === '' || password === ''">{{ 'Log in' | translate }}</button>               
+                <button class="btn rounded-btn" (click)="login()" [disabled]="centre_code === '' || email === '' || password === ''">{{ 'Log in' | translate }}</button>               
             </form>
         </div>
     </div>

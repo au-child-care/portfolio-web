@@ -11,6 +11,7 @@ import { AccountService, SessionUtils } from '../shared';
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
+    @Input() centre_code: string;
     @Input() email: string;
     @Input() password: string;
     @Input() roleEducator = true;
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
 
     login() {
         const request = {
+            centre_code: this.centre_code,
             email: this.email,
             password: this.password,
             role: this.roleAdmin ? 'ROLE_ADMIN' :

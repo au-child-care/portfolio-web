@@ -9,6 +9,9 @@ export class SessionUtils {
         localStorage.setItem('user_role', response.role);
         localStorage.setItem('user_name', response.user_details.first_name + ' ' + response.user_details.last_name);
         localStorage.setItem('user_details', JSON.stringify(response.user_details));
+        localStorage.setItem('centre_id', response.centre_details.id.toString());
+        localStorage.setItem('centre_name', response.centre_details.name);
+        localStorage.setItem('centre_details', JSON.stringify(response.centre_details));
     }
 
     isLoggedIn(): boolean {
@@ -45,6 +48,14 @@ export class SessionUtils {
                 break;
         }
         return path;
+    }
+
+    getCentreId(): number {
+        return +localStorage.getItem('centre_id');
+    }
+
+    getCentreName(): string {
+        return localStorage.getItem('centre_name');
     }
 
     isAllowed(...allowedRoles: string[]): boolean {

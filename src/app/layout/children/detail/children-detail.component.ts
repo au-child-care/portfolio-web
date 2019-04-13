@@ -148,6 +148,7 @@ export class ChildrenDetailComponent implements OnInit {
         if (this.child.id > 0) {
             this.update(false, 'Unable to save');
         } else {
+            this.child.centre_id = this.sessionUtils.getCentreId();
             this.child.date_created = this.dateUtils.getCurrentDateString();
             this.child.active = 0;
             this.child.deleted = 0;

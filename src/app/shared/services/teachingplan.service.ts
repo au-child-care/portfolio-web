@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { TeachingPlan } from '../dtos';
+import { SessionUtils } from '../utilities';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,10 +16,11 @@ export class TeachingPlanService {
   private teachingPlansUrl = 'http://localhost:8000/api/teachingPlan';  // URL to web api
 
   constructor(
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private sessionUtils: SessionUtils) { }
 
   getTeachingPlans(): Observable<TeachingPlan[]> {
-    return this.http.get<TeachingPlan[]>(this.teachingPlansUrl);
+    return this.http.get<TeachingPlan[]>(`${this.teachingPlansUrl}?centre_id=${this.sessionUtils.getCentreId()}`);
   }
 
   getTeachingPlan(id: number): Observable<TeachingPlan> {

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { ParentGuardian } from '../dtos/parent-guardian.dto';
+import { SessionUtils } from '../utilities';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,10 +16,11 @@ export class ParentGuardianService {
   private parentsGuardiansUrl = 'http://localhost:8000/api/parentGuardian';  // URL to web api
 
   constructor(
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private sessionUtils: SessionUtils) { }
 
   getParentsGuardians(): Observable<ParentGuardian[]> {
-    return this.http.get<ParentGuardian[]>(this.parentsGuardiansUrl);
+    return this.http.get<ParentGuardian[]>(`${this.parentsGuardiansUrl}?centre_id=${this.sessionUtils.getCentreId()}`);
   }
 
   getParentGuardian(id: number): Observable<ParentGuardian> {

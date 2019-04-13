@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Administrator, AdministratorService, DateUtils } from 'src/app/shared';
+import { Administrator, AdministratorService, DateUtils, SessionUtils } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
@@ -21,7 +21,8 @@ export class AdministratorsDetailComponent implements OnInit {
         private toastr: ToastrService,
         private dialogService: DialogService,
         private administratorService: AdministratorService,
-        private dateUtils: DateUtils) {}
+        private dateUtils: DateUtils,
+        private sessionUtils: SessionUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         if (params['id'] > 0) {
@@ -42,6 +43,7 @@ export class AdministratorsDetailComponent implements OnInit {
         if (this.admin.id > 0) {
             this.update(false, 'Unable to save');
         } else {
+            this.admin.centre_id = this.sessionUtils.getCentreId();
             this.admin.date_created = this.dateUtils.getCurrentDateString();
             this.admin.active = 0;
             this.admin.deleted = 0;
