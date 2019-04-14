@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
 
     login() {
         const request = {
-            centre_code: this.centre_code,
-            email: this.email,
+            centre_code: this.centre_code.trim(),
+            email: this.email.trim(),
             password: this.password,
             role: this.roleAdmin ? 'ROLE_ADMIN' :
                 this.roleEducator ? 'ROLE_EDUCATOR' :
