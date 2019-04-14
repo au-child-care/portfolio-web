@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Administrator, AdministratorService, DateUtils, SessionUtils } from 'src/app/shared';
+import { Administrator, AdministratorService, DateUtils, SessionUtils, PasswordUtils } from 'src/app/shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
-import { PasswordUtils } from 'src/app/shared/utilities/password.utils';
 
 @Component({
     selector: 'app-administrators-detail',

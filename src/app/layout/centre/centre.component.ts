@@ -5,7 +5,6 @@ import { DateUtils, SessionUtils, CentreDetails, CentreService } from 'src/app/s
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
-import { PasswordUtils } from 'src/app/shared/utilities/password.utils';
 
 @Component({
     selector: 'app-centre',
@@ -23,8 +22,7 @@ export class CentreComponent implements OnInit {
         private dialogService: DialogService,
         private centreService: CentreService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils,
-        private passwordUtils: PasswordUtils) {}
+        private sessionUtils: SessionUtils) {}
 
     ngOnInit() {
         this.centre = this.sessionUtils.getCentre();

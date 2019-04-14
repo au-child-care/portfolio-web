@@ -1,30 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 
-import { AuthenticateRequest, AccountDetails, AuthenticateResponse } from '../dtos';
-import { PasswordUtils } from '../utilities/password.utils';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import { AccountDetails, AuthenticateResponse } from '../dtos';
+import { ApiHttpClient, PasswordUtils } from '../utilities';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
 
-  private accountsUrl = 'http://localhost:8000/api/account';  // URL to web api
+  private basePath = 'account';
 
   constructor(
-    private http: HttpClient,
+    private http: ApiHttpClient,
     private passwordUtils: PasswordUtils) { }
 
   authenticate(request: any): Observable<AuthenticateResponse> {
-    return this.http.post<AuthenticateResponse>(`${this.accountsUrl}/authenticate`, request, httpOptions);
+    return this.http.post<AuthenticateResponse>(`${this.basePath}/authenticate`, request);
   }
 
   update(role: string, account: AccountDetails): Observable<any> {
     const newAccount = this.passwordUtils.removeDummyPassword(account);
-    return this.http.put<any>(`${this.accountsUrl}/update/${role}`, newAccount, httpOptions);
+    return this.http.put<any>(`${this.basePath}/update/${role}`, newAccount);
   }
 }

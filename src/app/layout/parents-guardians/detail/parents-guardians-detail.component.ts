@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ParentGuardian, ParentGuardianService, DateUtils, ParentGuardianAssignmentService, ParentGuardianAssignment, SessionUtils } from './../../../shared';
+import { ParentGuardian, ParentGuardianService, DateUtils, ParentGuardianAssignmentService, ParentGuardianAssignment, SessionUtils, PasswordUtils } from './../../../shared';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
 import { ChildSelectorComponent } from 'src/app/shared/modules/child-selector/child-selector.component';
-import { PasswordUtils } from 'src/app/shared/utilities/password.utils';
 
 @Component({
     selector: 'app-parents-guardians-detail',
