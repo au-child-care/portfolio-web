@@ -1,4 +1,4 @@
-$topnav-background-color: #222;
+$topnav-background-color: #333333;
 :host {
     .navbar {
         background-color: $topnav-background-color;
@@ -6,6 +6,7 @@ $topnav-background-color: #222;
             color: #fff;
             font-weight: bolder;
             font-size: 1.3em;
+            border-bottom-color: white;
         }
         .nav-item > a {
             color: #999;
