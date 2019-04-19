@@ -26,7 +26,7 @@ export class ParentsGuardiansDetailComponent implements OnInit {
         private parentGuardianService: ParentGuardianService,
         private parentGuardianAssignmentService: ParentGuardianAssignmentService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils,
+        public sessionUtils: SessionUtils,
         private passwordUtils: PasswordUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {

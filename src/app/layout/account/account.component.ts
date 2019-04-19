@@ -22,7 +22,7 @@ export class AccountComponent implements OnInit {
         private dialogService: DialogService,
         private accountService: AccountService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils,
+        public sessionUtils: SessionUtils,
         private passwordUtils: PasswordUtils) {}
 
     ngOnInit() {

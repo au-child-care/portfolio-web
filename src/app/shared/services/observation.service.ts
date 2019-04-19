@@ -12,7 +12,7 @@ export class ObservationService {
 
   constructor(
     private http: ApiHttpClient,
-    private sessionUtils: SessionUtils) { }
+    public sessionUtils: SessionUtils) { }
 
   getObservations(): Observable<Observation[]> {
     return this.http.get<Observation[]>(`${this.basePath}?centre_id=${this.sessionUtils.getCentreId()}`);

@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
         private translate: TranslateService,
         public router: Router,
         private accountService: AccountService,
-        private sessionUtils: SessionUtils
+        public sessionUtils: SessionUtils
         ) {
             this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
             this.translate.setDefaultLang('en');

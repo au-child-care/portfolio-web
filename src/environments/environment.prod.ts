@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8000/api',
+  apiUrl: 'https://api.crayoncamp.com/api',
   apiKey: 'eyJlbnZpcm9ubWVudCI6ImRldiIsImtleSI6IlZFQjBZVGRxTUVwdlRrQnVZWGxLTUdrelFrQmllWE5BWW5JeGJrQSJ9'
 };

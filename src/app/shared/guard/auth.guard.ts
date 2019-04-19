@@ -7,7 +7,7 @@ import { SessionUtils } from '../utilities';
 export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
-        private sessionUtils: SessionUtils) {}
+        public sessionUtils: SessionUtils) {}
 
     canActivate(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (this.sessionUtils.isLoggedIn()) {

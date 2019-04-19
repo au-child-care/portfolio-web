@@ -28,7 +28,7 @@ export class EducatorsDetailComponent implements OnInit {
         private educatorAssignmentService: EducatorAssignmentService,
         private statisticsService: StatisticsService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils,
+        public sessionUtils: SessionUtils,
         private passwordUtils: PasswordUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {

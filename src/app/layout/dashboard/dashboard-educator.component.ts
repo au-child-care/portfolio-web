@@ -30,7 +30,7 @@ export class DashboardEducatorComponent implements OnInit {
         private statisticsService: StatisticsService,
         private educatorAssignmentService: EducatorAssignmentService,
         private outcomeUtils: OutcomeUtils,
-        private sessionUtils: SessionUtils) {
+        public sessionUtils: SessionUtils) {
     }
 
     ngOnInit() {

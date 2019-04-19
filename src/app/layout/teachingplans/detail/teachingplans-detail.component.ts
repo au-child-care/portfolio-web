@@ -8,8 +8,8 @@ import { ConfirmComponent } from 'src/app/shared/components/confirm.component';
 
 @Component({
     selector: 'app-teachingPlans-detail',
-    templateUrl: './teachingPlans-detail.component.html',
-    styleUrls: ['./teachingPlans-detail.component.scss'],
+    templateUrl: './teachingplans-detail.component.html',
+    styleUrls: ['./teachingplans-detail.component.scss'],
     animations: [routerTransition()]
 })
 export class TeachingPlansDetailComponent implements OnInit {
@@ -28,7 +28,7 @@ export class TeachingPlansDetailComponent implements OnInit {
         private childService: ChildService,
         private outcomeUtils: OutcomeUtils,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils) {}
+        public sessionUtils: SessionUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.outcomes = this.outcomeUtils.getOutcomes();

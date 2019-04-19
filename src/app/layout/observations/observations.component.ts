@@ -24,7 +24,7 @@ export class ObservationsComponent implements OnInit {
     private childService: ChildService,
     private childUtils: ChildUtils,
     private outcomeUtils: OutcomeUtils,
-    private sessionUtils: SessionUtils,
+    public sessionUtils: SessionUtils,
     private educatorAssignmentService: EducatorAssignmentService,
     private parentGuardianService: ParentGuardianAssignmentService) { }
 

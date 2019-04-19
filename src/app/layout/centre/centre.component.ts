@@ -22,7 +22,7 @@ export class CentreComponent implements OnInit {
         private dialogService: DialogService,
         private centreService: CentreService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils) {}
+        public sessionUtils: SessionUtils) {}
 
     ngOnInit() {
         this.centre = this.sessionUtils.getCentre();

@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
         private translate: TranslateService,
         public router: Router,
         private notificationService: NotificationService,
-        private sessionUtils: SessionUtils) {
+        public sessionUtils: SessionUtils) {
 
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');

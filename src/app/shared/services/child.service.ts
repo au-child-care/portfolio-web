@@ -12,7 +12,7 @@ export class ChildService {
 
   constructor(
     private http: ApiHttpClient,
-    private sessionUtils: SessionUtils) { }
+    public sessionUtils: SessionUtils) { }
 
   getChildren(): Observable<Child[]> {
     return this.http.get<Child[]>(`${this.basePath}?centre_id=${this.sessionUtils.getCentreId()}`);

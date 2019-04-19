@@ -49,7 +49,7 @@ export class ChildrenDetailComponent implements OnInit {
         private dateUtils: DateUtils,
         private outcomeUtils: OutcomeUtils,
         private milestoneUtils: MilestoneUtils,
-        private sessionUtils: SessionUtils) {}
+        public sessionUtils: SessionUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.assignedParentsGuardians = [];

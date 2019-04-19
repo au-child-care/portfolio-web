@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit {
     constructor(
         private translate: TranslateService,
         public router: Router,
-        private sessionUtils: SessionUtils) {
+        public sessionUtils: SessionUtils) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de']);
         this.translate.setDefaultLang('en');
         const browserLang = this.translate.getBrowserLang();

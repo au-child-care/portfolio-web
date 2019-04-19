@@ -29,7 +29,7 @@ export class ObservationsDetailComponent implements OnInit {
         private childService: ChildService,
         public outcomeUtils: OutcomeUtils,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils) {}
+        public sessionUtils: SessionUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {
         this.outcomes = this.outcomeUtils.getOutcomes();

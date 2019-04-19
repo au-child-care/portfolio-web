@@ -21,7 +21,7 @@ export class NotificationsComponent implements OnInit {
     private dialogService: DialogService,
     private notificationService: NotificationService,
     private dateUtils: DateUtils,
-    private sessionUtils: SessionUtils
+    public sessionUtils: SessionUtils
   ) {}
 
   ngOnInit() {

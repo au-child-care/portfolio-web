@@ -22,7 +22,7 @@ export class AdministratorsDetailComponent implements OnInit {
         private dialogService: DialogService,
         private administratorService: AdministratorService,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils,
+        public sessionUtils: SessionUtils,
         private passwordUtils: PasswordUtils) {}
 
     ngOnInit() {this.route.params.subscribe(params => {

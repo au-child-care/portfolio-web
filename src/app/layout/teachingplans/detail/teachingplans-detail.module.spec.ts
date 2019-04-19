@@ -1,4 +1,4 @@
-import { TeachingPlansDetailModule } from './teachingPlans-detail.module';
+import { TeachingPlansDetailModule } from './teachingplans-detail.module';
 
 describe('TeachingPlansDetailModule', () => {
     let teachingPlansDetailModule: TeachingPlansDetailModule;

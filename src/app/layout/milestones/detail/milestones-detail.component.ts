@@ -68,7 +68,7 @@ export class MilestonesDetailComponent implements OnInit {
         private childService: ChildService,
         private outcomeUtils: OutcomeUtils,
         private dateUtils: DateUtils,
-        private sessionUtils: SessionUtils) {}
+        public sessionUtils: SessionUtils) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

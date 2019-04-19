@@ -6,8 +6,8 @@ import { TeachingPlanView, TeachingPlanService, ChildService, OutcomeUtils, Educ
 
 @Component({
   selector: 'app-children',
-  templateUrl: './teachingPlans.component.html',
-  styleUrls: ['./teachingPlans.component.scss'],
+  templateUrl: './teachingplans.component.html',
+  styleUrls: ['./teachingplans.component.scss'],
   animations: [routerTransition()]
 })
 export class TeachingPlansComponent implements OnInit {
@@ -24,7 +24,7 @@ export class TeachingPlansComponent implements OnInit {
     private childService: ChildService,
     private childUtils: ChildUtils,
     private outcomeUtils: OutcomeUtils,
-    private sessionUtils: SessionUtils,
+    public sessionUtils: SessionUtils,
     private educatorAssignmentService: EducatorAssignmentService,
     private parentGuardianService: ParentGuardianAssignmentService) { }
 

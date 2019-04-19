@@ -12,7 +12,7 @@ export class StatisticsService {
 
   constructor(
     private http: ApiHttpClient,
-    private sessionUtils: SessionUtils) { }
+    public sessionUtils: SessionUtils) { }
 
   getAll(): Observable<StatisticsAll> {
     return this.http.get<StatisticsAll>(`${this.basePath}/all/${this.sessionUtils.getCentreId()}`);

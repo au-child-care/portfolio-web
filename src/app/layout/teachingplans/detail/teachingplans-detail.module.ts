@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TeachingPlansDetailRoutingModule } from './teachingPlans-detail-routing.module';
-import { TeachingPlansDetailComponent } from './teachingPlans-detail.component';
+import { TeachingPlansDetailRoutingModule } from './teachingplans-detail-routing.module';
+import { TeachingPlansDetailComponent } from './teachingplans-detail.component';
 import { PageHeaderModule } from '../../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 

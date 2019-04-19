@@ -20,7 +20,7 @@ export class ChildrenComponent implements OnInit {
     private childService: ChildService,
     private educatorAssignmentService: EducatorAssignmentService,
     private parentGuardianService: ParentGuardianAssignmentService,
-    private sessionUtils: SessionUtils) { }
+    public sessionUtils: SessionUtils) { }
 
   ngOnInit() {
     this.getChildren();

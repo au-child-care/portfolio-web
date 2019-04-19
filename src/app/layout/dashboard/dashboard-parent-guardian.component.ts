@@ -17,7 +17,7 @@ export class DashboardParentGuardianComponent implements OnInit {
         private router: Router,
         private statisticsService: StatisticsService,
         private parentGuardianAssignmentService: ParentGuardianAssignmentService,
-        private sessionUtils: SessionUtils) {
+        public sessionUtils: SessionUtils) {
     }
 
     ngOnInit() {

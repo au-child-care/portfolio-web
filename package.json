@@ -33,11 +33,12 @@
     "@ngx-translate/http-loader": "4.0.0",
     "chart.js": "^2.7.3",
     "core-js": "2.5.7",
-    "ng2-bootstrap-modal": "^1.0.1",
+    "ng2-bootstrap-modal": "https://github.com/Sky4CE/ng2-bootstrap-modal/tarball/v.1.0.2",
     "ng2-charts": "^2.0.3",
     "ngx-bootstrap": "^3.2.0",
     "ngx-toastr": "^10.0.2",
     "rxjs": "6.3.3",
+    "rxjs-compat": "^6.4.0",
     "yarn": "1.12.1",
     "zone.js": "0.8.26"
   },

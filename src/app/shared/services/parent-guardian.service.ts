@@ -12,7 +12,7 @@ export class ParentGuardianService {
 
   constructor(
     private http: ApiHttpClient,
-    private sessionUtils: SessionUtils,
+    public sessionUtils: SessionUtils,
     private passwordUtils: PasswordUtils) { }
 
   getParentsGuardians(): Observable<ParentGuardian[]> {

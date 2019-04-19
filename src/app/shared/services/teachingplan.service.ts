@@ -12,7 +12,7 @@ export class TeachingPlanService {
 
   constructor(
     private http: ApiHttpClient,
-    private sessionUtils: SessionUtils) { }
+    public sessionUtils: SessionUtils) { }
 
   getTeachingPlans(): Observable<TeachingPlan[]> {
     return this.http.get<TeachingPlan[]>(`${this.basePath}?centre_id=${this.sessionUtils.getCentreId()}`);
