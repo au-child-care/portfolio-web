@@ -109,7 +109,7 @@ export class ObservationsDetailComponent implements OnInit {
         }
         this.childService.getChild(this.observation.child_id)
             .subscribe(child => {
-                if (child.last_observation_activity || this.observation.date_tracked > child.last_observation_activity) {
+                if (!child.last_observation_activity || this.observation.date_tracked > child.last_observation_activity) {
                     child.last_observation_activity = this.observation.date_tracked;
                     this.childService.updateChild(child)
                         .subscribe(_ => {});
