@@ -83,6 +83,24 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="assessmentInput" class="detail-label">Assessment</label>                    
+                        <textarea [(ngModel)]="observation.assessment" class="form-control" rows="3" id="assessmentInput" name="assessmentInput" placeholder="Your assessment, interpretation, or analysis of the observation"
+                        required #assessmentctl="ngModel" [ngClass]="{ 'is-invalid': assessmentctl.invalid }"
+                        [disabled]="!(sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId())">
+                        </textarea>
+                        <div *ngIf="assessmentctl.invalid && (assessmentctl.dirty || assessmentctl.touched)" class="text-danger">
+                            <div *ngIf="assessmentctl.errors.required">
+                                <small>* Assessment is required</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="followUpInput" class="detail-label">Follow Up</label>                    
+                        <textarea [(ngModel)]="observation.follow_up" class="form-control" rows="2" id="followUpInput" name="followUpInput" placeholder="Follow up or possible future planning ideas"
+                        [disabled]="!(sessionUtils.isAllowed('ROLE_EDUCATOR') && educator.id === sessionUtils.getId())">
+                        </textarea>
+                    </div>
+                    <div class="form-group">
                         <label for="dateTrackedInput" class="detail-label">Date Tracked</label>
                         <input [(ngModel)]="observation.date_tracked" type="date" class="form-control" id="dateTrackedInput" name="dateTrackedInput"
                         required #datetrackedctl="ngModel" [ngClass]="{ 'is-invalid': datetrackedctl.invalid }" 
