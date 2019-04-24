@@ -27,6 +27,8 @@
             ],
             "scripts": [
               "node_modules/chart.js/dist/Chart.js",
+              "node_modules/jspdf/dist/jspdf.min.js",
+              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js",
               "src/scripts/app.js"
             ]
           },
@@ -83,6 +85,8 @@
             "karmaConfig": "src/karma.conf.js",
             "scripts": [
               "node_modules/chart.js/dist/Chart.js",
+              "node_modules/jspdf/dist/jspdf.min.js",
+              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js",
               "src/scripts/app.js"
             ],
             "styles": [

@@ -1,0 +1,47 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Reports'" [icon]="'fa-table'"></app-page-header>
+  <div *ngIf="reports && children && educators" class="row">   
+    <div *ngFor="let report of reports" class="col-xl-4 col-lg-4">
+      <div class="card card-default" style="display: block;">
+          <div class="card-header">
+              {{ report.title }}
+          </div>
+          <div>                                             
+            <div class="col-lg-12">
+              <div>
+                {{ report.description }}
+              </div>
+              <div>
+                  <span>&nbsp;</span>
+              </div>
+              <div *ngIf="report.showChildrenList" class="form-group">
+                  <label for="childInput" class="detail-label">For</label>
+                  <select [(ngModel)]="report.selectedChildId" class="form-control" id="childInput" name="childInput">
+                  <option value="0" selected disabled>Select a child</option>
+                      <option *ngFor="let child of children" [value]="child.id" class="form-control">
+                          {{ child.first_name + ' ' + child.last_name }}
+                      </option>
+                  </select>                    
+              </div>
+              <div *ngIf="report.showEducatorsList" class="form-group">
+                  <label for="educatorInput" class="detail-label">For</label>
+                  <select [(ngModel)]="report.selectedEducatorId" class="form-control" id="educatorInput" name="educatorInput">
+                  <option value="0" selected disabled>Select an educator</option>
+                      <option *ngFor="let educator of educators" [value]="educator.id" class="form-control">
+                          {{ educator.first_name + ' ' + educator.last_name }}
+                      </option>
+                  </select>                    
+              </div>
+              <div>
+                  <button class="btn btn-primary" (click)="generateReport(report)">Download PDF</button>
+              </div>
+            </div>
+            <div>
+                <span>&nbsp;</span>
+            </div>
+          </div>
+      </div>
+      <span>&nbsp;</span>
+    </div>     
+  </div>
+ </div>

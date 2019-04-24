@@ -77,6 +77,11 @@
             </li>
         </div>
 
+        <a [routerLink]="['/reports']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-print"></i>
+            <span>{{ 'Reports' | translate }}</span>
+        </a>
+
         <a *ngIf="sessionUtils.isAllowed('ROLE_ADMIN')" [routerLink]="['/centre']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-home"></i>
             <span>{{ 'Centre Details' | translate }}</span>
