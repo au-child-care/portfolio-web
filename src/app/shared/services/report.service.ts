@@ -42,6 +42,9 @@ export class ReportService {
             case 'EDUCATOR-OBSERVATIONS':
                 this.generateReportEducatorObservations(report);
                 break;
+            case 'EDUCATOR-TEACHINGPLANS':
+                this.generateReportEducatorTeachingPlans(report);
+                break;
         }
     }
 
@@ -202,7 +205,7 @@ export class ReportService {
                                             dataKey: 'group'
                                         }
                                     ];
-                                    const observationColumns = [
+                                    const milestoneColumns = [
                                         {
                                             header: 'Date Tracked',
                                             dataKey: 'date_tracked'
@@ -229,7 +232,7 @@ export class ReportService {
                                     doc.autoTable(childColumns, [ child ], {
                                         startY: 110
                                     });
-                                    doc.autoTable(observationColumns, milestones, {
+                                    doc.autoTable(milestoneColumns, milestones, {
                                         startY: 180,
                                         didParseCell: (HookData) => {
                                             if (HookData.section === 'body' && HookData.column.dataKey === 'educator_id') {
@@ -289,7 +292,7 @@ export class ReportService {
                                             dataKey: 'group'
                                         }
                                     ];
-                                    const observationColumns = [
+                                    const teachingPlansColumns = [
                                         {
                                             header: 'Target Date',
                                             dataKey: 'target_date'
@@ -316,7 +319,7 @@ export class ReportService {
                                     doc.autoTable(childColumns, [ child ], {
                                         startY: 110
                                     });
-                                    doc.autoTable(observationColumns, teachingPlans, {
+                                    doc.autoTable(teachingPlansColumns, teachingPlans, {
                                         startY: 180,
                                         didParseCell: (HookData) => {
                                             if (HookData.section === 'body' && HookData.column.dataKey === 'educator_id') {
@@ -428,6 +431,96 @@ export class ReportService {
                                             },
                                             outcome_id: {
                                                 cellWidth: 120
+                                            }
+                                        }
+                                    });
+                                    doc.save(`${report.filenamePrefix}-${educator.last_name}-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
+                                });
+                        });
+                    });
+    }
+
+    generateReportEducatorTeachingPlans(report: Report): void {
+        this.childService.getChildren()
+            .subscribe(children => {
+                    this.educatorService.getEducator(report.selectedEducatorId)
+                        .subscribe(educator => {
+                            this.teachingPlanService.getTeachingPlansByEducator(report.selectedEducatorId)
+                                .subscribe(teachingPlans => {
+                                    const educatorColumns = [
+                                        {
+                                            header: 'First name',
+                                            dataKey: 'first_name'
+                                        },
+                                        {
+                                            header: 'Last name',
+                                            dataKey: 'last_name'
+                                        },
+                                        {
+                                            header: 'Nickname',
+                                            dataKey: 'nickname'
+                                        },
+                                        {
+                                            header: 'Email',
+                                            dataKey: 'email'
+                                        },
+                                        {
+                                            header: 'Contact No.',
+                                            dataKey: 'contact_number'
+                                        }
+                                    ];
+                                    const teachingPlansColumns = [
+                                        {
+                                            header: 'Target Date',
+                                            dataKey: 'target_date'
+                                        },
+                                        {
+                                            header: 'Done',
+                                            dataKey: 'done'
+                                        },
+                                        {
+                                            header: 'For',
+                                            dataKey: 'child_id'
+                                        },
+                                        {
+                                            header: 'Title',
+                                            dataKey: 'title'
+                                        },
+                                        {
+                                            header: 'Details',
+                                            dataKey: 'details'
+                                        }
+                                    ];
+
+                                    const doc = this.createPdfReportDoc(report.title, 'l');
+                                    doc.autoTable(educatorColumns, [ educator ], {
+                                        startY: 110
+                                    });
+                                    doc.autoTable(teachingPlansColumns, teachingPlans, {
+                                        startY: 180,
+                                        didParseCell: (HookData) => {
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'child_id') {
+                                                const child = children.find(e => e.id === +HookData.cell.text);
+                                                if (child) {
+                                                    HookData.cell.text = child.first_name.charAt(0) + '. ' + child.last_name;
+                                                }
+                                            }
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'done') {
+                                                HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                                            }
+                                        },
+                                        columnStyles: {
+                                            target_date: {
+                                                cellWidth: 60
+                                            },
+                                            done: {
+                                                cellWidth: 40
+                                            },
+                                            child_id: {
+                                                cellWidth: 70
+                                            },
+                                            title: {
+                                                cellWidth: 170
                                             }
                                         }
                                     });
