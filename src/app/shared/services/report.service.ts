@@ -39,6 +39,9 @@ export class ReportService {
             case 'CHILD-TEACHINGPLANS':
                 this.generateReportChildTeachingPlans(report);
                 break;
+            case 'EDUCATOR-OBSERVATIONS':
+                this.generateReportEducatorObservations(report);
+                break;
         }
     }
 
@@ -342,6 +345,93 @@ export class ReportService {
                                         }
                                     });
                                     doc.save(`${report.filenamePrefix}-${child.last_name}-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
+                                });
+                        });
+                    });
+    }
+
+    generateReportEducatorObservations(report: Report): void {
+        this.childService.getChildren()
+            .subscribe(children => {
+                    this.educatorService.getEducator(report.selectedEducatorId)
+                        .subscribe(educator => {
+                            this.observationService.getObservationsByEducator(report.selectedEducatorId)
+                                .subscribe(observations => {
+                                    const educatorColumns = [
+                                        {
+                                            header: 'First name',
+                                            dataKey: 'first_name'
+                                        },
+                                        {
+                                            header: 'Last name',
+                                            dataKey: 'last_name'
+                                        },
+                                        {
+                                            header: 'Nickname',
+                                            dataKey: 'nickname'
+                                        },
+                                        {
+                                            header: 'Email',
+                                            dataKey: 'email'
+                                        },
+                                        {
+                                            header: 'Contact No.',
+                                            dataKey: 'contact_number'
+                                        }
+                                    ];
+                                    const observationColumns = [
+                                        {
+                                            header: 'Date Tracked',
+                                            dataKey: 'date_tracked'
+                                        },
+                                        {
+                                            header: 'For',
+                                            dataKey: 'child_id'
+                                        },
+                                        {
+                                            header: 'Observation',
+                                            dataKey: 'observation'
+                                        },
+                                        {
+                                            header: 'Outcome',
+                                            dataKey: 'outcome_id'
+                                        },
+                                        {
+                                            header: 'Assessment',
+                                            dataKey: 'assessment'
+                                        }
+                                    ];
+
+                                    const doc = this.createPdfReportDoc(report.title, 'l');
+                                    doc.autoTable(educatorColumns, [ educator ], {
+                                        startY: 110
+                                    });
+                                    doc.autoTable(observationColumns, observations, {
+                                        startY: 180,
+                                        didParseCell: (HookData) => {
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'child_id') {
+                                                const child = children.find(e => e.id === +HookData.cell.text);
+                                                if (educator) {
+                                                    HookData.cell.text = child.first_name.charAt(0) + '. ' + child.last_name;
+                                                }
+                                            }
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'outcome_id') {
+                                                HookData.cell.text = this.outcomeUtils.getOutcomeDescription(+HookData.cell.text);
+                                            }
+                                        },
+                                        columnStyles: {
+                                            date_tracked: {
+                                                cellWidth: 60
+                                            },
+                                            child_id: {
+                                                cellWidth: 70
+                                            },
+                                            outcome_id: {
+                                                cellWidth: 120
+                                            }
+                                        }
+                                    });
+                                    doc.save(`${report.filenamePrefix}-${educator.last_name}-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
                                 });
                         });
                     });
