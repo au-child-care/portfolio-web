@@ -5,4 +5,5 @@ export * from './educator.utils';
 export * from './milestone.utils';
 export * from './outcome.utils';
 export * from './password.utils';
+export * from './reports.utils';
 export * from './session.utils';

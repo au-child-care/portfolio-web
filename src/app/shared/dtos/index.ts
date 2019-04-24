@@ -19,6 +19,7 @@ export * from './parent-guardian.dto';
 export * from './recommendation-breakdown.dto';
 export * from './recommendation-request.dto';
 export * from './recommendation.dto';
+export * from './report.dto';
 export * from './statistics-all.dto';
 export * from './statistics-child-consolidated.dto';
 export * from './statistics-child-milestones-pending.dto';
