@@ -9,13 +9,15 @@
           <div>                                             
             <div class="col-lg-12">
               <div>
+                  <span>&nbsp;</span>
+              </div>
+              <div>
                 {{ report.description }}
               </div>
               <div>
                   <span>&nbsp;</span>
               </div>
               <div *ngIf="report.showChildrenList" class="form-group">
-                  <label for="childInput" class="detail-label">For</label>
                   <select [(ngModel)]="report.selectedChildId" class="form-control" id="childInput" name="childInput">
                   <option value="0" selected disabled>Select a child</option>
                       <option *ngFor="let child of children" [value]="child.id" class="form-control">
@@ -24,7 +26,6 @@
                   </select>                    
               </div>
               <div *ngIf="report.showEducatorsList" class="form-group">
-                  <label for="educatorInput" class="detail-label">For</label>
                   <select [(ngModel)]="report.selectedEducatorId" class="form-control" id="educatorInput" name="educatorInput">
                   <option value="0" selected disabled>Select an educator</option>
                       <option *ngFor="let educator of educators" [value]="educator.id" class="form-control">

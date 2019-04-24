@@ -18,7 +18,7 @@ export class ObservationService {
     return this.http.get<Observation[]>(`${this.basePath}?centre_id=${this.sessionUtils.getCentreId()}`);
   }
 
-  getObservationsByChildId(childId: number): Observable<Observation[]> {
+  getObservationsByChild(childId: number): Observable<Observation[]> {
     return this.http.get<Observation[]>(`${this.basePath}/all/byChildren/${childId}`);
   }
 

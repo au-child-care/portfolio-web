@@ -26,6 +26,10 @@ export class TeachingPlanService {
     return this.http.get<TeachingPlan[]>(`${this.basePath}/all/byEducator/${educator_id}`);
   }
 
+  getTeachingPlansByChild(child_id: number): Observable<TeachingPlan[]> {
+    return this.http.get<TeachingPlan[]>(`${this.basePath}/all/byChildren/${child_id}`);
+  }
+
   createTeachingPlan(teachingPlan: TeachingPlan): Observable<TeachingPlan> {
     return this.http.post<TeachingPlan>(`${this.basePath}`, teachingPlan);
   }
