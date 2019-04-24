@@ -33,7 +33,7 @@
                   </select>                    
               </div>
               <div>
-                  <button class="btn btn-primary" (click)="generateReport(report)">Download PDF</button>
+                  <button class="btn btn-primary" (click)="generateReport(report)" [disabled]="(report.showChildrenList && report.selectedChildId === 0) || (report.showEducatorsList && report.selectedEducatorId === 0)">Download PDF</button>
               </div>
             </div>
             <div>

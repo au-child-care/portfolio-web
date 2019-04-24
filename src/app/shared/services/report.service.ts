@@ -4,23 +4,31 @@ import { Report, Child } from '../dtos';
 
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { DateUtils, SessionUtils } from '../utilities';
+import { DateUtils, SessionUtils, OutcomeUtils } from '../utilities';
 import { ParentGuardianAssignmentService } from './parent-guardian-assignment.service';
+import { ObservationService } from './observation.service';
+import { EducatorService } from './educator.service';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
 
     constructor(
         private childService: ChildService,
+        private educatorService: EducatorService,
         private parentGuardianAssignmentService: ParentGuardianAssignmentService,
+        private observationService: ObservationService,
         private dateUtils: DateUtils,
+        private outcomeUtils: OutcomeUtils,
         private sessionUtils: SessionUtils) { }
 
     generateReport(report: Report): void {
         switch (report.code) {
             case 'CHILD-LIST':
                 this.generateReportChildList(report);
-            break;
+                break;
+            case 'CHILD-OBSERVATIONS':
+                this.generateReportChildObservations(report);
+                break;
         }
     }
 
@@ -34,7 +42,7 @@ export class ReportService {
         }
     }
 
-    generateReportChildListProcess(report: Report, children: Child[]) {
+    generateReportChildListProcess(report: Report, children: Child[]): void {
         const columns = [
             {
                 header: 'First name',
@@ -63,6 +71,94 @@ export class ReportService {
             startY: 110
         });
         doc.save(`crayoncamp-children-list-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
+    }
+
+    generateReportChildObservations(report: Report): void {
+        this.educatorService.getEducators()
+            .subscribe(educators => {
+                    this.childService.getChild(report.selectedChildId)
+                        .subscribe(child => {
+                            this.observationService.getObservationsByChildId(report.selectedChildId)
+                                .subscribe(observations => {
+                                    const childColumns = [
+                                        {
+                                            header: 'First name',
+                                            dataKey: 'first_name'
+                                        },
+                                        {
+                                            header: 'Last name',
+                                            dataKey: 'last_name'
+                                        },
+                                        {
+                                            header: 'Nickname',
+                                            dataKey: 'nickname'
+                                        },
+                                        {
+                                            header: 'Birthday',
+                                            dataKey: 'birthday'
+                                        },
+                                        {
+                                            header: 'Group',
+                                            dataKey: 'group'
+                                        }
+                                    ];
+                                    const observationColumns = [
+                                        {
+                                            header: 'Date Tracked',
+                                            dataKey: 'date_tracked'
+                                        },
+                                        {
+                                            header: 'By',
+                                            dataKey: 'educator_id'
+                                        },
+                                        {
+                                            header: 'Observation',
+                                            dataKey: 'observation'
+                                        },
+                                        {
+                                            header: 'Outcome',
+                                            dataKey: 'outcome_id'
+                                        },
+                                        {
+                                            header: 'Assessment',
+                                            dataKey: 'assessment'
+                                        }
+                                    ];
+
+
+                                    const doc = this.createPdfReportDoc(report.title, 'l');
+                                    doc.autoTable(childColumns, [ child ], {
+                                        startY: 110
+                                    });
+                                    doc.autoTable(observationColumns, observations, {
+                                        startY: 180,
+                                        didParseCell: (HookData) => {
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'educator_id') {
+                                                const educator = educators.find(e => e.id === +HookData.cell.text);
+                                                if (educator) {
+                                                    HookData.cell.text = educator.first_name.charAt(0) + '. ' + educator.last_name;
+                                                }
+                                            }
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'outcome_id') {
+                                                HookData.cell.text = this.outcomeUtils.getOutcomeDescription(+HookData.cell.text);
+                                            }
+                                        },
+                                        columnStyles: {
+                                            date_tracked: {
+                                                cellWidth: 60
+                                            },
+                                            educator_id: {
+                                                cellWidth: 70
+                                            },
+                                            outcome_id: {
+                                                cellWidth: 120
+                                            }
+                                        }
+                                    });
+                                    doc.save(`crayoncamp-child-observations-${child.last_name}-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
+                                });
+                        });
+                    });
     }
 
     createPdfReportDoc(title: string, orientation: string): jsPDF {
