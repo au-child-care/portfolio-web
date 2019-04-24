@@ -57,7 +57,7 @@ export class ReportUtils {
                 true),
             new Report(
                 'EDUCATOR-LIST',
-                'Educator List Report',
+                'Educators List Report',
                 'Shows the list of educator accounts.',
                 'crayoncamp-educators',
                 [ 'ROLE_ADMIN' ],

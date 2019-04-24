@@ -10,13 +10,17 @@ import { ObservationService } from './observation.service';
 import { EducatorService } from './educator.service';
 import { MilestoneService } from './milestone.service';
 import { TeachingPlanService } from './teachingplan.service';
+import { ParentGuardianService } from './parent-guardian.service';
+import { AdministratorService } from './administrator.service';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
 
     constructor(
+        private administratorService: AdministratorService,
         private childService: ChildService,
         private educatorService: EducatorService,
+        private parentGuardianService: ParentGuardianService,
         private parentGuardianAssignmentService: ParentGuardianAssignmentService,
         private observationService: ObservationService,
         private milestoneService: MilestoneService,
@@ -44,6 +48,15 @@ export class ReportService {
                 break;
             case 'EDUCATOR-TEACHINGPLANS':
                 this.generateReportEducatorTeachingPlans(report);
+                break;
+            case 'EDUCATOR-LIST':
+                this.generateReportEducatorList(report);
+                break;
+            case 'PARENTGUARDIAN-LIST':
+                this.generateReportParentGuardianList(report);
+                break;
+            case 'ADMIN-LIST':
+                this.generateReportAdministratorList(report);
                 break;
         }
     }
@@ -79,12 +92,21 @@ export class ReportService {
             {
                 header: 'Group',
                 dataKey: 'group'
+            },
+            {
+                header: 'Active',
+                dataKey: 'active'
             }
         ];
 
         const doc = this.createPdfReportDoc(report.title, 'l');
         doc.autoTable(columns, children, {
-            startY: 110
+            startY: 110,
+            didParseCell: (HookData) => {
+                if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                    HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                }
+            }
         });
         doc.save(`${report.filenamePrefix}-list-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
     }
@@ -116,6 +138,10 @@ export class ReportService {
                                         {
                                             header: 'Group',
                                             dataKey: 'group'
+                                        },
+                                        {
+                                            header: 'Active',
+                                            dataKey: 'active'
                                         }
                                     ];
                                     const observationColumns = [
@@ -143,7 +169,12 @@ export class ReportService {
 
                                     const doc = this.createPdfReportDoc(report.title, 'l');
                                     doc.autoTable(childColumns, [ child ], {
-                                        startY: 110
+                                        startY: 110,
+                                        didParseCell: (HookData) => {
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                                                HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                                            }
+                                        }
                                     });
                                     doc.autoTable(observationColumns, observations, {
                                         startY: 180,
@@ -203,6 +234,10 @@ export class ReportService {
                                         {
                                             header: 'Group',
                                             dataKey: 'group'
+                                        },
+                                        {
+                                            header: 'Active',
+                                            dataKey: 'active'
                                         }
                                     ];
                                     const milestoneColumns = [
@@ -230,7 +265,12 @@ export class ReportService {
 
                                     const doc = this.createPdfReportDoc(report.title, 'l');
                                     doc.autoTable(childColumns, [ child ], {
-                                        startY: 110
+                                        startY: 110,
+                                        didParseCell: (HookData) => {
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                                                HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                                            }
+                                        }
                                     });
                                     doc.autoTable(milestoneColumns, milestones, {
                                         startY: 180,
@@ -290,6 +330,10 @@ export class ReportService {
                                         {
                                             header: 'Group',
                                             dataKey: 'group'
+                                        },
+                                        {
+                                            header: 'Active',
+                                            dataKey: 'active'
                                         }
                                     ];
                                     const teachingPlansColumns = [
@@ -317,7 +361,12 @@ export class ReportService {
 
                                     const doc = this.createPdfReportDoc(report.title, 'l');
                                     doc.autoTable(childColumns, [ child ], {
-                                        startY: 110
+                                        startY: 110,
+                                        didParseCell: (HookData) => {
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                                                HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                                            }
+                                        }
                                     });
                                     doc.autoTable(teachingPlansColumns, teachingPlans, {
                                         startY: 180,
@@ -380,6 +429,10 @@ export class ReportService {
                                         {
                                             header: 'Contact No.',
                                             dataKey: 'contact_number'
+                                        },
+                                        {
+                                            header: 'Active',
+                                            dataKey: 'active'
                                         }
                                     ];
                                     const observationColumns = [
@@ -407,7 +460,12 @@ export class ReportService {
 
                                     const doc = this.createPdfReportDoc(report.title, 'l');
                                     doc.autoTable(educatorColumns, [ educator ], {
-                                        startY: 110
+                                        startY: 110,
+                                        didParseCell: (HookData) => {
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                                                HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                                            }
+                                        }
                                     });
                                     doc.autoTable(observationColumns, observations, {
                                         startY: 180,
@@ -467,6 +525,10 @@ export class ReportService {
                                         {
                                             header: 'Contact No.',
                                             dataKey: 'contact_number'
+                                        },
+                                        {
+                                            header: 'Active',
+                                            dataKey: 'active'
                                         }
                                     ];
                                     const teachingPlansColumns = [
@@ -494,7 +556,12 @@ export class ReportService {
 
                                     const doc = this.createPdfReportDoc(report.title, 'l');
                                     doc.autoTable(educatorColumns, [ educator ], {
-                                        startY: 110
+                                        startY: 110,
+                                        didParseCell: (HookData) => {
+                                            if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                                                HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                                            }
+                                        }
                                     });
                                     doc.autoTable(teachingPlansColumns, teachingPlans, {
                                         startY: 180,
@@ -528,6 +595,139 @@ export class ReportService {
                                 });
                         });
                     });
+    }
+
+    generateReportEducatorList(report: Report): void {
+        this.educatorService.getEducators()
+            .subscribe(educators => {
+                const columns = [
+                    {
+                        header: 'First name',
+                        dataKey: 'first_name'
+                    },
+                    {
+                        header: 'Last name',
+                        dataKey: 'last_name'
+                    },
+                    {
+                        header: 'Nickname',
+                        dataKey: 'nickname'
+                    },
+                    {
+                        header: 'Email',
+                        dataKey: 'email'
+                    },
+                    {
+                        header: 'Contact No.',
+                        dataKey: 'contact_number'
+                    },
+                    {
+                        header: 'Active',
+                        dataKey: 'active'
+                    }
+                ];
+
+                const doc = this.createPdfReportDoc(report.title, 'l');
+                doc.autoTable(columns, educators, {
+                    startY: 110,
+                    didParseCell: (HookData) => {
+                        if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                            HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                        }
+                    }
+                });
+                doc.save(`${report.filenamePrefix}-list-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
+            });
+    }
+
+    generateReportParentGuardianList(report: Report): void {
+        this.parentGuardianService.getParentsGuardians()
+            .subscribe(parentsGuardians => {
+                const columns = [
+                    {
+                        header: 'First name',
+                        dataKey: 'first_name'
+                    },
+                    {
+                        header: 'Last name',
+                        dataKey: 'last_name'
+                    },
+                    {
+                        header: 'Nickname',
+                        dataKey: 'nickname'
+                    },
+                    {
+                        header: 'Type',
+                        dataKey: 'type'
+                    },
+                    {
+                        header: 'Email',
+                        dataKey: 'email'
+                    },
+                    {
+                        header: 'Contact No.',
+                        dataKey: 'contact_number'
+                    },
+                    {
+                        header: 'Active',
+                        dataKey: 'active'
+                    }
+                ];
+
+                const doc = this.createPdfReportDoc(report.title, 'l');
+                doc.autoTable(columns, parentsGuardians, {
+                    startY: 110,
+                    didParseCell: (HookData) => {
+                        if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                            HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                        }
+                    }
+                });
+                doc.save(`${report.filenamePrefix}-list-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
+            });
+    }
+
+    generateReportAdministratorList(report: Report): void {
+        this.administratorService.getAdministrators()
+            .subscribe(administrators => {
+                const columns = [
+                    {
+                        header: 'First name',
+                        dataKey: 'first_name'
+                    },
+                    {
+                        header: 'Last name',
+                        dataKey: 'last_name'
+                    },
+                    {
+                        header: 'Nickname',
+                        dataKey: 'nickname'
+                    },
+                    {
+                        header: 'Email',
+                        dataKey: 'email'
+                    },
+                    {
+                        header: 'Contact No.',
+                        dataKey: 'contact_number'
+                    },
+                    {
+                        header: 'Active',
+                        dataKey: 'active'
+                    }
+                ];
+
+                const doc = this.createPdfReportDoc(report.title, 'l');
+                doc.autoTable(columns, administrators, {
+                    startY: 110,
+                    didParseCell: (HookData) => {
+                        if (HookData.section === 'body' && HookData.column.dataKey === 'active') {
+                            HookData.cell.text = +HookData.cell.text === 1 ? 'Yes' : 'No';
+                        }
+                    }
+                });
+                doc.save(`${report.filenamePrefix}-list-${this.dateUtils.getCurrentDateStringUnformatted()}.pdf`);
+            });
     }
 
     createPdfReportDoc(title: string, orientation: string): jsPDF {
