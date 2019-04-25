@@ -146,7 +146,7 @@ export class ReportService {
                                     ];
                                     const observationColumns = [
                                         {
-                                            header: 'Date Tracked',
+                                            header: 'Date tracked',
                                             dataKey: 'date_tracked'
                                         },
                                         {
@@ -242,7 +242,7 @@ export class ReportService {
                                     ];
                                     const milestoneColumns = [
                                         {
-                                            header: 'Date Tracked',
+                                            header: 'Date tracked',
                                             dataKey: 'date_tracked'
                                         },
                                         {
@@ -338,7 +338,7 @@ export class ReportService {
                                     ];
                                     const teachingPlansColumns = [
                                         {
-                                            header: 'Target Date',
+                                            header: 'Target date',
                                             dataKey: 'target_date'
                                         },
                                         {
@@ -427,7 +427,7 @@ export class ReportService {
                                             dataKey: 'email'
                                         },
                                         {
-                                            header: 'Contact No.',
+                                            header: 'Contact no.',
                                             dataKey: 'contact_number'
                                         },
                                         {
@@ -437,7 +437,7 @@ export class ReportService {
                                     ];
                                     const observationColumns = [
                                         {
-                                            header: 'Date Tracked',
+                                            header: 'Date tracked',
                                             dataKey: 'date_tracked'
                                         },
                                         {
@@ -523,7 +523,7 @@ export class ReportService {
                                             dataKey: 'email'
                                         },
                                         {
-                                            header: 'Contact No.',
+                                            header: 'Contact no.',
                                             dataKey: 'contact_number'
                                         },
                                         {
@@ -533,7 +533,7 @@ export class ReportService {
                                     ];
                                     const teachingPlansColumns = [
                                         {
-                                            header: 'Target Date',
+                                            header: 'Target date',
                                             dataKey: 'target_date'
                                         },
                                         {
@@ -618,7 +618,7 @@ export class ReportService {
                         dataKey: 'email'
                     },
                     {
-                        header: 'Contact No.',
+                        header: 'Contact no.',
                         dataKey: 'contact_number'
                     },
                     {
@@ -665,7 +665,7 @@ export class ReportService {
                         dataKey: 'email'
                     },
                     {
-                        header: 'Contact No.',
+                        header: 'Contact no.',
                         dataKey: 'contact_number'
                     },
                     {
